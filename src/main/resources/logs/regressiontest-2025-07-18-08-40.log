@@ -1,0 +1,6 @@
+2025-07-18-08:40:32 INFO  Navigated to URL: http://49.249.28.218:8098/
+2025-07-18-08:40:32 DEBUG Navigated to the login page: http://49.249.28.218:8098/
+2025-07-18-08:40:32 DEBUG Username is entered
+2025-07-18-08:40:32 DEBUG password is entered
+2025-07-18-08:40:32 DEBUG Logging button clicked
+2025-07-18-08:40:32 INFO  Expected Title: Ninza CRM | Actual Title: Ninza CRM

@@ -1,0 +1,127 @@
+package tests;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.time.Duration;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.safari.SafariDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+
+import pages.CRM_HomePage;
+import pages.CRM_LoginPage;
+import utils.FileUtils;
+import utils.ReportManager;
+
+public class Crm_BaseTest {
+
+    ExtentReports extent;
+    CRM_HomePage hp = null;
+    public static ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<>();
+    public static ThreadLocal<ExtentTest> test = new ThreadLocal<>();
+    public static Logger logger = LogManager.getLogger("Crm_BaseTest");
+
+    public void setDriver(String browserName, boolean headless) {
+        WebDriver driver = getDriver(browserName, headless);
+        threadLocalDriver.set(driver);
+    }
+
+    public static WebDriver getBrowser() {
+        return threadLocalDriver.get();
+    }
+
+    public WebDriver getDriver(String browserName, boolean headless) {
+        WebDriver driver = null;
+        switch (browserName.toLowerCase()) {
+            case "chrome":
+                if (headless) {
+                    ChromeOptions options = new ChromeOptions();
+                    options.addArguments("--headless=new");
+                    driver = new ChromeDriver(options);
+                } else {
+                    driver = new ChromeDriver();
+                }
+                break;
+            case "safari":
+                driver = new SafariDriver();
+                break;
+            case "firefox":
+                driver = new FirefoxDriver();
+                break;
+            case "edge":
+                driver = new EdgeDriver();
+                break;
+            default:
+                logger.error("Invalid browser specified: " + browserName);
+                throw new IllegalArgumentException("Unsupported browser: " + browserName);
+        }
+        return driver;
+    }
+
+    @BeforeSuite
+    public void setupSuite() {
+        extent = ReportManager.getInstance();
+    }
+
+    @AfterSuite
+    public void tearDownSuite() {
+        extent.flush();
+    }
+
+    @Parameters("bName")
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest(@Optional("chrome") String browserName, Method method) throws FileNotFoundException, IOException, InterruptedException {
+        test.set(extent.createTest(method.getName()));
+
+        // Initialize and configure driver
+        setDriver(browserName, false);
+        WebDriver driver = getBrowser();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+
+        // Navigate to CRM URL
+        String crmUrl = FileUtils.readLoginPropertiesFile("prod.url");
+        driver.get(crmUrl);
+        logger.info("Navigated to CRM URL: " + crmUrl);
+
+        // Perform login
+        CRM_LoginPage loginPage = new CRM_LoginPage(driver);
+        String validUsername = FileUtils.readLoginPropertiesFile("valid.username");
+        String validPassword = FileUtils.readLoginPropertiesFile("valid.password");
+        CRM_HomePage homePage = loginPage.loginToApp(driver, validUsername, validPassword);
+
+        // Validate login success
+        Assert.assertTrue(homePage.isHomePage(), "User should be on CRM Home Page after login.");
+        logger.info("Login to Ninza CRM validated successfully.");
+
+        // Store homePage reference for tests
+        this.hp = homePage;
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void tearDownTest() {
+        WebDriver driver = getBrowser();
+        if (driver != null) {
+            driver.quit();
+            threadLocalDriver.remove();
+        }
+    }
+}
+	
+
+
