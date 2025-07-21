@@ -9,8 +9,9 @@
 		</groups>
 		-->
 		<classes>
-			<class name="tests.LoginTest"></class>
-			<class name="tests.HomeTest"></class>
+			<class name="tests.Crm_CreateLeadTest"></class>
+		
+			
 		</classes>
 	</test> <!--
 	Test -->

@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,6 +26,7 @@ import org.testng.annotations.Parameters;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import pages.CRM_HomePage;
 import pages.CRM_LoginPage;
 import utils.FileUtils;
@@ -33,13 +36,16 @@ public class Crm_BaseTest {
 
     ExtentReports extent;
     CRM_HomePage hp = null;
-    public static ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<>();
-    public static ThreadLocal<ExtentTest> test = new ThreadLocal<>();
+    public static ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<WebDriver>();
+    public static ThreadLocal<ExtentTest> test = new ThreadLocal<ExtentTest>();
     public static Logger logger = LogManager.getLogger("Crm_BaseTest");
 
+
+
     public void setDriver(String browserName, boolean headless) {
-        WebDriver driver = getDriver(browserName, headless);
-        threadLocalDriver.set(driver);
+        WebDriver driver = getDriver(browserName, headless);//init
+        threadLocalDriver.set(driver);//stores it
+        driver.manage().deleteAllCookies();  // Clear cookies to start fresh
     }
 
     public static WebDriver getBrowser() {
@@ -49,23 +55,39 @@ public class Crm_BaseTest {
     public WebDriver getDriver(String browserName, boolean headless) {
         WebDriver driver = null;
         switch (browserName.toLowerCase()) {
-            case "chrome":
-                if (headless) {
-                    ChromeOptions options = new ChromeOptions();
-                    options.addArguments("--headless=new");
-                    driver = new ChromeDriver(options);
-                } else {
-                    driver = new ChromeDriver();
-                }
-                break;
+        case "chrome":
+        	WebDriverManager.chromedriver().setup();
+            ChromeOptions options = new ChromeOptions();
+            if (headless) {
+                options.addArguments("--headless=new");
+            }
+         options.addArguments("--incognito");
+            options.addArguments("--disable-notifications");
+            options.addArguments("--disable-popup-blocking");
+            options.addArguments("--disable-blink-features=AutomationControlled");
+            options.addArguments("--disable-password-manager-reauthentication");
+            options.addArguments("--disable-save-password-bubble");
+            options.addArguments("--ignore-certificate-errors");
+            options.addArguments("--allow-insecure-localhost");
+
+            Map<String, Object> prefs = new HashMap<>();
+            prefs.put("credentials_enable_service", false);
+            prefs.put("profile.password_manager_enabled", false);
+            options.setExperimentalOption("prefs", prefs);
+
+            driver = new ChromeDriver(options);
+            break;
             case "safari":
                 driver = new SafariDriver();
                 break;
             case "firefox":
+            	WebDriverManager.firefoxdriver().setup();
                 driver = new FirefoxDriver();
                 break;
             case "edge":
+            	WebDriverManager.edgedriver().setup();
                 driver = new EdgeDriver();
+             
                 break;
             default:
                 logger.error("Invalid browser specified: " + browserName);
@@ -80,7 +102,7 @@ public class Crm_BaseTest {
     }
 
     @AfterSuite
-    public void tearDownSuite() {
+    public void tearDownFinal() {
         extent.flush();
     }
 
@@ -104,7 +126,7 @@ public class Crm_BaseTest {
         String validUsername = FileUtils.readLoginPropertiesFile("valid.username");
         String validPassword = FileUtils.readLoginPropertiesFile("valid.password");
         CRM_HomePage homePage = loginPage.loginToApp(driver, validUsername, validPassword);
-
+      //   homePage.handleAlertIfPresent();
         // Validate login success
         Assert.assertTrue(homePage.isHomePage(), "User should be on CRM Home Page after login.");
         logger.info("Login to Ninza CRM validated successfully.");
@@ -113,15 +135,15 @@ public class Crm_BaseTest {
         this.hp = homePage;
     }
 
-    @AfterMethod(alwaysRun = true)
-    public void tearDownTest() {
-        WebDriver driver = getBrowser();
-        if (driver != null) {
-            driver.quit();
-            threadLocalDriver.remove();
-        }
-    }
-}
-	
+   @AfterMethod(alwaysRun = false)
+   public void tearDownTest() {
+      WebDriver driver = getBrowser();
+  if (driver != null) {
+        driver.quit();
+       threadLocalDriver.remove();
+      }
+   }
 
+
+}
 

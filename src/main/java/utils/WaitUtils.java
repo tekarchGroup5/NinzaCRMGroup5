@@ -13,51 +13,55 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class WaitUtils {
 
-	public static boolean explicitlyWaitForVisibility(WebDriver driver, WebElement elementToWait) {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-		boolean isElementClickable = false;
-		try {
-			wait.until(ExpectedConditions.visibilityOf(elementToWait));
-			isElementClickable = true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return isElementClickable;
-	}
+    // Wait for visibility of element located by 'by', then return it
+    public static WebElement explicitlyWaitForVisibility(WebDriver driver, By by) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        try {
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;  
+        }
+    }
 
-	public static boolean explicitlyWaitForInVisibility(WebDriver driver, WebElement elementToWait) {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-		boolean isElementInVisible = false;
-		try {
-			wait.until(ExpectedConditions.invisibilityOf(elementToWait));
-			isElementInVisible = true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return isElementInVisible;
+    // Wait for invisibility of the given element, returns true if invisible
+    public static boolean explicitlyWaitForInVisibility(WebDriver driver, WebElement elementToWait) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        try {
+            return wait.until(ExpectedConditions.invisibilityOf(elementToWait));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
-	}
+    // Wait for element located by 'by' to be clickable, then return it
+    public static WebElement explicitlyWaitForClickableElement(WebDriver driver, By by) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        try {
+            return wait.until(ExpectedConditions.elementToBeClickable(by));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-	public static boolean explicitlyWaitForClickableElement(WebDriver driver, WebElement elementToWait) {
-		boolean isElementClickable = false;
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-		try {
-			wait.until(ExpectedConditions.elementToBeClickable(elementToWait));
-			isElementClickable = true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return isElementClickable;
-	}
+    // Fluent wait for the element to be visible and enabled
+    public static WebElement fluentlyWait(WebDriver driver, By by) {
+        Wait<WebDriver> fWait = new FluentWait<>(driver)
+            .withTimeout(Duration.ofSeconds(30))
+            .pollingEvery(Duration.ofMillis(500))
+            .ignoring(Exception.class);
 
-	public static void fluentlyWait(WebDriver driver, WebElement elementToWait) {
-		Wait<WebDriver> fWait = new FluentWait<WebDriver>(driver).withTimeout(Duration.ofSeconds(30))
-				.pollingEvery(Duration.ofMillis(2000));
-		WebElement ele = fWait.until(new Function<WebDriver, WebElement>() {
-			public WebElement apply(WebDriver driver) {
-				return elementToWait;
-			}
-		});
-	}
-
+        return fWait.until(new Function<WebDriver, WebElement>() {
+            @Override
+            public WebElement apply(WebDriver driver) {
+                WebElement element = driver.findElement(by);
+                if (element.isDisplayed() && element.isEnabled()) {
+                    return element;
+                }
+                return null;
+            }
+        });
+    }
 }

@@ -1,6 +1,6 @@
 package pages;
 
-import org.openqa.selenium.By;
+
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -72,6 +72,12 @@ public class CRM_HomePage extends BasePage {
         logger.debug("Campaigns link clicked");
         return new CRM_CampaignsPage(driver);
     }
+    
+    public CRM_UsersPage clickUsers() {
+        campaigns.click();
+        logger.debug("Campaigns link clicked");
+        return new CRM_UsersPage(driver);
+    }
 
     public CRM_ContactsPage clickContacts() {
         contacts.click();
@@ -79,22 +85,11 @@ public class CRM_HomePage extends BasePage {
         return new CRM_ContactsPage(driver);
     }
 
-    public CRM_LeadsPage clickLeads() {
+    public CRM_LeadsPage clickLeads() throws InterruptedException {
         leads.click();
         logger.debug("Leads link clicked");
-        try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-            WebElement popupCloseButton = wait.until(
-                ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[@aria-label='Close']") // Replace with your popup's close button locator
-                )
-            );
-            popupCloseButton.click();
-            logger.debug("Popup closed successfully after clicking Leads.");
-        } catch (TimeoutException e) {
-            logger.debug("No popup appeared after clicking Leads.");
-        }
-
+        
+        Thread.sleep(2000); // Wait for the page to load completely
         return new CRM_LeadsPage(driver);
     }
     

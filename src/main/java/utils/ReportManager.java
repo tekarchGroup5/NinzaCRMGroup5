@@ -23,7 +23,7 @@ public class ReportManager {
 	private static ExtentReports createInstance(String fileName) {
 		ExtentSparkReporter sparkReport = new ExtentSparkReporter(fileName);
 		sparkReport.config().setTheme(Theme.DARK);
-		sparkReport.config().setDocumentTitle("SFDC Automation Report");
+		sparkReport.config().setDocumentTitle("NinzaCRMGroup5 Automation Report");
 		sparkReport.config().setEncoding("utf-8");
 		extent = new ExtentReports();
 		extent.attachReporter(sparkReport);
