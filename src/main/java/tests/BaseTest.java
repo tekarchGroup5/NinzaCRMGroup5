@@ -32,7 +32,7 @@ import pages.CRM_LoginPage;
 import utils.FileUtils;
 import utils.ReportManager;
 
-public class Crm_BaseTest {
+public class BaseTest {
 
 	ExtentReports extent;
 	CRM_HomePage hp = null;

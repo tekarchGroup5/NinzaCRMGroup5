@@ -8,7 +8,7 @@ import listeners.ListenersCRM;
 import pages.CRM_LeadsPage;
 
 @Listeners(ListenersCRM.class)
-public class Crm_CreateLeadTest extends Crm_BaseTest {
+public class Crm_CreateLeadTest extends BaseTest {
 
 	@Test
 	public void createLeadTest() throws InterruptedException {
