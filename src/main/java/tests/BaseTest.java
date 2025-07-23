@@ -32,7 +32,7 @@ import pages.CRM_LoginPage;
 import utils.FileUtils;
 import utils.ReportManager;
 
-public class Crm_BaseTest {
+public class BaseTest {
 
 	ExtentReports extent;
 	CRM_HomePage hp = null;
@@ -126,6 +126,7 @@ public class Crm_BaseTest {
 		String validPassword = FileUtils.readLoginPropertiesFile("valid.password");
 		CRM_HomePage homePage = loginPage.loginToApp(driver, validUsername, validPassword);
 		// homePage.handleAlertIfPresent();
+	
 		// Validate login success
 		Assert.assertTrue(homePage.isHomePage(), "User should be on CRM Home Page after login.");
 		logger.info("Login to Ninza CRM validated successfully.");
