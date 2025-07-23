@@ -22,6 +22,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
@@ -32,7 +33,7 @@ import pages.CRM_LoginPage;
 import utils.FileUtils;
 import utils.ReportManager;
 
-public class Crm_BaseTest {
+public class BaseTest {
 
     ExtentReports extent;
     CRM_HomePage hp = null;
@@ -61,7 +62,7 @@ public class Crm_BaseTest {
             if (headless) {
                 options.addArguments("--headless=new");
             }
-         options.addArguments("--incognito");
+        options.addArguments("--incognito");
             options.addArguments("--disable-notifications");
             options.addArguments("--disable-popup-blocking");
             options.addArguments("--disable-blink-features=AutomationControlled");
@@ -73,7 +74,7 @@ public class Crm_BaseTest {
             Map<String, Object> prefs = new HashMap<>();
             prefs.put("credentials_enable_service", false);
             prefs.put("profile.password_manager_enabled", false);
-            options.setExperimentalOption("prefs", prefs);
+            options.setExperimentalOption("prefs", prefs); 
 
             driver = new ChromeDriver(options);
             break;
@@ -106,6 +107,7 @@ public class Crm_BaseTest {
         extent.flush();
     }
 
+    @Test
     @Parameters("bName")
     @BeforeMethod(alwaysRun = true)
     public void setupTest(@Optional("chrome") String browserName, Method method) throws FileNotFoundException, IOException, InterruptedException {
@@ -115,6 +117,7 @@ public class Crm_BaseTest {
         setDriver(browserName, false);
         WebDriver driver = getBrowser();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        
 
         // Navigate to CRM URL
         String crmUrl = FileUtils.readLoginPropertiesFile("prod.url");
