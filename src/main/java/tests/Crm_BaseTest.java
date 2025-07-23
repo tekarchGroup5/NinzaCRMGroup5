@@ -61,7 +61,7 @@ public class Crm_BaseTest {
             if (headless) {
                 options.addArguments("--headless=new");
             }
-         options.addArguments("--incognito");
+        // options.addArguments("--incognito");
             options.addArguments("--disable-notifications");
             options.addArguments("--disable-popup-blocking");
             options.addArguments("--disable-blink-features=AutomationControlled");
@@ -69,6 +69,10 @@ public class Crm_BaseTest {
             options.addArguments("--disable-save-password-bubble");
             options.addArguments("--ignore-certificate-errors");
             options.addArguments("--allow-insecure-localhost");
+            options.addArguments("--guest"); 
+            options.addArguments("--profile-directory=/Users/user/Library/Application Support/Google/Chrome/Default");
+            
+            
 
             Map<String, Object> prefs = new HashMap<>();
             prefs.put("credentials_enable_service", false);
@@ -114,6 +118,7 @@ public class Crm_BaseTest {
         // Initialize and configure driver
         setDriver(browserName, false);
         WebDriver driver = getBrowser();
+        driver.manage().window().maximize();//added this code later to maximize the browser window, this will be a git conflict
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
 
         // Navigate to CRM URL
