@@ -109,7 +109,7 @@ public class BaseTest {
 
 	@Parameters({"bName","userType"})
 	@BeforeMethod(alwaysRun = true)
-	public void setupTest(@Optional("chrome") String browserName,@Optional("admin") String userType, Method method)
+	public void setupTest(@Optional("chrome") String browserName, Method method)
 			throws FileNotFoundException, IOException, InterruptedException {
 		test.set(extent.createTest(method.getName()));
 
@@ -121,7 +121,7 @@ public class BaseTest {
 		driver.manage().window().maximize();
 
 		// Navigate to CRM URL
-		String crmUrl = FileUtils.readCommonPropertiesFile("prod.url");
+		String crmUrl = FileUtils.readLoginPropertiesFile("prod.url");
 		driver.get(crmUrl);
 		logger.info("Navigated to CRM URL: " + crmUrl);
 

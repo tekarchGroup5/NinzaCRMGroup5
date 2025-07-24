@@ -10,7 +10,6 @@
 <!--		</classes>-->
 <!--	</test>-->
 	<test name ="Create Opportunities Test">
-		<parameter name="userType" value="user" ></parameter>
 		<classes>
 			<class name = "tests.Crm_CreateOpportunityTest"></class>
 		</classes>
