@@ -67,6 +67,8 @@ public class BaseTest {
 			options.addArguments("--disable-save-password-bubble");
 			options.addArguments("--ignore-certificate-errors");
 			options.addArguments("--allow-insecure-localhost");
+			options.addArguments("--guest"); 
+	        options.addArguments("--profile-directory=/Users/user/Library/Application Support/Google/Chrome/Default");
 
 			Map<String, Object> prefs = new HashMap<>();
 			prefs.put("credentials_enable_service", false);
@@ -74,6 +76,7 @@ public class BaseTest {
 			options.setExperimentalOption("prefs", prefs);
 
 			driver = new ChromeDriver(options);
+			driver.manage().window().maximize(); //priyanka
 			break;
 		case "safari":
 			driver = new SafariDriver();
@@ -104,34 +107,27 @@ public class BaseTest {
 		extent.flush();
 	}
 
-	@Parameters({"bName","userType"})
+	@Parameters("bName")
 	@BeforeMethod(alwaysRun = true)
-	public void setupTest(@Optional("chrome") String browserName,@Optional("admin") String userType, Method method)
+	public void setupTest(@Optional("chrome") String browserName, Method method)
 			throws FileNotFoundException, IOException, InterruptedException {
 		test.set(extent.createTest(method.getName()));
 
 		// Initialize and configure driver
 		setDriver(browserName, false);
 		WebDriver driver = getBrowser();
+		driver.manage().window().maximize();//added this code later to maximize the browser window, this will be a git conflict
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-		driver.manage().window().maximize();
 
 		// Navigate to CRM URL
-		String crmUrl = FileUtils.readCommonPropertiesFile("prod.url");
+		String crmUrl = FileUtils.readLoginPropertiesFile("prod.url");
 		driver.get(crmUrl);
 		logger.info("Navigated to CRM URL: " + crmUrl);
 
 		// Perform login
 		CRM_LoginPage loginPage = new CRM_LoginPage(driver);
-		String validUsername;
-		String validPassword;
-		if("admin".equalsIgnoreCase(userType)) {
-			 validUsername = FileUtils.readAdminPropertiesFile("valid.admin.username");
-		        validPassword = FileUtils.readAdminPropertiesFile("valid.admin.password");
-		}else {
-			validUsername = FileUtils.readUserPropertiesFile("valid.user.username");
-	        validPassword = FileUtils.readUserPropertiesFile("valid.user.password");
-		}
+		String validUsername = FileUtils.readLoginPropertiesFile("valid.admin.username");
+		String validPassword = FileUtils.readLoginPropertiesFile("valid.admin.password");
 		CRM_HomePage homePage = loginPage.loginToApp(driver, validUsername, validPassword);
 		// homePage.handleAlertIfPresent();
 	
