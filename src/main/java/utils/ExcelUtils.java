@@ -74,12 +74,7 @@ public class ExcelUtils {
 		}
 	}
 
-<<<<<<< HEAD
-
-    private Workbook workbook;
-=======
 	private Workbook workbook;
->>>>>>> branch 'main' of https://github.com/tekarchGroup5/NinzaCRMGroup5.git
 
 	public ExcelUtils(String excelPath) throws IOException {
 		FileInputStream fis = new FileInputStream(excelPath);
