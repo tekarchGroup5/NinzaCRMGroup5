@@ -8,6 +8,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -15,36 +16,45 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class BasePage {
 	public WebDriver driver;
 	public static Logger logger = LogManager.getLogger("Basepage");
-	
+
 	public BasePage(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 	}
 
 	public String getTitle() {
-        return driver.getTitle();
-    }
+		return driver.getTitle();
+	}
+
 	public void handleAlertIfPresent() {
-	    try {
-	        int retries = 2; // Retry up to 10 times
-	        for (int i = 0; i < retries; i++) {
-	            try {
-	                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
-	                wait.until(ExpectedConditions.alertIsPresent());
+		try {
+			int retries = 2; // Retry up to 10 times
+			for (int i = 0; i < retries; i++) {
+				try {
+					WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+					wait.until(ExpectedConditions.alertIsPresent());
 
-	                Alert alert = driver.switchTo().alert();
-	                logger.info("Alert found after login with text: " + alert.getText());
+					Alert alert = driver.switchTo().alert();
+					logger.info("Alert found after login with text: " + alert.getText());
 
-	                alert.accept();
-	                logger.info("Alert accepted successfully after login.");
-	                return; // exit method after handling
-	            } catch (TimeoutException | NoAlertPresentException e) {
-	                // No alert yet, wait briefly then retry
-	                Thread.sleep(1000);
-	            }
-	        }
-	        logger.info("No alert appeared after login within retry window.");
-	    } catch (Exception e) {
-	        logger.error("Unexpected error while handling alert: " + e.getMessage());
-	    }
-	}}
+					alert.accept();
+					logger.info("Alert accepted successfully after login.");
+					return; // exit method after handling
+				} catch (TimeoutException | NoAlertPresentException e) {
+					// No alert yet, wait briefly then retry
+					Thread.sleep(1000);
+				}
+			}
+			logger.info("No alert appeared after login within retry window.");
+		} catch (Exception e) {
+			logger.error("Unexpected error while handling alert: " + e.getMessage());
+		}
+	}
+	
+	
+	public static String getTextFromElement(WebElement ele) {//priyanka
+		String data = ele.getText();
+		return data;
+	}
+	
+}

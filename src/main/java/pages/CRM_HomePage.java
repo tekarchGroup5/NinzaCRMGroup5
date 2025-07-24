@@ -50,6 +50,9 @@ public class CRM_HomePage extends BasePage {
 
     @FindBy(xpath = "//a[normalize-space()='Invoices']")
     public WebElement invoice;
+    
+    @FindBy(xpath = "//span[normalize-space()='Add Product']") //priyanka
+	private WebElement addProductButton;
 
     
     
@@ -106,6 +109,11 @@ public class CRM_HomePage extends BasePage {
         return new CRM_ProductsPage(driver);
     }
 
+    public CRM_AddProductPage clickAddProduct() {//priyanka
+    	addProductButton.click();
+        logger.debug("Products link clicked");
+        return new CRM_AddProductPage(driver);
+    }
     public CRM_QuotesPage clickQuotes() {
         quotes.click();
         logger.debug("Quotes link clicked");
