@@ -107,9 +107,9 @@ public class BaseTest {
 		extent.flush();
 	}
 
-	@Parameters("bName")
+	@Parameters({"bName","userType"})
 	@BeforeMethod(alwaysRun = true)
-	public void setupTest(@Optional("chrome") String browserName, Method method)
+	public void setupTest(@Optional("chrome") String browserName,@Optional("admin") String userType, Method method)
 			throws FileNotFoundException, IOException, InterruptedException {
 		test.set(extent.createTest(method.getName()));
 
@@ -118,9 +118,10 @@ public class BaseTest {
 		WebDriver driver = getBrowser();
 		driver.manage().window().maximize();//added this code later to maximize the browser window, this will be a git conflict
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		driver.manage().window().maximize();
 
 		// Navigate to CRM URL
-		String crmUrl = FileUtils.readLoginPropertiesFile("prod.url");
+		String crmUrl = FileUtils.readCommonPropertiesFile("prod.url");
 		driver.get(crmUrl);
 		logger.info("Navigated to CRM URL: " + crmUrl);
 
