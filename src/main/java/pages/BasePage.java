@@ -1,6 +1,7 @@
 package pages;
 
 import java.time.Duration;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,4 +48,30 @@ public class BasePage {
 	    } catch (Exception e) {
 	        logger.error("Unexpected error while handling alert: " + e.getMessage());
 	    }
-	}}
+	}
+	public void switchToChildWindow() {
+		String parentWindow = driver.getWindowHandle();
+		Set<String> Handles = driver.getWindowHandles();
+		for (String handle : Handles) {
+			if (!handle.equals(parentWindow)) {
+				driver.switchTo().window(handle);
+			}
+		}
+	}
+
+	public void switchToParentWindow(String parentWindow) {
+		Set<String> handles = driver.getWindowHandles();
+		for (String handle : handles) {
+			if (!handle.equals(parentWindow)) {
+				driver.switchTo().window(handle);
+			}
+		}
+		driver.switchTo().window(parentWindow);
+	}
+
+	public String getParentWindow() {
+		String parentWindow = driver.getWindowHandle();
+		return parentWindow;
+	}
+
+	}
