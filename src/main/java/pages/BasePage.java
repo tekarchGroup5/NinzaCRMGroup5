@@ -1,6 +1,7 @@
 package pages;
 
 import java.time.Duration;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,34 +28,59 @@ public class BasePage {
 	}
 
 	public void handleAlertIfPresent() {
-		try {
-			int retries = 2; // Retry up to 10 times
-			for (int i = 0; i < retries; i++) {
-				try {
-					WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
-					wait.until(ExpectedConditions.alertIsPresent());
 
-					Alert alert = driver.switchTo().alert();
-					logger.info("Alert found after login with text: " + alert.getText());
+	    try {
+	        int retries = 2; // Retry up to 10 times
+	        for (int i = 0; i < retries; i++) {
+	            try {
+	                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+	                wait.until(ExpectedConditions.alertIsPresent());
 
-					alert.accept();
-					logger.info("Alert accepted successfully after login.");
-					return; // exit method after handling
-				} catch (TimeoutException | NoAlertPresentException e) {
-					// No alert yet, wait briefly then retry
-					Thread.sleep(1000);
-				}
+	                Alert alert = driver.switchTo().alert();
+	                logger.info("Alert found after login with text: " + alert.getText());
+
+	                alert.accept();
+	                logger.info("Alert accepted successfully after login.");
+	                return; // exit method after handling
+	            } catch (TimeoutException | NoAlertPresentException e) {
+	                // No alert yet, wait briefly then retry
+	                Thread.sleep(1000);
+	            }
+	        }
+	        logger.info("No alert appeared after login within retry window.");
+	    } catch (Exception e) {
+	        logger.error("Unexpected error while handling alert: " + e.getMessage());
+	    }
+	}
+	public void switchToChildWindow() {
+		String parentWindow = driver.getWindowHandle();
+		Set<String> Handles = driver.getWindowHandles();
+		for (String handle : Handles) {
+			if (!handle.equals(parentWindow)) {
+				driver.switchTo().window(handle);
 			}
-			logger.info("No alert appeared after login within retry window.");
-		} catch (Exception e) {
-			logger.error("Unexpected error while handling alert: " + e.getMessage());
 		}
 	}
-	
-	
+
+	public void switchToParentWindow(String parentWindow) {
+		Set<String> handles = driver.getWindowHandles();
+		for (String handle : handles) {
+			if (!handle.equals(parentWindow)) {
+				driver.switchTo().window(handle);
+			}
+		}
+		driver.switchTo().window(parentWindow);
+	}
+
+	public String getParentWindow() {
+		String parentWindow = driver.getWindowHandle();
+		return parentWindow;
+	}
+
 	public static String getTextFromElement(WebElement ele) {//priyanka
 		String data = ele.getText();
 		return data;
 	}
 	
 }
+

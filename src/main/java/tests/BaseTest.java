@@ -38,7 +38,7 @@ public class BaseTest {
 	CRM_HomePage hp = null;
 	public static ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<WebDriver>();
 	public static ThreadLocal<ExtentTest> test = new ThreadLocal<ExtentTest>();
-	public static Logger logger = LogManager.getLogger("Crm_BaseTest");
+	public static Logger logger = LogManager.getLogger("BaseTest");
 
 	public void setDriver(String browserName, boolean headless) {
 		WebDriver driver = getDriver(browserName, headless);// init
@@ -107,7 +107,7 @@ public class BaseTest {
 		extent.flush();
 	}
 
-	@Parameters("bName")
+	@Parameters({"bName","userType"})
 	@BeforeMethod(alwaysRun = true)
 	public void setupTest(@Optional("chrome") String browserName, Method method)
 			throws FileNotFoundException, IOException, InterruptedException {
@@ -118,6 +118,7 @@ public class BaseTest {
 		WebDriver driver = getBrowser();
 		driver.manage().window().maximize();//added this code later to maximize the browser window, this will be a git conflict
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		driver.manage().window().maximize();
 
 		// Navigate to CRM URL
 		String crmUrl = FileUtils.readLoginPropertiesFile("prod.url");
@@ -126,8 +127,8 @@ public class BaseTest {
 
 		// Perform login
 		CRM_LoginPage loginPage = new CRM_LoginPage(driver);
-		String validUsername = FileUtils.readLoginPropertiesFile("valid.username");
-		String validPassword = FileUtils.readLoginPropertiesFile("valid.password");
+		String validUsername = FileUtils.readLoginPropertiesFile("valid.admin.username");
+		String validPassword = FileUtils.readLoginPropertiesFile("valid.admin.password");
 		CRM_HomePage homePage = loginPage.loginToApp(driver, validUsername, validPassword);
 		// homePage.handleAlertIfPresent();
 	
