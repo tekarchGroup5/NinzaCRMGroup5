@@ -1,6 +1,6 @@
 package utils;
 
-import org.openqa.selenium.By;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -17,4 +17,13 @@ public class ActionUtils {
 		Select city = new Select(dropdownElement);
 		city.selectByValue(value);
 	}
+	
+	public static String getTextFromElement(WebElement ele) {//priyanka
+		String data = ele.getText();
+		return data;
+	}
+	public String getPageTitle(WebDriver driver) { //priyanka
+		return driver.getTitle();
+	}
+	
 }
