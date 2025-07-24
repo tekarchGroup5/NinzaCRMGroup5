@@ -20,7 +20,7 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 
 	@DataProvider(name = "opportunityData")
 	public Object[][] getOpportunityData() {
-		String excelPath = "src/test/resources/testData/Test Data.xlsx";
+		String excelPath = "src/main/java/testData/OpportunityTestData.xlsx";
 		String sheetName = "Opportunities";
 
 		List<Map<String, String>> dataList = ExcelUtils.getTestData(excelPath, sheetName);
