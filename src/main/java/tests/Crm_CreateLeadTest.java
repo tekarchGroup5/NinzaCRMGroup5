@@ -13,12 +13,12 @@ import org.testng.annotations.Test;
 import constants.FileConstants;
 import listeners.ListenersCRM;
 
-
 import pages.CRM_LeadsPage;
 import utils.ExcelUtils;
 
 @Listeners(ListenersCRM.class)
-public class Crm_CreateLeadTest  extends Crm_BaseTest {
+
+public class Crm_CreateLeadTest  extends BaseTest {
 /*
 	@DataProvider(name = "leadData")
     public Object[][] getLeadData() throws IOException {

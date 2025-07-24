@@ -8,7 +8,7 @@ import org.testng.ITestResult;
 import com.aventstack.extentreports.Status;
 
 
-import tests.Crm_BaseTest;
+import tests.BaseTest;
 import utils.CommonUtils;
 
 public class ListenersCRM implements ITestListener {
@@ -19,8 +19,8 @@ public class ListenersCRM implements ITestListener {
 	}
 
 	public void onTestFailure(ITestResult result) {
-		Crm_BaseTest.test.get().addScreenCaptureFromPath(CommonUtils.captureScreenshot(Crm_BaseTest.getBrowser()));
-		Crm_BaseTest.test.get().log(Status.FAIL, result.getName()+" FAILED");
+		BaseTest.test.get().addScreenCaptureFromPath(CommonUtils.captureScreenshot(BaseTest.getBrowser()));
+		BaseTest.test.get().log(Status.FAIL, result.getName()+" FAILED");
 	}
 
 
@@ -29,7 +29,7 @@ public class ListenersCRM implements ITestListener {
 //	}
 //
 	public void onTestSuccess(ITestResult result) {
-		Crm_BaseTest.test.get().log(Status.PASS, result.getName()+" PASSED");
+		BaseTest.test.get().log(Status.PASS, result.getName()+" PASSED");
 		
 	}
 
