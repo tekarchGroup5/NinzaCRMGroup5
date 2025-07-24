@@ -38,7 +38,7 @@ public class BaseTest {
 	CRM_HomePage hp = null;
 	public static ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<WebDriver>();
 	public static ThreadLocal<ExtentTest> test = new ThreadLocal<ExtentTest>();
-	public static Logger logger = LogManager.getLogger("Crm_BaseTest");
+	public static Logger logger = LogManager.getLogger("BaseTest");
 
 	public void setDriver(String browserName, boolean headless) {
 		WebDriver driver = getDriver(browserName, headless);// init
@@ -107,9 +107,9 @@ public class BaseTest {
 		extent.flush();
 	}
 
-	@Parameters("bName")
+	@Parameters({"bName","userType"})
 	@BeforeMethod(alwaysRun = true)
-	public void setupTest(@Optional("chrome") String browserName, Method method)
+	public void setupTest(@Optional("chrome") String browserName,@Optional("admin") String userType, Method method)
 			throws FileNotFoundException, IOException, InterruptedException {
 		test.set(extent.createTest(method.getName()));
 
@@ -118,16 +118,24 @@ public class BaseTest {
 		WebDriver driver = getBrowser();
 		driver.manage().window().maximize();//added this code later to maximize the browser window, this will be a git conflict
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		driver.manage().window().maximize();
 
 		// Navigate to CRM URL
-		String crmUrl = FileUtils.readLoginPropertiesFile("prod.url");
+		String crmUrl = FileUtils.readCommonPropertiesFile("prod.url");
 		driver.get(crmUrl);
 		logger.info("Navigated to CRM URL: " + crmUrl);
 
 		// Perform login
 		CRM_LoginPage loginPage = new CRM_LoginPage(driver);
-		String validUsername = FileUtils.readLoginPropertiesFile("valid.username");
-		String validPassword = FileUtils.readLoginPropertiesFile("valid.password");
+		String validUsername;
+		String validPassword;
+		if("admin".equalsIgnoreCase(userType)) {
+			 validUsername = FileUtils.readAdminPropertiesFile("valid.admin.username");
+		        validPassword = FileUtils.readAdminPropertiesFile("valid.admin.password");
+		}else {
+			validUsername = FileUtils.readUserPropertiesFile("valid.user.username");
+	        validPassword = FileUtils.readUserPropertiesFile("valid.user.password");
+		}
 		CRM_HomePage homePage = loginPage.loginToApp(driver, validUsername, validPassword);
 		// homePage.handleAlertIfPresent();
 	
