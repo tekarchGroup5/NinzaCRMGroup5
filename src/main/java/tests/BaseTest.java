@@ -127,15 +127,8 @@ public class BaseTest {
 
 		// Perform login
 		CRM_LoginPage loginPage = new CRM_LoginPage(driver);
-		String validUsername;
-		String validPassword;
-		if("admin".equalsIgnoreCase(userType)) {
-			 validUsername = FileUtils.readAdminPropertiesFile("valid.admin.username");
-		        validPassword = FileUtils.readAdminPropertiesFile("valid.admin.password");
-		}else {
-			validUsername = FileUtils.readUserPropertiesFile("valid.user.username");
-	        validPassword = FileUtils.readUserPropertiesFile("valid.user.password");
-		}
+		String validUsername = FileUtils.readLoginPropertiesFile("valid.admin.username");
+		String validPassword = FileUtils.readLoginPropertiesFile("valid.admin.password");
 		CRM_HomePage homePage = loginPage.loginToApp(driver, validUsername, validPassword);
 		// homePage.handleAlertIfPresent();
 	

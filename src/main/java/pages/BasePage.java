@@ -77,11 +77,10 @@ public class BasePage {
 		return parentWindow;
 	}
 
-	}
-	
 	public static String getTextFromElement(WebElement ele) {//priyanka
 		String data = ele.getText();
 		return data;
 	}
 	
 }
+
