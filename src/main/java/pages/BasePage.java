@@ -9,6 +9,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -16,16 +17,18 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class BasePage {
 	public WebDriver driver;
 	public static Logger logger = LogManager.getLogger("Basepage");
-	
+
 	public BasePage(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 	}
 
 	public String getTitle() {
-        return driver.getTitle();
-    }
+		return driver.getTitle();
+	}
+
 	public void handleAlertIfPresent() {
+
 	    try {
 	        int retries = 2; // Retry up to 10 times
 	        for (int i = 0; i < retries; i++) {
@@ -75,3 +78,10 @@ public class BasePage {
 	}
 
 	}
+	
+	public static String getTextFromElement(WebElement ele) {//priyanka
+		String data = ele.getText();
+		return data;
+	}
+	
+}
