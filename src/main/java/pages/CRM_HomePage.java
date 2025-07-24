@@ -4,6 +4,7 @@ package pages;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -12,6 +13,8 @@ import java.time.Duration;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import static utils.ActionUtils.mouseHover;
 
 public class CRM_HomePage extends BasePage {
 
@@ -23,6 +26,12 @@ public class CRM_HomePage extends BasePage {
 
     @FindBy(id = "navbarNav")
     public WebElement navigationBar;
+
+    @FindBy(xpath = "//div[@class=\"nav-link\"]")
+    public WebElement adminConsole;
+
+    @FindBy(xpath = "//div[normalize-space()='Create User']")
+    public WebElement createUser;
 
     @FindBy(xpath = "//a[normalize-space()='Campaigns']")
     public WebElement campaigns;
@@ -64,6 +73,14 @@ public class CRM_HomePage extends BasePage {
         }
     }
 
+    public CRM_CreateUsersPage navigateToCreateUser(){
+       /* Actions actions = new Actions(driver);
+        actions.moveToElement(adminConsole).perform();*/
+        mouseHover(driver, adminConsole);
+        createUser.click();
+        return new CRM_CreateUsersPage(driver);
+    }
+
     /**
      * Clicks on the Campaigns link and navigates to the CRM_CampaignsPage.
      */
@@ -73,10 +90,10 @@ public class CRM_HomePage extends BasePage {
         return new CRM_CampaignsPage(driver);
     }
     
-    public CRM_UsersPage clickUsers() {
+    public CRM_CreateUsersPage clickUsers() {
         campaigns.click();
         logger.debug("Campaigns link clicked");
-        return new CRM_UsersPage(driver);
+        return new CRM_CreateUsersPage(driver);
     }
 
     public CRM_ContactsPage clickContacts() {
