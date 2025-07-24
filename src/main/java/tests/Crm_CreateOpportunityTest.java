@@ -35,17 +35,17 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 	@Test(dataProvider = "opportunityData")
 	public void createOpportunityWithMandatoryFields(Map<String, String> data) throws InterruptedException {
 		CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
-		
+
 		oppPage.clickCreateOpportunity();
 		logger.info("Create Opportunity button is clicked");
 
-		String oppName = data.get("Opportunity Name") + "_" + System.currentTimeMillis();
+		String oppName = data.get("Opportunity Name");
 		String amount = data.get("Amount");
 		String businessType = data.get("Business Type");
 		String nextStep = data.get("Next Step");
 		String salesStage = data.get("Sales Stage");
-		
-	//fill the form using Page Object methods
+
+		// fill the form using Page Object methods
 		oppPage.enterOpportunityName(oppName);
 		logger.info("Opportunity name is entered");
 
@@ -67,10 +67,8 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 		oppPage.clickCreateOpportunityInForm();
 		logger.info("opportunity is created");
 
-
 		// validate Opportunity created
-//		Assert.assertTrue(oppPage.verifyOpportunityCreated(oppName), "Opportunity Creation failed.");
-
+		Assert.assertTrue(oppPage.verifyOpportunityCreated(oppName), "Opportunity Creation failed.");
 	}
 
 }
