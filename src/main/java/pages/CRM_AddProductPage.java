@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.testng.annotations.Listeners;
 
 import listeners.ListenersCRM;
-import utils.ActionUtils;
+
 
 @Listeners(ListenersCRM.class)
 public class CRM_AddProductPage extends BasePage{
@@ -23,7 +23,7 @@ public class CRM_AddProductPage extends BasePage{
 
 	public String getTextFromElement() {
 
-		return ActionUtils.getTextFromElement(AddProductPageHeaderEle);
+		return getTextFromElement(AddProductPageHeaderEle);
 	}
 
 	public String verifyValueFromTextBox() {

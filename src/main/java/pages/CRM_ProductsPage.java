@@ -30,7 +30,7 @@ public class CRM_ProductsPage extends BasePage {
 
 	public String getTextFromElement() {
 
-		return ActionUtils.getTextFromElement(ProductsHeaderEle);
+		return getTextFromElement(ProductsHeaderEle);
 	}
 
 	

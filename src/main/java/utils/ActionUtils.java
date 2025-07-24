@@ -18,12 +18,7 @@ public class ActionUtils {
 		city.selectByValue(value);
 	}
 	
-	public static String getTextFromElement(WebElement ele) {//priyanka
-		String data = ele.getText();
-		return data;
-	}
-	public String getPageTitle(WebDriver driver) { //priyanka
-		return driver.getTitle();
-	}
+
+	
 	
 }
