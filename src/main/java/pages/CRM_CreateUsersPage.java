@@ -21,6 +21,9 @@ public class CRM_CreateUsersPage extends BasePage {
 	@FindBy(xpath = "//input[@name='password']")
 	WebElement password;
 
+	@FindBy(xpath = "//button[@type='submit']")
+	WebElement CUserButton;
+
 	@FindBy(xpath = "//input[@name='dob']")
 	WebElement dob;
 
@@ -29,8 +32,23 @@ public class CRM_CreateUsersPage extends BasePage {
 	public CRM_CreateUsersPage(WebDriver driver) {
 		super(driver);
 	}
-	public void enterUserFullName(){
-		userFullName.click();
+	public void enterUserFullName(String fullname){
+		userFullName.sendKeys(fullname);
+	}
+	public void enterMobileNum(String mobNum){
+		mobileNum.sendKeys(mobNum);
+	}
+	public void enterEmail(String emailId){
+		email.sendKeys(emailId);
+	}
+	public void enterUserName(String UName){
+		userName.sendKeys(UName);
+	}
+	public void enterPassword(String Password){
+		password.sendKeys(Password);
+	}
+	public void clickCreateUserButton(){
+		CUserButton.click();
 	}
 
 }
