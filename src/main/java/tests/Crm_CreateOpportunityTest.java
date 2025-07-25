@@ -1,5 +1,7 @@
 package tests;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -14,6 +16,7 @@ import org.testng.annotations.Test;
 import pages.CRM_LeadsPage;
 import pages.CRM_OpportunitiesPage;
 import utils.ExcelUtils;
+import utils.FileUtils;
 
 public class Crm_CreateOpportunityTest extends BaseTest {
 	public static Logger logger = LogManager.getLogger("Crm_CreateOpportunityTest");
@@ -33,7 +36,7 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 	}
 
 	@Test(dataProvider = "opportunityData")
-	public void createOpportunityWithMandatoryFields(Map<String, String> data) throws InterruptedException {
+	public void createOpportunityWithMandatoryFields(Map<String, String> data) throws InterruptedException, FileNotFoundException, IOException {
 		CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
 
 		oppPage.clickCreateOpportunity();
@@ -61,7 +64,8 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 		oppPage.enterSalesStage(salesStage);
 		logger.info("Sales stage is entered");
 
-		oppPage.selectLead();
+		String value= FileUtils.readOpportunitiesPropertiesFile("search.dropdown.value2");
+		oppPage.selectLead(value);
 		logger.info("lead is selected");
 
 		oppPage.clickCreateOpportunityInForm();
