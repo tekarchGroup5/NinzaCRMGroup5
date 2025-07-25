@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import constants.WaitConstant;
 
 public class WaitUtils {
 
@@ -64,4 +65,30 @@ public class WaitUtils {
             }
         });
     }
+    
+	public static boolean waitForElement(WebDriver driver, WebElement element) {
+		boolean isElementClickable = false;
+		WebDriverWait wait =new WebDriverWait(driver, WaitConstant.WAIT_FOR_ELEMENT);
+		try {
+		wait.until((ExpectedConditions.elementToBeClickable(element)));
+		isElementClickable=true;
+		} catch (Exception e){
+			e.printStackTrace();
+			
+		}
+		return isElementClickable;
+		}
+	
+	public static boolean waitForElementToDisappear(WebDriver driver, WebElement element) {
+		boolean isElementInvisible = false;
+		WebDriverWait wait =new WebDriverWait(driver, WaitConstant.WAIT_FOR_ELEMENT_TO_DISAPPEAR);
+		try {
+		wait.until((ExpectedConditions.invisibilityOf(element)));
+		isElementInvisible=true;
+		} catch (Exception e){
+			e.printStackTrace();
+			
+		}
+		return isElementInvisible;
+		}
 }

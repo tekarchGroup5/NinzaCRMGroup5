@@ -9,7 +9,7 @@
 		</groups>
 		-->
 		<classes>
-			<class name="tests.Crm_CreateLeadTest"></class>
+			<class name="tests.CRM_CampaignTest"></class>
 		
 			
 		</classes>

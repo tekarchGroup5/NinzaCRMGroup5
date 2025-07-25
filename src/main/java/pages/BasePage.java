@@ -47,4 +47,4 @@ public class BasePage {
 	    } catch (Exception e) {
 	        logger.error("Unexpected error while handling alert: " + e.getMessage());
 	    }
-	}}
+	}} 

@@ -107,7 +107,7 @@ public class BaseTest {
         extent.flush();
     }
 
-    @Test
+    
     @Parameters("bName")
     @BeforeMethod(alwaysRun = true)
     public void setupTest(@Optional("chrome") String browserName, Method method) throws FileNotFoundException, IOException, InterruptedException {
@@ -149,4 +149,3 @@ public class BaseTest {
 
 
 }
-

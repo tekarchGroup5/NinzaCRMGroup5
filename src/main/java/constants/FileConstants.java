@@ -11,5 +11,5 @@ public class FileConstants {
 	//public static final String TEST_PHOTO_UPLOAD_PATH = ROOT_PATH+"/src/main/resources/css.png";
 	public static final String SCREENSHOTS_FOLDER_PATH = ROOT_PATH+"/src/main/resources/reports/"+CommonUtils.getTimeStamp()+"_NinzaCRM.PNG";
 	public static final String REPORTS_FILE_PATH = ROOT_PATH+"/src/main/resources/reports/"+CommonUtils.getTimeStamp()+"_NinzaCRM.html";
-	
+	public static final String CRM_CAMPAIGN_TESTDATA_FILE_PATH = ROOT_PATH + "/src/main/java/testData/crm_campaign_testdata.properties";
 }

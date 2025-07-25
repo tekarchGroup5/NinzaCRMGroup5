@@ -20,5 +20,11 @@ public class FileUtils {
 		Properties p = new Properties();
 		p.load(new FileReader(FileConstants.HOME_TEST_DATA_FILE_PATH));
 		return p.getProperty(key);
+	}	
+	
+	public static String readCampaignPropertiesFile(String key) throws FileNotFoundException, IOException {
+		Properties p = new Properties();
+		p.load(new FileReader(FileConstants.CRM_CAMPAIGN_TESTDATA_FILE_PATH));
+		return p.getProperty(key);
 	}
 }
