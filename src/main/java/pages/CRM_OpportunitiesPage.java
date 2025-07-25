@@ -38,6 +38,12 @@ public class CRM_OpportunitiesPage extends BasePage {
 	@FindBy(xpath = "(//button[@type='button'])[2]")
 	WebElement lead_lookupButton;
 
+	@FindBy(xpath = "//input[@id='search-input']")
+	WebElement searchTextBox;
+
+	@FindBy(xpath = "//select[@id='search-criteria']")
+	WebElement searchDropdown;
+
 	@FindBy(xpath = "(//button[@class='select-btn'])[1]")
 	WebElement lead_selectButton;
 
@@ -56,26 +62,30 @@ public class CRM_OpportunitiesPage extends BasePage {
 	}
 
 	public void enterOpportunityName(String oppName) {
-		opportunityName.sendKeys(oppName);
+		enterText(opportunityName, oppName);
+
 	}
 
 	public void enterAmount(String amount) {
-		Amount.sendKeys(amount);
+		enterText(Amount, amount);
+
 	}
 
 	public void enterBusinessType(String businessType) {
-		business_Type.sendKeys(businessType);
+		enterText(business_Type, businessType);
+
 	}
 
 	public void enterNextStep(String nextStep) {
-		next_Step.sendKeys(nextStep);
+		enterText(next_Step, nextStep);
 	}
 
 	public void enterSalesStage(String salesStage) {
-		sales_Stage.sendKeys(salesStage);
+		enterText(sales_Stage, salesStage);
+
 	}
 
-	public void selectLead() {
+	public void selectLead(String value) {
 		// Step1. store the parent window
 		String parentWindow = getParentWindow();
 
@@ -89,7 +99,10 @@ public class CRM_OpportunitiesPage extends BasePage {
 			throw new RuntimeException("New Window did not open");
 		}
 		// step4 perform action
+		searchDropdown.click();
+		selectValue(searchDropdown, value);
 		lead_selectButton.click();
+
 		// step5 switch back to parent window
 		switchToParentWindow(parentWindow);
 
@@ -100,7 +113,7 @@ public class CRM_OpportunitiesPage extends BasePage {
 	}
 
 	public boolean verifyOpportunityCreated(String oppName) {
-		
+
 		return driver.getPageSource().contains(oppName);
 	}
 }
