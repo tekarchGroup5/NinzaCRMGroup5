@@ -16,6 +16,8 @@ public class CRM_AddProductPage extends BasePage{
 	private WebElement AddProductPageHeaderEle;
 	@FindBy(xpath="//input[@name='productId']")
 	private WebElement ProductIDTextBxEle;
+	@FindBy(xpath="//input[@name=\"productName\"]")
+	private WebElement AddProductNameTxtBxEle;
 	
 	public CRM_AddProductPage(WebDriver driver) {
 		super(driver);
@@ -31,5 +33,8 @@ public class CRM_AddProductPage extends BasePage{
 		return ProductIDTextBxEle.getAttribute("value");
 	}
 
+	public void enterProductName() {
+		
+	}
 
 }
