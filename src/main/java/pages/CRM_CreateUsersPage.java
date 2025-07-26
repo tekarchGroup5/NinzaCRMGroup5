@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -27,13 +28,15 @@ public class CRM_CreateUsersPage extends BasePage {
 	@FindBy(xpath = "//input[@name='dob']")
 	WebElement dob;
 
+	@FindBy(xpath = "//div[@role='alert']")
+	WebElement successMsg;
 
 	// Constructor
 	public CRM_CreateUsersPage(WebDriver driver) {
 		super(driver);
 	}
-	public void enterUserFullName(String fullname){
-		userFullName.sendKeys(fullname);
+	public void enterUserFullName(String userFullName1){
+		userFullName.sendKeys(userFullName1);
 	}
 	public void enterMobileNum(String mobNum){
 		mobileNum.sendKeys(mobNum);
@@ -49,6 +52,10 @@ public class CRM_CreateUsersPage extends BasePage {
 	}
 	public void clickCreateUserButton(){
 		CUserButton.click();
+	}
+	public String verifyUserCreated() {
+		return successMsg.getText();
+
 	}
 
 }
