@@ -83,7 +83,6 @@ public class CRM_HomePage extends BasePage {
         createUser.click();
         return new CRM_CreateUsersPage(driver);
     }
-
     /**
      * Clicks on the Campaigns link and navigates to the CRM_CampaignsPage.
      */
