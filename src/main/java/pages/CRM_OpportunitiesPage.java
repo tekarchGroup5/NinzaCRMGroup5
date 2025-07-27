@@ -10,6 +10,9 @@ public class CRM_OpportunitiesPage extends BasePage {
 
 	@FindBy(xpath = "//button[@class ='btn btn-info']")
 	WebElement createOpportunityButton;
+	
+	@FindBy(xpath = "//input[@name='opportunityId']")
+	WebElement OpportunityIdField;
 
 	@FindBy(xpath = "//input[@name='opportunityName']")
 	WebElement opportunityName;
@@ -64,12 +67,25 @@ public class CRM_OpportunitiesPage extends BasePage {
 
 	@FindBy(xpath = "//button[@type='submit']")
 	WebElement createopportunityButtonInForm;
-
+	
+	@FindBy(xpath = "//table[@class='table table-striped table-hover']/tbody/tr/td")
+	WebElement opportunityIdField;
+	
+	@FindBy(xpath = "//a[@class='edit']")
+	WebElement editButtonInList;
+	
+	@FindBy(xpath = "//div[@class='Toastify__toast-container Toastify__toast-container--top-right']")
+	WebElement successMessageLocator;
+	
+	@FindBy(xpath = "//table[@class='table table-striped table-hover']")
+	WebElement OpportunitiesListLocator;
+	
 	public CRM_OpportunitiesPage(WebDriver driver) {
 		super(driver);
 	}
 
 	public void clickCreateOpportunity() {
+		WaitUtils.explicitlyWaitForClickableElement(driver,createOpportunityButton );
 		createOpportunityButton.click();
 	}
 
@@ -151,7 +167,36 @@ public class CRM_OpportunitiesPage extends BasePage {
 		return driver.getPageSource().contains(oppName);
 	}
 	
-//	Public boolean verifyopportunityCreatedWithAllFields()
+	public boolean verifyopportunityCreatedWithAllFields(String oppName) {
+
+		return driver.getPageSource().contains(oppName);
+	}
+
+
+
+	public String getOpportunityId() {
+		return opportunityIdField.getText(); 
+	}
+
+	public boolean isOpportunityIdIsEditable() {
+		editButtonInList.click();
+		WaitUtils.explicitlyWaitForVisibility(driver, OpportunityIdField);
+		return OpportunityIdField.isEnabled() && OpportunityIdField.getAttribute("readonly") == null;
+		 
+	}
 	
+
+	public void waitForOpportunityListOrSuccessMessage() {
+		WaitUtils.explicitlyWaitForVisibility(driver,successMessageLocator );
+		WaitUtils.explicitlyWaitForVisibility(driver,OpportunitiesListLocator );
+		
+	}
+	
+	public void waitForSuccessMessageToDisappear() {
+		WaitUtils.explicitlyWaitForInVisibility(driver, successMessageLocator);
+	}
+
+	
+		
 	
 }

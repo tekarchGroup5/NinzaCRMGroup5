@@ -193,5 +193,14 @@ public class ExcelUtils {
 		}
 		return filteredRows;
 	}
+	public static Map<String, String> getTestDataByRowIndex(String filePath, String sheetName, int rowIndex) {
+	    List<Map<String, String>> allData = getTestData(filePath, sheetName);
+	    if (rowIndex < allData.size()) {
+	        return allData.get(rowIndex);
+	    } else {
+	        throw new RuntimeException("Invalid row index: " + rowIndex);
+	    }
+	}
+
 }
 
