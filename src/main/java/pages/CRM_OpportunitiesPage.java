@@ -10,7 +10,7 @@ public class CRM_OpportunitiesPage extends BasePage {
 
 	@FindBy(xpath = "//button[@class ='btn btn-info']")
 	WebElement createOpportunityButton;
-	
+
 	@FindBy(xpath = "//input[@name='opportunityId']")
 	WebElement OpportunityIdField;
 
@@ -49,43 +49,43 @@ public class CRM_OpportunitiesPage extends BasePage {
 
 	@FindBy(xpath = "(//button[@class='select-btn'])[1]")
 	WebElement lead_selectButton1;
-	
+
 	@FindBy(xpath = "(//button[@class='select-btn'])[2]")
 	WebElement lead_selectButton2;
-	
+
 	@FindBy(xpath = "(//button[@class='select-btn'])[3]")
 	WebElement lead_selectButton3;
-	
+
 	@FindBy(xpath = "(//button[@class='select-btn'])[4]")
 	WebElement lead_selectButton4;
-	
+
 	@FindBy(xpath = "(//button[@class='select-btn'])[5]")
 	WebElement lead_selectButton5;
-	
+
 	@FindBy(xpath = "//textarea[@name='description']")
 	WebElement description_field;
 
 	@FindBy(xpath = "//button[@type='submit']")
 	WebElement createopportunityButtonInForm;
-	
+
 	@FindBy(xpath = "//table[@class='table table-striped table-hover']/tbody/tr/td")
 	WebElement opportunityIdField;
-	
+
 	@FindBy(xpath = "//a[@class='edit']")
 	WebElement editButtonInList;
-	
+
 	@FindBy(xpath = "//div[@class='Toastify__toast-container Toastify__toast-container--top-right']")
 	WebElement successMessageLocator;
-	
+
 	@FindBy(xpath = "//table[@class='table table-striped table-hover']")
 	WebElement OpportunitiesListLocator;
-	
+
 	public CRM_OpportunitiesPage(WebDriver driver) {
 		super(driver);
 	}
 
 	public void clickCreateOpportunity() {
-		WaitUtils.explicitlyWaitForClickableElement(driver,createOpportunityButton );
+		WaitUtils.explicitlyWaitForClickableElement(driver, createOpportunityButton);
 		createOpportunityButton.click();
 	}
 
@@ -103,14 +103,14 @@ public class CRM_OpportunitiesPage extends BasePage {
 		enterText(business_Type, businessType);
 
 	}
-	
-	public void enterExpectedCloseDate(String expectedCloseDate ) {
-		enterText(expected_CloseDate,expectedCloseDate);
+
+	public void enterExpectedCloseDate(String expectedCloseDate) {
+		enterText(expected_CloseDate, expectedCloseDate);
 
 	}
-	
+
 	public void enterAssignedTo(String assignedTo) {
-		enterText(assigned_To,assignedTo);
+		enterText(assigned_To, assignedTo);
 	}
 
 	public void enterNextStep(String nextStep) {
@@ -135,28 +135,28 @@ public class CRM_OpportunitiesPage extends BasePage {
 		} else {
 			throw new RuntimeException("New Window did not open");
 		}
+
 		// step4 search dropdown is clicked
 		searchDropdown.click();
-		//Step5 search dropdown value is selected
+		// Step5 search dropdown value is selected
 		selectValue(searchDropdown, value);
-		//step6 Lead name is entered in search text box
-		enterText(searchTextBox,lead);
-		//step 7 first lead is selected
+		// step6 Lead name is entered in search text box
+		enterText(searchTextBox, lead);
+		// step 7 first lead is selected
 		lead_selectButton1.click();
 
 		// step5 switch back to parent window
 		switchToParentWindow(parentWindow);
 
 	}
-	
+
 	public void enterProbability(String probability) {
-		enterText(probability_Field,probability);
+		enterText(probability_Field, probability);
 	}
-	
+
 	public void enterDescription(String description) {
-		enterText(description_field,description);
+		enterText(description_field, description);
 	}
-	
 
 	public void clickCreateOpportunityInForm() {
 		createopportunityButtonInForm.click();
@@ -166,37 +166,31 @@ public class CRM_OpportunitiesPage extends BasePage {
 
 		return driver.getPageSource().contains(oppName);
 	}
-	
+
 	public boolean verifyopportunityCreatedWithAllFields(String oppName) {
 
 		return driver.getPageSource().contains(oppName);
 	}
 
-
-
 	public String getOpportunityId() {
-		return opportunityIdField.getText(); 
+		return opportunityIdField.getText();
 	}
 
 	public boolean isOpportunityIdIsEditable() {
 		editButtonInList.click();
 		WaitUtils.explicitlyWaitForVisibility(driver, OpportunityIdField);
 		return OpportunityIdField.isEnabled() && OpportunityIdField.getAttribute("readonly") == null;
-		 
+
 	}
-	
 
 	public void waitForOpportunityListOrSuccessMessage() {
-		WaitUtils.explicitlyWaitForVisibility(driver,successMessageLocator );
-		WaitUtils.explicitlyWaitForVisibility(driver,OpportunitiesListLocator );
-		
+		WaitUtils.explicitlyWaitForVisibility(driver, successMessageLocator);
+		WaitUtils.explicitlyWaitForVisibility(driver, OpportunitiesListLocator);
+
 	}
-	
+
 	public void waitForSuccessMessageToDisappear() {
 		WaitUtils.explicitlyWaitForInVisibility(driver, successMessageLocator);
 	}
 
-	
-		
-	
 }

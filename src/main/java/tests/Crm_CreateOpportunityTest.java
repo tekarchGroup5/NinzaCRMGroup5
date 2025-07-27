@@ -25,6 +25,7 @@ import utils.WaitUtils;
 public class Crm_CreateOpportunityTest extends BaseTest {
 	public static Logger logger = LogManager.getLogger("Crm_CreateOpportunityTest");
 
+
 	@Test(dataProvider = "opportunityData", dataProviderClass = CommonUtils.class,enabled = false)
 	public void createOpportunityWithMandatoryFields(Map<String, String> data)
 			throws InterruptedException, FileNotFoundException, IOException {
@@ -56,8 +57,10 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 		oppPage.enterSalesStage(salesStage);
 		logger.info("Sales stage is entered");
 
-		String value = FileUtils.readOpportunitiesPropertiesFile("search.dropdown.value2");
-		oppPage.selectLead(value, lead);
+
+		String value= FileUtils.readOpportunitiesPropertiesFile("search.dropdown.value2");
+
+		oppPage.selectLead(value,lead);
 		logger.info("lead is selected");
 
 		oppPage.clickCreateOpportunityInForm();
@@ -66,7 +69,7 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 		// validate Opportunity created
 		Assert.assertTrue(oppPage.verifyOpportunityCreatedWithMandatoryFields(oppName), "Opportunity Creation failed.");
 	}
-
+	
 	@Test(dataProvider = "tc2Data", dataProviderClass = CommonUtils.class,enabled = false)
 	public void createOpportunityWithAllFields(Map<String, String> data) throws FileNotFoundException, IOException {
 		CRM_OpportunitiesPage oppPage = hp.clickOpportunities();

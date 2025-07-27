@@ -38,17 +38,6 @@ public class CommonUtils {
 //				{ "dean@tek.com", "12345" } };
 //	}
 
-	@DataProvider(name = "opportunityData")
-	public Object[][] getOpportunityData() {
-		
-		List<Map<String, String>> dataList = ExcelUtils.getTestData(excelPath, sheetName);
-
-		Object[][] data = new Object[dataList.size()][1];
-		for (int i = 0; i < dataList.size(); i++) {
-			data[i][0] = dataList.get(i);
-		}
-		return data;
-	}
 	@DataProvider(name = "tc1Data")
 	public static Object[][] getTC1Data() {
 	    Map<String, String> data = ExcelUtils.getTestDataByRowIndex(excelPath,sheetName,0);
@@ -68,5 +57,17 @@ public class CommonUtils {
 	    return new Object[][] { { dataList } }; 
 	}
 
+	@DataProvider(name = "opportunityData")
+	public Object[][] getOpportunityData() {
+		String excelPath = FileConstants.OPPORTUNITY_TEST_DATA_UPLOAD_PATH;
+		String sheetName = "Opportunities";
 
+		List<Map<String, String>> dataList = ExcelUtils.getTestData(excelPath, sheetName);
+
+		Object[][] data = new Object[dataList.size()][1];
+		for (int i = 0; i < dataList.size(); i++) {
+			data[i][0] = dataList.get(i);
+		}
+		return data;
+	}
 }
