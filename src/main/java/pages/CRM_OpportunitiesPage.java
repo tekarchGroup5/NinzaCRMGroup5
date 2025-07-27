@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -79,6 +80,12 @@ public class CRM_OpportunitiesPage extends BasePage {
 
 	@FindBy(xpath = "//table[@class='table table-striped table-hover']")
 	WebElement OpportunitiesListLocator;
+	
+	@FindBy(xpath = "//table[@class='table table-striped table-hover']/tbody/tr/td[7]")
+	WebElement probabilityInListLocator;
+	
+	@FindBy(xpath  = "//div[@class='Toastify__toast-body']")
+	WebElement BlankLeadErrorMessage;
 
 	public CRM_OpportunitiesPage(WebDriver driver) {
 		super(driver);
@@ -192,5 +199,41 @@ public class CRM_OpportunitiesPage extends BasePage {
 	public void waitForSuccessMessageToDisappear() {
 		WaitUtils.explicitlyWaitForInVisibility(driver, successMessageLocator);
 	}
+
+	public String getProbabilityValue() {
+		return probabilityInListLocator.getText();
+	}
+
+	public String getAmountErrorMessage() {
+		return getErrorMessage(Amount);
+	}
+	
+	public String getProbabilityErrorMessage() {
+		return getErrorMessage(probability_Field);
+	}
+
+	public String getOpportunityNameErrorMessage() {
+		return getErrorMessage(opportunityName);
+	}
+
+	public String getBusinessTypeErrorMessage() {
+		return getErrorMessage(business_Type);
+	}
+
+	public String getNextStepErrorMessage() {
+		return getErrorMessage(next_Step);
+	}
+
+	public String getSalesStageErrorMessage() {
+		return getErrorMessage(sales_Stage);
+
+	}
+
+	public String getLeadErrorMessage() {
+		WaitUtils.explicitlyWaitForVisibility(driver, BlankLeadErrorMessage);
+		return BlankLeadErrorMessage.getText();
+	}
+	
+	
 
 }

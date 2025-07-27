@@ -19,7 +19,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class BasePage {
 	public WebDriver driver;
 	Select select;
-	JavascriptExecutor js;
+	JavascriptExecutor js ;
 
 	public static Logger logger = LogManager.getLogger("Basepage");
 
@@ -137,5 +137,12 @@ public class BasePage {
 		js = (JavascriptExecutor) driver;
 		js.executeScript("window.scrollBy(0, 500)");
 	}
+	
+	public String getErrorMessage(WebElement element) {
+		js = (JavascriptExecutor) driver;
+		String validationMsg = (String) js.executeScript("return arguments[0].validationMessage;",element);
+		return validationMsg;
+	}
+
 
 }
