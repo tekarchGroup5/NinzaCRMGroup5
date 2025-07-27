@@ -59,7 +59,7 @@ public class BaseTest {
 			if (headless) {
 				options.addArguments("--headless=new");
 			}
-			options.addArguments("--incognito");
+			//options.addArguments("--incognito");
 			options.addArguments("--disable-notifications");
 			options.addArguments("--disable-popup-blocking");
 			options.addArguments("--disable-blink-features=AutomationControlled");
