@@ -86,8 +86,6 @@ public class CRM_OpportunitiesPage extends BasePage {
 	public void enterBusinessType(String businessType) {
 		enterText(business_Type, businessType);
 
-<<<<<<< HEAD
-=======
 	}
 	
 	public void enterExpectedCloseDate(String expectedCloseDate ) {
@@ -97,7 +95,6 @@ public class CRM_OpportunitiesPage extends BasePage {
 	
 	public void enterAssignedTo(String assignedTo) {
 		enterText(assigned_To,assignedTo);
->>>>>>> branch 'main' of https://github.com/tekarchGroup5/NinzaCRMGroup5.git
 	}
 
 	public void enterNextStep(String nextStep) {
@@ -109,11 +106,7 @@ public class CRM_OpportunitiesPage extends BasePage {
 
 	}
 
-<<<<<<< HEAD
-	public void selectLead(String value) {
-=======
 	public void selectLead(String value, String lead) {
->>>>>>> branch 'main' of https://github.com/tekarchGroup5/NinzaCRMGroup5.git
 		// Step1. store the parent window
 		String parentWindow = getParentWindow();
 
@@ -126,12 +119,7 @@ public class CRM_OpportunitiesPage extends BasePage {
 		} else {
 			throw new RuntimeException("New Window did not open");
 		}
-<<<<<<< HEAD
-		// step4 perform action
-		searchDropdown.click();
-		selectValue(searchDropdown, value);
-		lead_selectButton.click();
-=======
+
 		// step4 search dropdown is clicked
 		searchDropdown.click();
 		//Step5 search dropdown value is selected
@@ -140,7 +128,6 @@ public class CRM_OpportunitiesPage extends BasePage {
 		enterText(searchTextBox,lead);
 		//step 7 first lead is selected
 		lead_selectButton1.click();
->>>>>>> branch 'main' of https://github.com/tekarchGroup5/NinzaCRMGroup5.git
 
 		// step5 switch back to parent window
 		switchToParentWindow(parentWindow);
@@ -160,12 +147,7 @@ public class CRM_OpportunitiesPage extends BasePage {
 		createopportunityButtonInForm.click();
 	}
 
-<<<<<<< HEAD
-	public boolean verifyOpportunityCreated(String oppName) {
-=======
 	public boolean verifyOpportunityCreatedWithMandatoryFields(String oppName) {
->>>>>>> branch 'main' of https://github.com/tekarchGroup5/NinzaCRMGroup5.git
-
 		return driver.getPageSource().contains(oppName);
 	}
 	

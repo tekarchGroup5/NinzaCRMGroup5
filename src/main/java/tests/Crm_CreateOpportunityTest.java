@@ -23,7 +23,6 @@ import utils.FileUtils;
 public class Crm_CreateOpportunityTest extends BaseTest {
 	public static Logger logger = LogManager.getLogger("Crm_CreateOpportunityTest");
 
-<<<<<<< HEAD
 	@DataProvider(name = "opportunityData")
 	public Object[][] getOpportunityData() {
 		String excelPath = "src/main/java/testData/OpportunityTestData.xlsx";
