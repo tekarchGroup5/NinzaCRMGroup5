@@ -24,30 +24,12 @@ import utils.WaitUtils;
 
 public class Crm_CreateOpportunityTest extends BaseTest {
 	public static Logger logger = LogManager.getLogger("Crm_CreateOpportunityTest");
-
-<<<<<<< HEAD
-	@DataProvider(name = "opportunityData")
-	public Object[][] getOpportunityData() {
-		String excelPath = "src/main/java/testData/OpportunityTestData.xlsx";
-		String sheetName = "Opportunities";
-
-		List<Map<String, String>> dataList = ExcelUtils.getTestData(excelPath, sheetName);
-
-		Object[][] data = new Object[dataList.size()][1];
-		for (int i = 0; i < dataList.size(); i++) {
-			data[i][0] = dataList.get(i);
-		}
-		return data;
-	}
-
-	@Test(dataProvider = "opportunityData",dataProviderClass = CommonUtils.class)
-	public void createOpportunityWithMandatoryFields(Map<String, String> data) throws InterruptedException, FileNotFoundException, IOException {
-=======
+	
 
 	@Test(dataProvider = "opportunityData", dataProviderClass = CommonUtils.class,enabled = false)
 	public void createOpportunityWithMandatoryFields(Map<String, String> data)
 			throws InterruptedException, FileNotFoundException, IOException {
->>>>>>> branch 'main' of https://github.com/tekarchGroup5/NinzaCRMGroup5.git
+
 		CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
 
 		oppPage.clickCreateOpportunity();
