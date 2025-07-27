@@ -3,6 +3,8 @@ package utils;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -34,6 +36,18 @@ public class CommonUtils {
 				{ "dean@tek.com", "12345" } };
 	}
 
+	@DataProvider(name = "opportunityData")
+	public Object[][] getOpportunityData() {
+		String excelPath = FileConstants.OPPORTUNITY_TEST_DATA_UPLOAD_PATH;
+		String sheetName = "Opportunities";
 
+		List<Map<String, String>> dataList = ExcelUtils.getTestData(excelPath, sheetName);
+
+		Object[][] data = new Object[dataList.size()][1];
+		for (int i = 0; i < dataList.size(); i++) {
+			data[i][0] = dataList.get(i);
+		}
+		return data;
+	}
 }
 //*[@id="content"]/div[2]/div[1]/div/div[1]/div/div[2]/button/i
