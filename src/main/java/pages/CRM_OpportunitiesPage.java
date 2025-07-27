@@ -27,13 +27,13 @@ public class CRM_OpportunitiesPage extends BasePage {
 	WebElement sales_Stage;
 
 	@FindBy(xpath = "//input[@name='assignedTo']")
-	WebElement assignedTo;
+	WebElement assigned_To;
 
 	@FindBy(xpath = "//input[@name='expectedCloseDate']")
-	WebElement expectedCloseDate;
+	WebElement expected_CloseDate;
 
 	@FindBy(xpath = "//input[@name='probability']")
-	WebElement probability;
+	WebElement probability_Field;
 
 	@FindBy(xpath = "(//button[@type='button'])[2]")
 	WebElement lead_lookupButton;
@@ -45,10 +45,22 @@ public class CRM_OpportunitiesPage extends BasePage {
 	WebElement searchDropdown;
 
 	@FindBy(xpath = "(//button[@class='select-btn'])[1]")
-	WebElement lead_selectButton;
-
+	WebElement lead_selectButton1;
+	
+	@FindBy(xpath = "(//button[@class='select-btn'])[2]")
+	WebElement lead_selectButton2;
+	
+	@FindBy(xpath = "(//button[@class='select-btn'])[3]")
+	WebElement lead_selectButton3;
+	
+	@FindBy(xpath = "(//button[@class='select-btn'])[4]")
+	WebElement lead_selectButton4;
+	
+	@FindBy(xpath = "(//button[@class='select-btn'])[5]")
+	WebElement lead_selectButton5;
+	
 	@FindBy(xpath = "//textarea[@name='description']")
-	WebElement description;
+	WebElement description_field;
 
 	@FindBy(xpath = "//button[@type='submit']")
 	WebElement createopportunityButtonInForm;
@@ -74,6 +86,18 @@ public class CRM_OpportunitiesPage extends BasePage {
 	public void enterBusinessType(String businessType) {
 		enterText(business_Type, businessType);
 
+<<<<<<< HEAD
+=======
+	}
+	
+	public void enterExpectedCloseDate(String expectedCloseDate ) {
+		enterText(expected_CloseDate,expectedCloseDate);
+
+	}
+	
+	public void enterAssignedTo(String assignedTo) {
+		enterText(assigned_To,assignedTo);
+>>>>>>> branch 'main' of https://github.com/tekarchGroup5/NinzaCRMGroup5.git
 	}
 
 	public void enterNextStep(String nextStep) {
@@ -85,7 +109,11 @@ public class CRM_OpportunitiesPage extends BasePage {
 
 	}
 
+<<<<<<< HEAD
 	public void selectLead(String value) {
+=======
+	public void selectLead(String value, String lead) {
+>>>>>>> branch 'main' of https://github.com/tekarchGroup5/NinzaCRMGroup5.git
 		// Step1. store the parent window
 		String parentWindow = getParentWindow();
 
@@ -98,22 +126,50 @@ public class CRM_OpportunitiesPage extends BasePage {
 		} else {
 			throw new RuntimeException("New Window did not open");
 		}
+<<<<<<< HEAD
 		// step4 perform action
 		searchDropdown.click();
 		selectValue(searchDropdown, value);
 		lead_selectButton.click();
+=======
+		// step4 search dropdown is clicked
+		searchDropdown.click();
+		//Step5 search dropdown value is selected
+		selectValue(searchDropdown, value);
+		//step6 Lead name is entered in search text box
+		enterText(searchTextBox,lead);
+		//step 7 first lead is selected
+		lead_selectButton1.click();
+>>>>>>> branch 'main' of https://github.com/tekarchGroup5/NinzaCRMGroup5.git
 
 		// step5 switch back to parent window
 		switchToParentWindow(parentWindow);
 
 	}
+	
+	public void enterProbability(String probability) {
+		enterText(probability_Field,probability);
+	}
+	
+	public void enterDescription(String description) {
+		enterText(description_field,description);
+	}
+	
 
 	public void clickCreateOpportunityInForm() {
 		createopportunityButtonInForm.click();
 	}
 
+<<<<<<< HEAD
 	public boolean verifyOpportunityCreated(String oppName) {
+=======
+	public boolean verifyOpportunityCreatedWithMandatoryFields(String oppName) {
+>>>>>>> branch 'main' of https://github.com/tekarchGroup5/NinzaCRMGroup5.git
 
 		return driver.getPageSource().contains(oppName);
 	}
+	
+//	Public boolean verifyopportunityCreatedWithAllFields()
+	
+	
 }

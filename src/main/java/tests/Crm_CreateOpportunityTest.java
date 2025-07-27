@@ -13,14 +13,17 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import constants.FileConstants;
 import pages.CRM_LeadsPage;
 import pages.CRM_OpportunitiesPage;
+import utils.CommonUtils;
 import utils.ExcelUtils;
 import utils.FileUtils;
 
 public class Crm_CreateOpportunityTest extends BaseTest {
 	public static Logger logger = LogManager.getLogger("Crm_CreateOpportunityTest");
 
+<<<<<<< HEAD
 	@DataProvider(name = "opportunityData")
 	public Object[][] getOpportunityData() {
 		String excelPath = "src/main/java/testData/OpportunityTestData.xlsx";
@@ -35,7 +38,7 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 		return data;
 	}
 
-	@Test(dataProvider = "opportunityData")
+	@Test(dataProvider = "opportunityData",dataProviderClass = CommonUtils.class)
 	public void createOpportunityWithMandatoryFields(Map<String, String> data) throws InterruptedException, FileNotFoundException, IOException {
 		CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
 
@@ -47,6 +50,7 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 		String businessType = data.get("Business Type");
 		String nextStep = data.get("Next Step");
 		String salesStage = data.get("Sales Stage");
+		String lead = data.get("Lead");
 
 		// fill the form using Page Object methods
 		oppPage.enterOpportunityName(oppName);
@@ -65,14 +69,60 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 		logger.info("Sales stage is entered");
 
 		String value= FileUtils.readOpportunitiesPropertiesFile("search.dropdown.value2");
-		oppPage.selectLead(value);
+
+		oppPage.selectLead(value,lead);
 		logger.info("lead is selected");
 
 		oppPage.clickCreateOpportunityInForm();
 		logger.info("opportunity is created");
 
 		// validate Opportunity created
-		Assert.assertTrue(oppPage.verifyOpportunityCreated(oppName), "Opportunity Creation failed.");
+		Assert.assertTrue(oppPage.verifyOpportunityCreatedWithMandatoryFields(oppName), "Opportunity Creation failed.");
 	}
+	
+	@Test(dataProvider = "opportunityData",dataProviderClass = CommonUtils.class)
+	public void  createOpportunityWithAllFields(Map<String,String> data) throws FileNotFoundException, IOException {
+		CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
+		oppPage.clickCreateOpportunity();
+		logger.info("Create Opportunity button is clicked");
+		String oppName = data.get("Opportunity Name");
+		String amount = data.get("Amount");
+		String businessType = data.get("Business Type");
+		String expectedClosedate = data.get("Expected Close Date");
+		String assignedTo = data.get("Assigned To");
+		String probability = data.get("Probability");
+		String nextStep = data.get("Next Step");
+		String salesStage = data.get("Sales Stage");
+		String lead = data.get("Lead");
+		String description = data.get("Description");
+		
+		// fill the form using Page Object methods
+				oppPage.enterOpportunityName(oppName);
+				logger.info("Opportunity name is entered");
+
+				oppPage.enterAmount(amount);
+				logger.info("Amount is entered");
+
+				oppPage.enterBusinessType(businessType);
+				logger.info("Business type is entered");
+
+				oppPage.enterNextStep(nextStep);
+				logger.info("Next step is entered");
+
+				oppPage.enterSalesStage(salesStage);
+				logger.info("Sales stage is entered");
+
+				String value= FileUtils.readOpportunitiesPropertiesFile("search.dropdown.value2");
+				oppPage.selectLead(value,lead);
+				logger.info("lead is selected");
+
+				oppPage.clickCreateOpportunityInForm();
+				logger.info("opportunity is created");
+
+
+		
+	}
+	
+	
 
 }
