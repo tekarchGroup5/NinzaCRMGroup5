@@ -23,6 +23,15 @@ public class WaitUtils {
             return null;  
         }
     }
+    public static Boolean explicitlyWaitForWindowToOpen(WebDriver driver, int expectedWindowCount) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        try {
+            return wait.until(ExpectedConditions.numberOfWindowsToBe(expectedWindowCount));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;  
+        }
+    }
 
     // Wait for invisibility of the given element, returns true if invisible
     public static boolean explicitlyWaitForInVisibility(WebDriver driver, WebElement elementToWait) {

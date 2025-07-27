@@ -1,6 +1,7 @@
 package pages;
 
 import java.time.Duration;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,6 +9,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -15,16 +17,18 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class BasePage {
 	public WebDriver driver;
 	public static Logger logger = LogManager.getLogger("Basepage");
-	
+
 	public BasePage(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 	}
 
 	public String getTitle() {
-        return driver.getTitle();
-    }
+		return driver.getTitle();
+	}
+
 	public void handleAlertIfPresent() {
+
 	    try {
 	        int retries = 2; // Retry up to 10 times
 	        for (int i = 0; i < retries; i++) {
@@ -47,4 +51,36 @@ public class BasePage {
 	    } catch (Exception e) {
 	        logger.error("Unexpected error while handling alert: " + e.getMessage());
 	    }
-	}}
+	}
+	public void switchToChildWindow() {
+		String parentWindow = driver.getWindowHandle();
+		Set<String> Handles = driver.getWindowHandles();
+		for (String handle : Handles) {
+			if (!handle.equals(parentWindow)) {
+				driver.switchTo().window(handle);
+			}
+		}
+	}
+
+	public void switchToParentWindow(String parentWindow) {
+		Set<String> handles = driver.getWindowHandles();
+		for (String handle : handles) {
+			if (!handle.equals(parentWindow)) {
+				driver.switchTo().window(handle);
+			}
+		}
+		driver.switchTo().window(parentWindow);
+	}
+
+	public String getParentWindow() {
+		String parentWindow = driver.getWindowHandle();
+		return parentWindow;
+	}
+
+	public static String getTextFromElement(WebElement ele) {//priyanka
+		String data = ele.getText();
+		return data;
+	}
+	
+}
+
