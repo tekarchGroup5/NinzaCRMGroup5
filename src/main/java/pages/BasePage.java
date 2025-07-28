@@ -1,6 +1,8 @@
 package pages;
 
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
@@ -119,7 +121,6 @@ public class BasePage {
 		if (ele.isDisplayed()) {
 			clearElement(ele);
 			ele.sendKeys(data);
-			System.out.println("data is entered in the textbox");
 		} else {
 			System.out.println(" element is not displayed.");
 		}
@@ -143,6 +144,12 @@ public class BasePage {
 		String validationMsg = (String) js.executeScript("return arguments[0].validationMessage;",element);
 		return validationMsg;
 	}
-
+	
+	public static String convertDateFormat(String inputDate, String fromFormat, String toFormat) {
+	    DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern(fromFormat);
+	    DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern(toFormat);
+	    LocalDate date = LocalDate.parse(inputDate, inputFormatter);
+	    return date.format(outputFormatter);
+	}
 
 }

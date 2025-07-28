@@ -59,8 +59,6 @@ public class CommonUtils {
 
 	@DataProvider(name = "opportunityData")
 	public Object[][] getOpportunityData() {
-		String excelPath = FileConstants.OPPORTUNITY_TEST_DATA_UPLOAD_PATH;
-		String sheetName = "Opportunities";
 
 		List<Map<String, String>> dataList = ExcelUtils.getTestData(excelPath, sheetName);
 
@@ -99,6 +97,11 @@ public class CommonUtils {
 	@DataProvider(name = "tc8Data")
 	public static Object[][] getTC8Data() {
 		Map<String, String> data = ExcelUtils.getTestDataByRowIndex(excelPath, sheetName, 8);
+		return new Object[][] { { data } };
+	}
+	@DataProvider(name = "tc9Data")
+	public static Object[][] getTC9Data() {
+		Map<String, String> data = ExcelUtils.getTestDataByRowIndex(excelPath, sheetName, 9);
 		return new Object[][] { { data } };
 	}
 }

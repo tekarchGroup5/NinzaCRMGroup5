@@ -92,4 +92,8 @@ public class WaitUtils {
             return null;
         }
     }
+    public static void waitForPageToLoad() throws InterruptedException {
+		
+    	Thread.sleep(8000);
+    }
 }
