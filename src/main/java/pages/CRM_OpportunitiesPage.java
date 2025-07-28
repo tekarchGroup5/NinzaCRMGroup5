@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -41,6 +42,9 @@ public class CRM_OpportunitiesPage extends BasePage {
 	@FindBy(xpath = "(//button[@type='button'])[2]")
 	WebElement lead_lookupButton;
 
+	@FindBy(xpath = "(//input[@type='text'])[7]")
+	WebElement leadField;
+
 	@FindBy(xpath = "//input[@id='search-input']")
 	WebElement searchTextBox;
 
@@ -69,7 +73,10 @@ public class CRM_OpportunitiesPage extends BasePage {
 	WebElement createopportunityButtonInForm;
 
 	@FindBy(xpath = "//table[@class='table table-striped table-hover']/tbody/tr/td")
-	WebElement opportunityIdField;
+	WebElement opportunityIdFieldInList;
+
+	@FindBy(xpath = "//table[@class='table table-striped table-hover']/tbody/tr/td[2]")
+	WebElement opportunityNameInList;
 
 	@FindBy(xpath = "//a[@class='edit']")
 	WebElement editButtonInList;
@@ -79,6 +86,12 @@ public class CRM_OpportunitiesPage extends BasePage {
 
 	@FindBy(xpath = "//table[@class='table table-striped table-hover']")
 	WebElement OpportunitiesListLocator;
+
+	@FindBy(xpath = "//table[@class='table table-striped table-hover']/tbody/tr/td[7]")
+	WebElement probabilityInListLocator;
+
+	@FindBy(xpath = "//div[@class='Toastify__toast-body']")
+	WebElement BlankLeadErrorMessage;
 
 	public CRM_OpportunitiesPage(WebDriver driver) {
 		super(driver);
@@ -122,7 +135,7 @@ public class CRM_OpportunitiesPage extends BasePage {
 
 	}
 
-	public void selectLead(String value, String lead) {
+	public void selectLead(String value, String lead) throws InterruptedException {
 		// Step1. store the parent window
 		String parentWindow = getParentWindow();
 
@@ -142,6 +155,7 @@ public class CRM_OpportunitiesPage extends BasePage {
 		selectValue(searchDropdown, value);
 		// step6 Lead name is entered in search text box
 		enterText(searchTextBox, lead);
+		WaitUtils.waitForPageToLoad();
 		// step 7 first lead is selected
 		lead_selectButton1.click();
 
@@ -173,7 +187,7 @@ public class CRM_OpportunitiesPage extends BasePage {
 	}
 
 	public String getOpportunityId() {
-		return opportunityIdField.getText();
+		return opportunityIdFieldInList.getText();
 	}
 
 	public boolean isOpportunityIdIsEditable() {
@@ -191,6 +205,104 @@ public class CRM_OpportunitiesPage extends BasePage {
 
 	public void waitForSuccessMessageToDisappear() {
 		WaitUtils.explicitlyWaitForInVisibility(driver, successMessageLocator);
+	}
+
+	public String getProbabilityValue() {
+		return probabilityInListLocator.getText();
+	}
+
+	public String getAmountErrorMessage() {
+		return getErrorMessage(Amount);
+	}
+
+	public String getProbabilityErrorMessage() {
+		return getErrorMessage(probability_Field);
+	}
+
+	public String getOpportunityNameErrorMessage() {
+		return getErrorMessage(opportunityName);
+	}
+
+	public String getBusinessTypeErrorMessage() {
+		return getErrorMessage(business_Type);
+	}
+
+	public String getNextStepErrorMessage() {
+		return getErrorMessage(next_Step);
+	}
+
+	public String getSalesStageErrorMessage() {
+		return getErrorMessage(sales_Stage);
+
+	}
+
+	public String getLeadErrorMessage() {
+		WaitUtils.explicitlyWaitForVisibility(driver, BlankLeadErrorMessage);
+		return BlankLeadErrorMessage.getText();
+	}
+
+	public void waitForSuccessMessage() {
+		WaitUtils.explicitlyWaitForVisibility(driver, successMessageLocator);
+
+	}
+
+	public String getDuplicateErrorMessage() {
+		return successMessageLocator.getText();
+	}
+
+	public String getFirstRowOpportunityId() {
+		return opportunityIdFieldInList.getText();
+	}
+
+	public boolean isOpportunityCreatedWithName(String oppName) {
+
+		return opportunityNameInList.getText().trim().equalsIgnoreCase(oppName);
+	}
+
+	public String getExpectedCloseDateErrorMessage() {
+		return getErrorMessage(expected_CloseDate);
+	}
+
+	public void clickExpectedCloseDateField() {
+		expected_CloseDate.click();
+
+	}
+
+	// Use JS to set a valid date
+	public void setExpectedCloseDate(String date) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].value = arguments[1];", expected_CloseDate, date);
+	}
+
+	// Optional: Trigger calendar by focus (for visibility check or visual testing)
+	public void focusOnExpectedCloseDate() {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].focus();", expected_CloseDate);
+	}
+
+	// Fetch selected value
+	public String getSelectedCloseDate() {
+		return expected_CloseDate.getAttribute("value");
+	}
+
+	public String getOpportunityNameFieldValue() {
+		return opportunityName.getAttribute("value");
+	}
+
+	public String getBusinessTypeFieldValue() {
+		return business_Type.getAttribute("value");
+	}
+
+	public String getNextStepFieldValue() {
+		return next_Step.getAttribute("value");
+	}
+
+	public String getSalesStageFieldValue() {
+		return sales_Stage.getAttribute("value");
+	}
+
+	public String getSelectedLead() {
+		return leadField.getAttribute("value");
 	}
 
 }
