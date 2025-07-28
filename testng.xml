@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Suite">
+	<parameter name="bName" value="chrome"></parameter>
+	<!--			<parameter name="userType" value="admin" ></parameter>-->
+
+	<!--	<test name="Test">-->
+	<!--		<classes>-->
+	<!--			<class name="tests.Crm_CreateLeadTest"></class>-->
+	<!--		</classes>-->
+	<!--	</test>-->
 	<test name="Test">
-		<!-- <groups>
-			<run>
-				<include name="smoke"></include>
-			</run>
-		</groups>
-		-->
 		<classes>
-			<class name="tests.CRM_CampaignTest"></class>
-		
-			
+
+			<class name="tests.Crm_CampaignTest"></class>
 		</classes>
-	</test> <!--
-	Test -->
-</suite> <!--
-Suite -->
+
+	</test>
+	<!--	<class name = "tests.Crm_CreateOpportunityTest"></class> -->
+
+
+</suite> 

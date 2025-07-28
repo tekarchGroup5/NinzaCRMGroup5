@@ -22,8 +22,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 
@@ -35,117 +33,119 @@ import utils.ReportManager;
 
 public class BaseTest {
 
-    ExtentReports extent;
-    CRM_HomePage hp = null;
-    public static ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<WebDriver>();
-    public static ThreadLocal<ExtentTest> test = new ThreadLocal<ExtentTest>();
-    public static Logger logger = LogManager.getLogger("Crm_BaseTest");
+	ExtentReports extent;
+	CRM_HomePage hp = null;
+	public static ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<WebDriver>();
+	public static ThreadLocal<ExtentTest> test = new ThreadLocal<ExtentTest>();
+	public static Logger logger = LogManager.getLogger("BaseTest");
 
+	public void setDriver(String browserName, boolean headless) {
+		WebDriver driver = getDriver(browserName, headless);// init
+		threadLocalDriver.set(driver);// stores it
+		driver.manage().deleteAllCookies(); // Clear cookies to start fresh
+	}
 
+	public static WebDriver getBrowser() {
+		return threadLocalDriver.get();
+	}
 
-    public void setDriver(String browserName, boolean headless) {
-        WebDriver driver = getDriver(browserName, headless);//init
-        threadLocalDriver.set(driver);//stores it
-        driver.manage().deleteAllCookies();  // Clear cookies to start fresh
-    }
+	public WebDriver getDriver(String browserName, boolean headless) {
+		WebDriver driver = null;
+		switch (browserName.toLowerCase()) {
+		case "chrome":
+			WebDriverManager.chromedriver().setup();
+			ChromeOptions options = new ChromeOptions();
+		//	if (headless) {
+			//	options.addArguments("--headless=new");
+			//}
+			options.addArguments("--incognito");
+			options.addArguments("--disable-notifications");
+			options.addArguments("--disable-popup-blocking");
+			options.addArguments("--disable-blink-features=AutomationControlled");
+			options.addArguments("--disable-password-manager-reauthentication");
+			options.addArguments("--disable-save-password-bubble");
+			options.addArguments("--ignore-certificate-errors");
+			options.addArguments("--allow-insecure-localhost");
+			options.addArguments("--guest"); 
+	        options.addArguments("--profile-directory=/Users/user/Library/Application Support/Google/Chrome/Default");
 
-    public static WebDriver getBrowser() {
-        return threadLocalDriver.get();
-    }
+			Map<String, Object> prefs = new HashMap<>();
+			prefs.put("credentials_enable_service", false);
+			prefs.put("profile.password_manager_enabled", false);
+			options.setExperimentalOption("prefs", prefs);
 
-    public WebDriver getDriver(String browserName, boolean headless) {
-        WebDriver driver = null;
-        switch (browserName.toLowerCase()) {
-        case "chrome":
-        	WebDriverManager.chromedriver().setup();
-            ChromeOptions options = new ChromeOptions();
-            if (headless) {
-                options.addArguments("--headless=new");
-            }
-        options.addArguments("--incognito");
-            options.addArguments("--disable-notifications");
-            options.addArguments("--disable-popup-blocking");
-            options.addArguments("--disable-blink-features=AutomationControlled");
-            options.addArguments("--disable-password-manager-reauthentication");
-            options.addArguments("--disable-save-password-bubble");
-            options.addArguments("--ignore-certificate-errors");
-            options.addArguments("--allow-insecure-localhost");
+			driver = new ChromeDriver(options);
+			driver.manage().window().maximize(); 
+			break;
+		case "safari":
+			driver = new SafariDriver();
+			break;
+		case "firefox":
+			WebDriverManager.firefoxdriver().setup();
+			driver = new FirefoxDriver();
+			break;
+		case "edge":
+			WebDriverManager.edgedriver().setup();
+			driver = new EdgeDriver();
 
-            Map<String, Object> prefs = new HashMap<>();
-            prefs.put("credentials_enable_service", false);
-            prefs.put("profile.password_manager_enabled", false);
-            options.setExperimentalOption("prefs", prefs); 
+			break;
+		default:
+			logger.error("Invalid browser specified: " + browserName);
+			throw new IllegalArgumentException("Unsupported browser: " + browserName);
+		}
+		return driver;
+	}
 
-            driver = new ChromeDriver(options);
-            break;
-            case "safari":
-                driver = new SafariDriver();
-                break;
-            case "firefox":
-            	WebDriverManager.firefoxdriver().setup();
-                driver = new FirefoxDriver();
-                break;
-            case "edge":
-            	WebDriverManager.edgedriver().setup();
-                driver = new EdgeDriver();
-             
-                break;
-            default:
-                logger.error("Invalid browser specified: " + browserName);
-                throw new IllegalArgumentException("Unsupported browser: " + browserName);
-        }
-        return driver;
-    }
+	@BeforeSuite
+	public void setupSuite() {
+		extent = ReportManager.getInstance();
+	}
 
-    @BeforeSuite
-    public void setupSuite() {
-        extent = ReportManager.getInstance();
-    }
+	@AfterSuite
+	public void tearDownFinal() {
+		extent.flush();
+	}
 
-    @AfterSuite
-    public void tearDownFinal() {
-        extent.flush();
-    }
+	@Parameters("bName")
+	@BeforeMethod(alwaysRun = true)
+	public void setupTest(@Optional("chrome") String browserName, Method method)
+			throws FileNotFoundException, IOException, InterruptedException {
+		test.set(extent.createTest(method.getName()));
 
-    
-    @Parameters("bName")
-    @BeforeMethod(alwaysRun = true)
-    public void setupTest(@Optional("chrome") String browserName, Method method) throws FileNotFoundException, IOException, InterruptedException {
-        test.set(extent.createTest(method.getName()));
+		// Initialize and configure driver
+		setDriver(browserName, false);
+		WebDriver driver = getBrowser();
+		driver.manage().window().maximize();//added this code later to maximize the browser window, this will be a git conflict
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		driver.manage().window().maximize();
 
-        // Initialize and configure driver
-        setDriver(browserName, false);
-        WebDriver driver = getBrowser();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-        
+		// Navigate to CRM URL
+		String crmUrl = FileUtils.readLoginPropertiesFile("prod.url");
+		driver.get(crmUrl);
+		logger.info("Navigated to CRM URL: " + crmUrl);
 
-        // Navigate to CRM URL
-        String crmUrl = FileUtils.readLoginPropertiesFile("prod.url");
-        driver.get(crmUrl);
-        logger.info("Navigated to CRM URL: " + crmUrl);
+		// Perform login
+		CRM_LoginPage loginPage = new CRM_LoginPage(driver);
+		String validUsername = FileUtils.readLoginPropertiesFile("valid.admin.username");
+		String validPassword = FileUtils.readLoginPropertiesFile("valid.admin.password");
+		CRM_HomePage homePage = loginPage.loginToApp(driver, validUsername, validPassword);
+		// homePage.handleAlertIfPresent();
+	
+		// Validate login success
+		Assert.assertTrue(homePage.isHomePage(), "User should be on CRM Home Page after login.");
+		logger.info("Login to Ninza CRM validated successfully.");
 
-        // Perform login
-        CRM_LoginPage loginPage = new CRM_LoginPage(driver);
-        String validUsername = FileUtils.readLoginPropertiesFile("valid.username");
-        String validPassword = FileUtils.readLoginPropertiesFile("valid.password");
-        CRM_HomePage homePage = loginPage.loginToApp(driver, validUsername, validPassword);
-      //   homePage.handleAlertIfPresent();
-        // Validate login success
-        Assert.assertTrue(homePage.isHomePage(), "User should be on CRM Home Page after login.");
-        logger.info("Login to Ninza CRM validated successfully.");
+		// Store homePage reference for tests
+		this.hp = homePage;
+	}
 
-        // Store homePage reference for tests
-        this.hp = homePage;
-    }
-
-   @AfterMethod(alwaysRun = false)
-   public void tearDownTest() {
-      WebDriver driver = getBrowser();
-  if (driver != null) {
-        driver.quit();
-       threadLocalDriver.remove();
-      }
-   }
-
+	@AfterMethod(alwaysRun = false)
+	public void tearDownTest() {
+		WebDriver driver = getBrowser();
+		if (driver != null) {
+			driver.quit();
+			threadLocalDriver.remove();
+		}
+	}
 
 }
