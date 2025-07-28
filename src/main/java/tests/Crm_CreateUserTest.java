@@ -48,7 +48,7 @@ public class Crm_CreateUserTest extends BaseTest {
         //String actualMsg = createUserPage.verifyUserCreated();
         //System.out.println(actualMsg);
 
-        Assert.assertTrue(createUserPage.verifyOpportunityCreated(userName), "User creation failed!");
+        Assert.assertTrue(createUserPage.verifyUserCreated(userName), "User creation failed!");
         System.out.println("====Successfull+=="+ message);
        // logger.info("Create User Successfull testcase1");
     }
