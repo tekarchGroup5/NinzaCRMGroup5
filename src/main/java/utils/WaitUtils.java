@@ -1,6 +1,7 @@
 package utils;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.function.Function;
 
 import org.openqa.selenium.By;
@@ -73,4 +74,25 @@ public class WaitUtils {
             }
         });
     }
+	public static WebElement explicitlyWaitForVisibility(WebDriver driver, WebElement ele) {//priyanka
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        try {
+            return wait.until(ExpectedConditions.visibilityOfElementLocated((By) ele));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+		
+	}
+	
+	public static WebElement explicitlyWaitPresenceOfTheElement(WebDriver driver, List<WebElement> pages) {
+		 WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+	        try {
+	            return wait.until(ExpectedConditions.elementToBeClickable((By) pages));
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return null;
+	        }
+		
+	}
 }

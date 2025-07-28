@@ -1,6 +1,7 @@
 package pages;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
@@ -124,6 +125,7 @@ public class BasePage {
 			System.out.println(" element is not displayed.");
 		}
 	}
+	
 
 	public void switchFrame(WebElement frame) {
 		driver.switchTo().frame(frame);
@@ -137,5 +139,29 @@ public class BasePage {
 		js = (JavascriptExecutor) driver;
 		js.executeScript("window.scrollBy(0, 500)");
 	}
-
+	
+	public static String errorValidationMsg(WebElement ele)//priyanka
+	{
+	
+		String validationMessage=ele.getAttribute("validationMessage");
+	//	String validationMessage=(String)js.executeScript("return arguments[0].validationMessage;", ele);
+		return validationMessage;
+		
+	}
+	public static String getValueFrmField(WebElement ele)//priyanka
+	{
+	
+		String value=ele.getAttribute("value");
+	//	String validationMessage=(String)js.executeScript("return arguments[0].validationMessage;", ele);
+		return value;
+		
+	}
+	
+	public static int checkDropDownOptions(WebElement ele) {
+		Select dropDwn = new Select(ele);
+		// Get all options
+       List<WebElement> options = dropDwn.getOptions();
+       return options.size();
+	}
+	
 }
