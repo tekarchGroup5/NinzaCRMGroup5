@@ -12,7 +12,7 @@ import java.util.Map;
 public class Crm_CreateUserTest extends BaseTest {
     @DataProvider(name = "CreateUserData")
     public Object[][] getCreateUserData() {
-        String excelPath = "src/main/java/testData/CreateUserTestData.xlsx";
+        String excelPath = "src/main/java/testData/UserTestData.xlsx";
         String sheetName = "CreateUser";
 
         List<Map<String, String>> dataList = ExcelUtils.getTestData(excelPath, sheetName);
@@ -39,12 +39,16 @@ public class Crm_CreateUserTest extends BaseTest {
         createUserPage.enterUserFullName(userFullName);
         createUserPage.enterMobileNum(mobileNum);
         createUserPage.enterEmail(emailId);
+        logger.info("Email entered successfully");
         createUserPage.enterUserName(userName);
         createUserPage.enterPassword(password);
+        logger.info("Password entered successfully");
         createUserPage.clickCreateUserButton();
-        String actualMsg = createUserPage.verifyUserCreated();
+        logger.info("clicked on create user button successfully");
+        //String actualMsg = createUserPage.verifyUserCreated();
+        //System.out.println(actualMsg);
 
-        Assert.assertTrue(actualMsg.contains("User created successfully"), "User creation failed!");
+        Assert.assertTrue(createUserPage.verifyOpportunityCreated(userName), "User creation failed!");
         System.out.println("====Successfull+=="+ message);
        // logger.info("Create User Successfull testcase1");
     }

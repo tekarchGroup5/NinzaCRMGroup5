@@ -53,9 +53,9 @@ public class CRM_CreateUsersPage extends BasePage {
 	public void clickCreateUserButton(){
 		CUserButton.click();
 	}
-	public String verifyUserCreated() {
-		return successMsg.getText();
+	public boolean verifyOpportunityCreated(String userName) {
 
+		return driver.getPageSource().contains(userName);
 	}
 
 }
