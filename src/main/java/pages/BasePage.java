@@ -125,7 +125,7 @@ public class BasePage {
 			System.out.println(" element is not displayed.");
 		}
 	}
-	
+
 
 	public void switchFrame(WebElement frame) {
 		driver.switchTo().frame(frame);
@@ -139,6 +139,7 @@ public class BasePage {
 		js = (JavascriptExecutor) driver;
 		js.executeScript("window.scrollBy(0, 500)");
 	}
+
 	
 	public static String errorValidationMsg(WebElement ele)//priyanka
 	{
@@ -165,3 +166,4 @@ public class BasePage {
 	}
 	
 }
+

@@ -27,22 +27,40 @@ public class CRM_OpportunitiesPage extends BasePage {
 	WebElement sales_Stage;
 
 	@FindBy(xpath = "//input[@name='assignedTo']")
-	WebElement assignedTo;
+	WebElement assigned_To;
 
 	@FindBy(xpath = "//input[@name='expectedCloseDate']")
-	WebElement expectedCloseDate;
+	WebElement expected_CloseDate;
 
 	@FindBy(xpath = "//input[@name='probability']")
-	WebElement probability;
+	WebElement probability_Field;
 
 	@FindBy(xpath = "(//button[@type='button'])[2]")
 	WebElement lead_lookupButton;
 
-	@FindBy(xpath = "(//button[@class='select-btn'])[1]")
-	WebElement lead_selectButton;
+	@FindBy(xpath = "//input[@id='search-input']")
+	WebElement searchTextBox;
 
+	@FindBy(xpath = "//select[@id='search-criteria']")
+	WebElement searchDropdown;
+
+	@FindBy(xpath = "(//button[@class='select-btn'])[1]")
+	WebElement lead_selectButton1;
+	
+	@FindBy(xpath = "(//button[@class='select-btn'])[2]")
+	WebElement lead_selectButton2;
+	
+	@FindBy(xpath = "(//button[@class='select-btn'])[3]")
+	WebElement lead_selectButton3;
+	
+	@FindBy(xpath = "(//button[@class='select-btn'])[4]")
+	WebElement lead_selectButton4;
+	
+	@FindBy(xpath = "(//button[@class='select-btn'])[5]")
+	WebElement lead_selectButton5;
+	
 	@FindBy(xpath = "//textarea[@name='description']")
-	WebElement description;
+	WebElement description_field;
 
 	@FindBy(xpath = "//button[@type='submit']")
 	WebElement createopportunityButtonInForm;
@@ -56,26 +74,39 @@ public class CRM_OpportunitiesPage extends BasePage {
 	}
 
 	public void enterOpportunityName(String oppName) {
-		opportunityName.sendKeys(oppName);
+		enterText(opportunityName, oppName);
+
 	}
 
 	public void enterAmount(String amount) {
-		Amount.sendKeys(amount);
+		enterText(Amount, amount);
+
 	}
 
 	public void enterBusinessType(String businessType) {
-		business_Type.sendKeys(businessType);
+		enterText(business_Type, businessType);
+
+	}
+	
+	public void enterExpectedCloseDate(String expectedCloseDate ) {
+		enterText(expected_CloseDate,expectedCloseDate);
+
+	}
+	
+	public void enterAssignedTo(String assignedTo) {
+		enterText(assigned_To,assignedTo);
 	}
 
 	public void enterNextStep(String nextStep) {
-		next_Step.sendKeys(nextStep);
+		enterText(next_Step, nextStep);
 	}
 
 	public void enterSalesStage(String salesStage) {
-		sales_Stage.sendKeys(salesStage);
+		enterText(sales_Stage, salesStage);
+
 	}
 
-	public void selectLead() {
+	public void selectLead(String value, String lead) {
 		// Step1. store the parent window
 		String parentWindow = getParentWindow();
 
@@ -88,19 +119,39 @@ public class CRM_OpportunitiesPage extends BasePage {
 		} else {
 			throw new RuntimeException("New Window did not open");
 		}
-		// step4 perform action
-		lead_selectButton.click();
+		// step4 search dropdown is clicked
+		searchDropdown.click();
+		//Step5 search dropdown value is selected
+		selectValue(searchDropdown, value);
+		//step6 Lead name is entered in search text box
+		enterText(searchTextBox,lead);
+		//step 7 first lead is selected
+		lead_selectButton1.click();
+
 		// step5 switch back to parent window
 		switchToParentWindow(parentWindow);
 
 	}
+	
+	public void enterProbability(String probability) {
+		enterText(probability_Field,probability);
+	}
+	
+	public void enterDescription(String description) {
+		enterText(description_field,description);
+	}
+	
 
 	public void clickCreateOpportunityInForm() {
 		createopportunityButtonInForm.click();
 	}
 
-	public boolean verifyOpportunityCreated(String oppName) {
-		
+	public boolean verifyOpportunityCreatedWithMandatoryFields(String oppName) {
+
 		return driver.getPageSource().contains(oppName);
 	}
+	
+//	Public boolean verifyopportunityCreatedWithAllFields()
+	
+	
 }
