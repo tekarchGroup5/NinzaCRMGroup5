@@ -76,8 +76,13 @@ public class WaitUtils {
         });
     }
 
+
     public static WebElement explicitlyWaitForVisibility(WebDriver driver, WebElement element) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
+
+    public static WebElement explicitlyWaitForVisibility(WebDriver driver, WebElement element) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
         try {
             return wait.until(ExpectedConditions.visibilityOf(element));
         } catch (Exception e) {
@@ -90,10 +95,13 @@ public class WaitUtils {
         try {
             return wait.until(ExpectedConditions.elementToBeClickable(element));
 
+
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
+
 
 
 		
@@ -112,6 +120,9 @@ public class WaitUtils {
 
 
     
+
+    }
+
     public static void waitForPageToLoad() throws InterruptedException {
 		
     	Thread.sleep(8000);
