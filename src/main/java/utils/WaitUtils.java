@@ -15,117 +15,102 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class WaitUtils {
 
-    // Wait for visibility of element located by 'by', then return it
-    public static WebElement explicitlyWaitForVisibility(WebDriver driver, By by) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        try {
-            return wait.until(ExpectedConditions.visibilityOfElementLocated(by));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;  
-        }
-    }
-    public static Boolean explicitlyWaitForWindowToOpen(WebDriver driver, int expectedWindowCount) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        try {
-            return wait.until(ExpectedConditions.numberOfWindowsToBe(expectedWindowCount));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;  
-        }
-    }
-
-    // Wait for invisibility of the given element, returns true if invisible
-    public static void explicitlyWaitForInVisibility(WebDriver driver, WebElement elementToWait) {
-        try {
-    	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        
-            wait.until(ExpectedConditions.invisibilityOf(elementToWait));
-        } catch (TimeoutException e) {
-            System.out.println("Toast did not disappear in time, continuing anyway.") ;
-        }
-    }
-
-    // Wait for element located by 'by' to be clickable, then return it
-    public static WebElement explicitlyWaitForClickableElement(WebDriver driver, By by) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        try {
-            return wait.until(ExpectedConditions.elementToBeClickable(by));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    // Fluent wait for the element to be visible and enabled
-    public static WebElement fluentlyWait(WebDriver driver, By by) {
-        Wait<WebDriver> fWait = new FluentWait<>(driver)
-            .withTimeout(Duration.ofSeconds(30))
-            .pollingEvery(Duration.ofMillis(500))
-            .ignoring(Exception.class);
-
-        return fWait.until(new Function<WebDriver, WebElement>() {
-            @Override
-            public WebElement apply(WebDriver driver) {
-                WebElement element = driver.findElement(by);
-                if (element.isDisplayed() && element.isEnabled()) {
-                    return element;
-                }
-                return null;
-            }
-        });
-    }
-
-
-    public static WebElement explicitlyWaitForVisibility(WebDriver driver, WebElement element) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
-
-    public static WebElement explicitlyWaitForVisibility(WebDriver driver, WebElement element) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-
-        try {
-            return wait.until(ExpectedConditions.visibilityOf(element));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;  
-        }
-    } 
-    public static WebElement explicitlyWaitForClickableElement(WebDriver driver, WebElement element) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        try {
-            return wait.until(ExpectedConditions.elementToBeClickable(element));
-
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-
-
-
-		
+	// Wait for visibility of element located by 'by', then return it
+	public static WebElement explicitlyWaitForVisibility(WebDriver driver, By by) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		try {
+			return wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
-	
+
+	public static Boolean explicitlyWaitForWindowToOpen(WebDriver driver, int expectedWindowCount) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		try {
+			return wait.until(ExpectedConditions.numberOfWindowsToBe(expectedWindowCount));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	// Wait for invisibility of the given element, returns true if invisible
+	public static void explicitlyWaitForInVisibility(WebDriver driver, WebElement elementToWait) {
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+			wait.until(ExpectedConditions.invisibilityOf(elementToWait));
+		} catch (TimeoutException e) {
+			System.out.println("Toast did not disappear in time, continuing anyway.");
+		}
+	}
+
+	// Wait for element located by 'by' to be clickable, then return it
+	public static WebElement explicitlyWaitForClickableElement(WebDriver driver, By by) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		try {
+			return wait.until(ExpectedConditions.elementToBeClickable(by));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	// Fluent wait for the element to be visible and enabled
+	public static WebElement fluentlyWait(WebDriver driver, By by) {
+		Wait<WebDriver> fWait = new FluentWait<>(driver).withTimeout(Duration.ofSeconds(30))
+				.pollingEvery(Duration.ofMillis(500)).ignoring(Exception.class);
+
+		return fWait.until(new Function<WebDriver, WebElement>() {
+			@Override
+			public WebElement apply(WebDriver driver) {
+				WebElement element = driver.findElement(by);
+				if (element.isDisplayed() && element.isEnabled()) {
+					return element;
+				}
+				return null;
+			}
+		});
+	}
+
+	public static WebElement explicitlyWaitForVisibility(WebDriver driver, WebElement element) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+		try {
+			return wait.until(ExpectedConditions.visibilityOf(element));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static WebElement explicitlyWaitForClickableElement(WebDriver driver, WebElement element) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		try {
+			return wait.until(ExpectedConditions.elementToBeClickable(element));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	public static WebElement explicitlyWaitPresenceOfTheElement(WebDriver driver, List<WebElement> pages) {
-		 WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-	        try {
-	            return wait.until(ExpectedConditions.elementToBeClickable((By) pages));
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            return null;
-	        }
-		
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		try {
+			return wait.until(ExpectedConditions.elementToBeClickable((By) pages));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 
+	public static void waitForPageToLoad() throws InterruptedException {
 
-    
-
-    }
-
-    public static void waitForPageToLoad() throws InterruptedException {
-		
-    	Thread.sleep(8000);
-    }
+		Thread.sleep(8000);
+	}
 
 }

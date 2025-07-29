@@ -72,7 +72,8 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 	}
 
 	@Test(dataProvider = "tc2Data", dataProviderClass = CommonUtils.class, enabled = false)
-	public void createOpportunityWithAllFields(Map<String, String> data) throws FileNotFoundException, IOException, InterruptedException {
+	public void createOpportunityWithAllFields(Map<String, String> data)
+			throws FileNotFoundException, IOException, InterruptedException {
 		CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
 		oppPage.clickCreateOpportunity();
 		logger.info("Create Opportunity button is clicked");
@@ -240,7 +241,8 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 	}
 
 	@Test(dataProvider = "tc3Data", dataProviderClass = CommonUtils.class, enabled = false)
-	public void VerifyAmountFieldValidation(Map<String, String> data) throws FileNotFoundException, IOException, InterruptedException {
+	public void VerifyAmountFieldValidation(Map<String, String> data)
+			throws FileNotFoundException, IOException, InterruptedException {
 		CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
 		oppPage.clickCreateOpportunity();
 		logger.info("Create Opportunity button is clicked");
@@ -277,7 +279,7 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 
 		String blankAmountError = oppPage.getAmountErrorMessage();
 		Assert.assertEquals(blankAmountError, "Please fill out this field.", "Blank Amount error not shown properly");
-		logger.info("Error is: " +blankAmountError );
+		logger.info("Error is: " + blankAmountError);
 
 		// === Step 2: Enter non-numeric amount ===
 		oppPage.enterAmount("e");
@@ -289,8 +291,7 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 		String invalidAmountError = oppPage.getAmountErrorMessage(); // reuse same method
 		Assert.assertEquals(invalidAmountError.trim(), "Please enter a number.",
 				"Non-numeric Amount error not shown properly");
-		logger.info("Error is: " +invalidAmountError );
-
+		logger.info("Error is: " + invalidAmountError);
 
 		logger.info("Amount field validation tested successfully");
 
@@ -340,15 +341,15 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 		String invalidProbabilityError = oppPage.getProbabilityErrorMessage();// reuse same method
 		Assert.assertEquals(invalidProbabilityError.trim(), "Please enter a number.",
 				"Non-numeric Probability error not shown properly");
-		logger.info("Error is: " +invalidProbabilityError );
-
+		logger.info("Error is: " + invalidProbabilityError);
 
 		logger.info("Probablity field validation tested successfully");
 
 	}
 
 	@Test(dataProvider = "tc4Data", dataProviderClass = CommonUtils.class, enabled = false)
-	public void VerifyBlankOpportunityNameField(Map<String, String> data) throws FileNotFoundException, IOException, InterruptedException {
+	public void VerifyBlankOpportunityNameField(Map<String, String> data)
+			throws FileNotFoundException, IOException, InterruptedException {
 		CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
 		oppPage.clickCreateOpportunity();
 		logger.info("Create Opportunity button is clicked");
@@ -386,12 +387,14 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 		String blankOpportunityNameError = oppPage.getOpportunityNameErrorMessage();
 		Assert.assertEquals(blankOpportunityNameError, "Please fill out this field.",
 				"Blank Opportunity Name error not shown properly");
-		logger.info("Error is: " +blankOpportunityNameError );
+		logger.info("Error is: " + blankOpportunityNameError);
 		logger.info("Opportunity Name field validation tested successfully");
 
 	}
+
 	@Test(dataProvider = "tc5Data", dataProviderClass = CommonUtils.class, enabled = false)
-	public void VerifyBlankBusinessTypeField(Map<String, String> data) throws FileNotFoundException, IOException, InterruptedException {
+	public void VerifyBlankBusinessTypeField(Map<String, String> data)
+			throws FileNotFoundException, IOException, InterruptedException {
 		CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
 		oppPage.clickCreateOpportunity();
 		logger.info("Create Opportunity button is clicked");
@@ -429,12 +432,14 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 		String blankBusinessTypeError = oppPage.getBusinessTypeErrorMessage();
 		Assert.assertEquals(blankBusinessTypeError, "Please fill out this field.",
 				"Blank Opportunity Name error not shown properly");
-		logger.info("Error is: " +blankBusinessTypeError );
+		logger.info("Error is: " + blankBusinessTypeError);
 		logger.info("Business Type field validation tested successfully");
 
 	}
+
 	@Test(dataProvider = "tc6Data", dataProviderClass = CommonUtils.class, enabled = false)
-	public void VerifyBlankNextStepField(Map<String, String> data) throws FileNotFoundException, IOException, InterruptedException {
+	public void VerifyBlankNextStepField(Map<String, String> data)
+			throws FileNotFoundException, IOException, InterruptedException {
 		CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
 		oppPage.clickCreateOpportunity();
 		logger.info("Create Opportunity button is clicked");
@@ -472,12 +477,14 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 		String blankNextStepFieldError = oppPage.getNextStepErrorMessage();
 		Assert.assertEquals(blankNextStepFieldError, "Please fill out this field.",
 				"Blank Next step error not shown properly");
-		logger.info("Error is: " +blankNextStepFieldError );
+		logger.info("Error is: " + blankNextStepFieldError);
 		logger.info("Next Step field validation tested successfully");
 
 	}
+
 	@Test(dataProvider = "tc7Data", dataProviderClass = CommonUtils.class, enabled = false)
-	public void VerifyBlankSalesStageField(Map<String, String> data) throws FileNotFoundException, IOException, InterruptedException {
+	public void VerifyBlankSalesStageField(Map<String, String> data)
+			throws FileNotFoundException, IOException, InterruptedException {
 		CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
 		oppPage.clickCreateOpportunity();
 		logger.info("Create Opportunity button is clicked");
@@ -515,10 +522,11 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 		String blankSalesStageFieldError = oppPage.getSalesStageErrorMessage();
 		Assert.assertEquals(blankSalesStageFieldError, "Please fill out this field.",
 				"Blank Sales Stage error not shown properly");
-		logger.info("Error is: " +blankSalesStageFieldError );
+		logger.info("Error is: " + blankSalesStageFieldError);
 		logger.info("Sales Stage field validation tested successfully");
 
 	}
+
 	@Test(dataProvider = "tc8Data", dataProviderClass = CommonUtils.class, enabled = false)
 	public void VerifyBlankLeadField(Map<String, String> data) throws FileNotFoundException, IOException {
 		CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
@@ -552,10 +560,10 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 		String blankLeadFieldError = oppPage.getLeadErrorMessage();
 		Assert.assertEquals(blankLeadFieldError, "Please select a Lead before submitting.",
 				"Blank Lead error not shown properly");
-		logger.info("Error is: " +blankLeadFieldError );
+		logger.info("Error is: " + blankLeadFieldError);
 		logger.info("Lead field validation tested successfully");
 	}
-	
+
 	@Test(dataProvider = "tc9Data", dataProviderClass = CommonUtils.class, enabled = false)
 	public void verifyCreateDuplicateOpportunity(Map<String, String> data)
 			throws InterruptedException, FileNotFoundException, IOException {
@@ -571,7 +579,6 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 		String salesStage = data.get("Sales Stage");
 		String lead = data.get("Lead");
 
-		
 		// fill the form using Page Object methods
 		oppPage.enterOpportunityName(oppName);
 		logger.info("Opportunity name is entered");
@@ -595,14 +602,14 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 
 		oppPage.clickCreateOpportunityInForm();
 		logger.info("First opportunity created with name and lead.");
-		
-	    oppPage.waitForSuccessMessageToDisappear();
-	    
-	    String firstOpportunityId = oppPage.getFirstRowOpportunityId();
-	    logger.info("First Opportunity ID: " + firstOpportunityId);
-	    
-	    //Step2 : Try to create duplicate opportunity
-	    oppPage.clickCreateOpportunity();
+
+		oppPage.waitForSuccessMessageToDisappear();
+
+		String firstOpportunityId = oppPage.getFirstRowOpportunityId();
+		logger.info("First Opportunity ID: " + firstOpportunityId);
+
+		// Step2 : Try to create duplicate opportunity
+		oppPage.clickCreateOpportunity();
 		logger.info("Create Opportunity button is clicked");
 
 		// fill the form using Page Object methods
@@ -628,19 +635,20 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 
 		oppPage.clickCreateOpportunityInForm();
 		logger.info("Attempted to create duplicate opportunity.");
-		
-	    oppPage.waitForSuccessMessageToDisappear();
-	   
-	    String secondOpportunityId = oppPage.getFirstRowOpportunityId();
-	    logger.info("Second Opportunity ID: " + secondOpportunityId);
 
-	   
-		//Step3: Verify Error message
-		
-	Assert.assertEquals(firstOpportunityId, secondOpportunityId, "Duplicate opportunity is allowed by the system.");
-}
+		oppPage.waitForSuccessMessageToDisappear();
+
+		String secondOpportunityId = oppPage.getFirstRowOpportunityId();
+		logger.info("Second Opportunity ID: " + secondOpportunityId);
+
+		// Step3: Verify Error message
+
+		Assert.assertEquals(firstOpportunityId, secondOpportunityId, "Duplicate opportunity is allowed by the system.");
+	}
+
 	@Test(dataProvider = "tc9Data", dataProviderClass = CommonUtils.class, enabled = false)
-	public void verifyProbabilityAcceptsOnlyValuesBetween0And100(Map<String, String> data) throws FileNotFoundException, IOException {
+	public void verifyProbabilityAcceptsOnlyValuesBetween0And100(Map<String, String> data)
+			throws FileNotFoundException, IOException {
 		CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
 
 		oppPage.clickCreateOpportunity();
@@ -654,10 +662,9 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 		String lead = data.get("Lead");
 		String value = FileUtils.readOpportunitiesPropertiesFile("search.dropdown.value2");
 
-		
-		//function to try creating opportunity and capture validation message 
+		// function to try creating opportunity and capture validation message
 		Consumer<String> attemptWithProbability = (String prob) -> {
-			
+
 			oppPage.enterOpportunityName(oppName);
 			logger.info("Opportunity name is entered");
 
@@ -672,7 +679,7 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 
 			oppPage.enterSalesStage(salesStage);
 			logger.info("Sales stage is entered");
-			
+
 			try {
 				oppPage.selectLead(value, lead);
 			} catch (InterruptedException e) {
@@ -683,35 +690,37 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 
 			oppPage.enterProbability(prob);
 			logger.info("Probability" + prob + "is entered");
-			
+
 			oppPage.clickCreateOpportunityInForm();
 			logger.info("Create Opportunity button is clicked");
-			
+
 		};
-		
-		//1. Negative value: -10
-		
+
+		// 1. Negative value: -10
+
 		attemptWithProbability.accept("-10");
 		String msg1 = oppPage.getProbabilityErrorMessage();
 		logger.info("Validation for -10:" + msg1);
-	    Assert.assertFalse(msg1.isEmpty(), "Expected validation message for -10");
-	    
-	    //2. Above range: 150
-	    attemptWithProbability.accept("150");
-	    String msg2 = oppPage.getProbabilityErrorMessage();
-	    logger.info("Validation for 150:" + msg2);
-	    Assert.assertFalse(msg2.isEmpty(), "Expected validation message for 150");
-	    
-	    //3. Valid value = 50
-	    attemptWithProbability.accept("50");
-	    
-	    oppPage.waitForSuccessMessageToDisappear();
-	    
-	    Assert.assertTrue(oppPage.isOpportunityCreatedWithName(oppName),"Opportunity not created with valid probability 50.");
+		Assert.assertFalse(msg1.isEmpty(), "Expected validation message for -10");
+
+		// 2. Above range: 150
+		attemptWithProbability.accept("150");
+		String msg2 = oppPage.getProbabilityErrorMessage();
+		logger.info("Validation for 150:" + msg2);
+		Assert.assertFalse(msg2.isEmpty(), "Expected validation message for 150");
+
+		// 3. Valid value = 50
+		attemptWithProbability.accept("50");
+
+		oppPage.waitForSuccessMessageToDisappear();
+
+		Assert.assertTrue(oppPage.isOpportunityCreatedWithName(oppName),
+				"Opportunity not created with valid probability 50.");
 	}
-	
-	@Test(dataProvider = "tc3Data", dataProviderClass = CommonUtils.class ,enabled = false)
-	public void verifyExpectedCloseDateFormat(Map<String, String> data) throws FileNotFoundException, IOException, InterruptedException {
+
+	@Test(dataProvider = "tc3Data", dataProviderClass = CommonUtils.class, enabled = false)
+	public void verifyExpectedCloseDateFormat(Map<String, String> data)
+			throws FileNotFoundException, IOException, InterruptedException {
 		CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
 
 		oppPage.clickCreateOpportunity();
@@ -726,70 +735,7 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 		String invalidDate = "02/10/2330";
 		String validDate = "06/10/2027";
 		// fill the form using Page Object methods
-				oppPage.enterOpportunityName(oppName);
-				logger.info("Opportunity name is entered");
-
-				oppPage.enterAmount(amount);
-				logger.info("Amount is entered");
-
-				oppPage.enterBusinessType(businessType);
-				logger.info("Business type is entered");
-				
-				oppPage.enterExpectedCloseDate(invalidDate);
-				logger.info("invalid date is entered :" + invalidDate );
-
-				oppPage.enterNextStep(nextStep);
-				logger.info("Next step is entered");
-
-				oppPage.enterSalesStage(salesStage);
-				logger.info("Sales stage is entered");
-
-				String value = FileUtils.readOpportunitiesPropertiesFile("search.dropdown.value2");
-
-				oppPage.selectLead(value, lead);
-				logger.info("lead is selected");
-
-				oppPage.clickCreateOpportunityInForm();
-				logger.info("create opportunity button is clicked");
-				
-				//capture the validation error
-				String validationMessage = oppPage.getExpectedCloseDateErrorMessage();
-				
-				Assert.assertTrue(validationMessage != null && !validationMessage.isEmpty(), "Expected validation error for invalid date");
-				
-				logger.info("Validation message for invalid date:" + validationMessage);
-				
-				// enter the valid date
-				
-				oppPage.enterExpectedCloseDate(validDate);
-				logger.info("valid date is entered :" + validDate );
-				
-				oppPage.clickCreateOpportunityInForm();
-				logger.info("create opportunity button is clicked");
-				
-				// Assert no error is shown for valid adate 
-				
-				String validDateMsg = oppPage.getExpectedCloseDateErrorMessage();
-				Assert.assertTrue(validDateMsg == null || validDateMsg.isEmpty(), "Valid date should not trigger error");
-
-				logger.info("Valid date accepted successfully.");
-	}
-	
-	@Test(dataProvider = "tc1Data", dataProviderClass = CommonUtils.class,enabled = false)
-	public void verifySaveFunctionality(Map<String, String> data) throws FileNotFoundException, IOException, InterruptedException {
-	    CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
-	    oppPage.clickCreateOpportunity();
-	    logger.info("Navigated to Create Opportunity");
-
-	    String oppName = data.get("Opportunity Name");
-	    String amount = data.get("Amount");
-	    String businessType = data.get("Business Type");
-	    String nextStep = data.get("Next Step");
-	    String salesStage = data.get("Sales Stage");
-	    String lead = data.get("Lead");
-
-	    // Fill form
-	    oppPage.enterOpportunityName(oppName);
+		oppPage.enterOpportunityName(oppName);
 		logger.info("Opportunity name is entered");
 
 		oppPage.enterAmount(amount);
@@ -797,7 +743,72 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 
 		oppPage.enterBusinessType(businessType);
 		logger.info("Business type is entered");
-		
+
+		oppPage.enterExpectedCloseDate(invalidDate);
+		logger.info("invalid date is entered :" + invalidDate);
+
+		oppPage.enterNextStep(nextStep);
+		logger.info("Next step is entered");
+
+		oppPage.enterSalesStage(salesStage);
+		logger.info("Sales stage is entered");
+
+		String value = FileUtils.readOpportunitiesPropertiesFile("search.dropdown.value2");
+
+		oppPage.selectLead(value, lead);
+		logger.info("lead is selected");
+
+		oppPage.clickCreateOpportunityInForm();
+		logger.info("create opportunity button is clicked");
+
+		// capture the validation error
+		String validationMessage = oppPage.getExpectedCloseDateErrorMessage();
+
+		Assert.assertTrue(validationMessage != null && !validationMessage.isEmpty(),
+				"Expected validation error for invalid date");
+
+		logger.info("Validation message for invalid date:" + validationMessage);
+
+		// enter the valid date
+
+		oppPage.enterExpectedCloseDate(validDate);
+		logger.info("valid date is entered :" + validDate);
+
+		oppPage.clickCreateOpportunityInForm();
+		logger.info("create opportunity button is clicked");
+
+		// Assert no error is shown for valid adate
+
+		String validDateMsg = oppPage.getExpectedCloseDateErrorMessage();
+		Assert.assertTrue(validDateMsg == null || validDateMsg.isEmpty(), "Valid date should not trigger error");
+
+		logger.info("Valid date accepted successfully.");
+	}
+
+	@Test(dataProvider = "tc1Data", dataProviderClass = CommonUtils.class, enabled = false)
+	public void verifySaveFunctionality(Map<String, String> data)
+			throws FileNotFoundException, IOException, InterruptedException {
+		CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
+		oppPage.clickCreateOpportunity();
+		logger.info("Navigated to Create Opportunity");
+
+		String oppName = data.get("Opportunity Name");
+		String amount = data.get("Amount");
+		String businessType = data.get("Business Type");
+		String nextStep = data.get("Next Step");
+		String salesStage = data.get("Sales Stage");
+		String lead = data.get("Lead");
+
+		// Fill form
+		oppPage.enterOpportunityName(oppName);
+		logger.info("Opportunity name is entered");
+
+		oppPage.enterAmount(amount);
+		logger.info("Amount is entered");
+
+		oppPage.enterBusinessType(businessType);
+		logger.info("Business type is entered");
+
 		oppPage.enterNextStep(nextStep);
 		logger.info("Next step is entered");
 
@@ -812,116 +823,113 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 		oppPage.clickCreateOpportunityInForm();
 		logger.info("clicked create opportunity button");
 
-	    // Wait for confirmation or record in list
-	    oppPage.waitForOpportunityListOrSuccessMessage();
+		// Wait for confirmation or record in list
+		oppPage.waitForOpportunityListOrSuccessMessage();
 
-	    // Validate Opportunity Created
-	    Assert.assertTrue(oppPage.isOpportunityCreatedWithName(oppName), "Opportunity was not created successfully");
+		// Validate Opportunity Created
+		Assert.assertTrue(oppPage.isOpportunityCreatedWithName(oppName), "Opportunity was not created successfully");
 	}
-	
+
 	@Test(dataProvider = "tc1Data", dataProviderClass = CommonUtils.class, enabled = false)
-	public void verifyValidationMessagesForEmptyMandatoryFields(Map<String,String> data) throws IOException, InterruptedException {
-	    CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
-	    String oppName = data.get("Opportunity Name");
-	    String amount = data.get("Amount");
-	    String businessType = data.get("Business Type");
-	    String nextStep = data.get("Next Step");
-	    String salesStage = data.get("Sales Stage");
-	    String lead = data.get("Lead");
+	public void verifyValidationMessagesForEmptyMandatoryFields(Map<String, String> data)
+			throws IOException, InterruptedException {
+		CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
+		String oppName = data.get("Opportunity Name");
+		String amount = data.get("Amount");
+		String businessType = data.get("Business Type");
+		String nextStep = data.get("Next Step");
+		String salesStage = data.get("Sales Stage");
+		String lead = data.get("Lead");
 
-	    
-	    oppPage.clickCreateOpportunity();
-	    logger.info("Navigated to Create Opportunity form");
+		oppPage.clickCreateOpportunity();
+		logger.info("Navigated to Create Opportunity form");
 
-	    // Leave all mandatory fields blank and click Save
-	    oppPage.clickCreateOpportunityInForm();
-	    logger.info("Create opportunity button is clicked");
-	    String oppNameMsg = oppPage.getOpportunityNameErrorMessage();
-	    oppPage.enterOpportunityName(oppName);
-	    logger.info("Opportunity name is entered");
-	    
-	    oppPage.clickCreateOpportunityInForm();
-	    logger.info("Create opportunity button is clicked");
-	    String amountMsg = oppPage.getAmountErrorMessage();
-	    oppPage.enterAmount(amount);
+		// Leave all mandatory fields blank and click Save
+		oppPage.clickCreateOpportunityInForm();
+		logger.info("Create opportunity button is clicked");
+		String oppNameMsg = oppPage.getOpportunityNameErrorMessage();
+		oppPage.enterOpportunityName(oppName);
+		logger.info("Opportunity name is entered");
+
+		oppPage.clickCreateOpportunityInForm();
+		logger.info("Create opportunity button is clicked");
+		String amountMsg = oppPage.getAmountErrorMessage();
+		oppPage.enterAmount(amount);
 		logger.info("Amount is entered");
 
-	    
-	    oppPage.clickCreateOpportunityInForm();
-	    logger.info("Create opportunity button is clicked");
-	    String businessTypeMsg = oppPage.getBusinessTypeErrorMessage();
-	    oppPage.enterBusinessType(businessType);
+		oppPage.clickCreateOpportunityInForm();
+		logger.info("Create opportunity button is clicked");
+		String businessTypeMsg = oppPage.getBusinessTypeErrorMessage();
+		oppPage.enterBusinessType(businessType);
 		logger.info("Business type is entered");
 
-	    
-	    oppPage.clickCreateOpportunityInForm();
-	    logger.info("Create opportunity button is clicked");
-	    String nextStepMsg = oppPage.getNextStepErrorMessage();
-	    oppPage.enterNextStep(nextStep);
+		oppPage.clickCreateOpportunityInForm();
+		logger.info("Create opportunity button is clicked");
+		String nextStepMsg = oppPage.getNextStepErrorMessage();
+		oppPage.enterNextStep(nextStep);
 		logger.info("Next step is entered");
-  
-	    oppPage.clickCreateOpportunityInForm();
-	    logger.info("Create opportunity button is clicked");
-	    String salesStageMsg = oppPage.getSalesStageErrorMessage();
-	    oppPage.enterSalesStage(salesStage);
+
+		oppPage.clickCreateOpportunityInForm();
+		logger.info("Create opportunity button is clicked");
+		String salesStageMsg = oppPage.getSalesStageErrorMessage();
+		oppPage.enterSalesStage(salesStage);
 		logger.info("Sales stage is entered");
 
-	    oppPage.clickCreateOpportunityInForm();
-	    logger.info("Create opportunity button is clicked");
-	    
+		oppPage.clickCreateOpportunityInForm();
+		logger.info("Create opportunity button is clicked");
+
 		String value = FileUtils.readOpportunitiesPropertiesFile("search.dropdown.value2");
 
-	    String leadMsg = oppPage.getLeadErrorMessage();
-	    oppPage.selectLead(value, lead);
+		String leadMsg = oppPage.getLeadErrorMessage();
+		oppPage.selectLead(value, lead);
 
-	    
-	    logger.info("Validation Message - Opportunity Name: " + oppNameMsg);
-	    logger.info("Validation Message - Amount: " + amountMsg);
-	    logger.info("Validation Message - Business Type: " + businessTypeMsg);
-	    logger.info("Validation Message - Next Step: " + nextStepMsg);
-	    logger.info("Validation Message - Sales Stage: " + salesStageMsg);
-	    logger.info("Validation Message - Lead: " + leadMsg);
+		logger.info("Validation Message - Opportunity Name: " + oppNameMsg);
+		logger.info("Validation Message - Amount: " + amountMsg);
+		logger.info("Validation Message - Business Type: " + businessTypeMsg);
+		logger.info("Validation Message - Next Step: " + nextStepMsg);
+		logger.info("Validation Message - Sales Stage: " + salesStageMsg);
+		logger.info("Validation Message - Lead: " + leadMsg);
 
-	    // Assert appropriate error message
-	    Assert.assertFalse(oppNameMsg.isEmpty(), "Opportunity Name validation message missing");
-	    Assert.assertFalse(amountMsg.isEmpty(), "Amount validation message missing");
-	    Assert.assertFalse(businessTypeMsg.isEmpty(), "Business Type validation message missing");
-	    Assert.assertFalse(nextStepMsg.isEmpty(), "Next Step validation message missing");
-	    Assert.assertFalse(salesStageMsg.isEmpty(), "Sales Stage validation message missing");
-	    Assert.assertFalse(leadMsg.isEmpty(), "Lead validation message missing");
+		// Assert appropriate error message
+		Assert.assertFalse(oppNameMsg.isEmpty(), "Opportunity Name validation message missing");
+		Assert.assertFalse(amountMsg.isEmpty(), "Amount validation message missing");
+		Assert.assertFalse(businessTypeMsg.isEmpty(), "Business Type validation message missing");
+		Assert.assertFalse(nextStepMsg.isEmpty(), "Next Step validation message missing");
+		Assert.assertFalse(salesStageMsg.isEmpty(), "Sales Stage validation message missing");
+		Assert.assertFalse(leadMsg.isEmpty(), "Lead validation message missing");
 	}
 
 	@Test(dataProvider = "tc1Data", dataProviderClass = CommonUtils.class, enabled = false)
-	public void verifyExpectedCloseDatePickerFunctionality(Map<String,String> data) throws IOException, InterruptedException {
-	    CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
-	    oppPage.clickCreateOpportunity();
-	    logger.info("Navigated to Create Opportunity page");
-	    
-	    oppPage.focusOnExpectedCloseDate();
-	    logger.info("Expected close date field is clicked");
-	 // Set a valid date
-	    String validDate = "05-10-2026"; 
-	    oppPage.enterExpectedCloseDate(validDate);
-	    logger.info("Date is set using sendkeys");
-	    
-	    String selectedDate = oppPage.getSelectedCloseDate();
-	    logger.info("Selected Date from UI:" +selectedDate );
-	    
-	    LocalDate date = LocalDate.parse(selectedDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-	    String formattedDate = date.format(DateTimeFormatter.ofPattern("MM-dd-yyyy"));
+	public void verifyExpectedCloseDatePickerFunctionality(Map<String, String> data)
+			throws IOException, InterruptedException {
+		CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
+		oppPage.clickCreateOpportunity();
+		logger.info("Navigated to Create Opportunity page");
 
-	    Assert.assertEquals(formattedDate, validDate, "Expected Close Date not set correctly");
+		oppPage.focusOnExpectedCloseDate();
+		logger.info("Expected close date field is clicked");
+		// Set a valid date
+		String validDate = "05-10-2026";
+		oppPage.enterExpectedCloseDate(validDate);
+		logger.info("Date is set using sendkeys");
 
+		String selectedDate = oppPage.getSelectedCloseDate();
+		logger.info("Selected Date from UI:" + selectedDate);
 
-	    String oppName = data.get("Opportunity Name");
-	    String amount = data.get("Amount");
-	    String businessType = data.get("Business Type");
-	    String nextStep = data.get("Next Step");
-	    String salesStage = data.get("Sales Stage");
-	    String lead = data.get("Lead");
+		LocalDate date = LocalDate.parse(selectedDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		String formattedDate = date.format(DateTimeFormatter.ofPattern("MM-dd-yyyy"));
 
-	    // Fill form
-	    oppPage.enterOpportunityName(oppName);
+		Assert.assertEquals(formattedDate, validDate, "Expected Close Date not set correctly");
+
+		String oppName = data.get("Opportunity Name");
+		String amount = data.get("Amount");
+		String businessType = data.get("Business Type");
+		String nextStep = data.get("Next Step");
+		String salesStage = data.get("Sales Stage");
+		String lead = data.get("Lead");
+
+		// Fill form
+		oppPage.enterOpportunityName(oppName);
 		logger.info("Opportunity name is entered");
 
 		oppPage.enterAmount(amount);
@@ -929,7 +937,7 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 
 		oppPage.enterBusinessType(businessType);
 		logger.info("Business type is entered");
-		
+
 		oppPage.enterNextStep(nextStep);
 		logger.info("Next step is entered");
 
@@ -943,51 +951,52 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 
 		oppPage.clickCreateOpportunityInForm();
 		logger.info("clicked create opportunity button");
-		
-	    Assert.assertTrue(oppPage.isOpportunityCreatedWithName(oppName), "Opportunity was not created successfully");
 
-	    }
+		Assert.assertTrue(oppPage.isOpportunityCreatedWithName(oppName), "Opportunity was not created successfully");
+
+	}
+
 	@Test(dataProvider = "tc1Data", dataProviderClass = CommonUtils.class)
-	public void verifyFieldsRetainDataAfterValidationError(Map<String,String> data) throws IOException, InterruptedException {
-	    CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
-	    oppPage.clickCreateOpportunity();
+	public void verifyFieldsRetainDataAfterValidationError(Map<String, String> data)
+			throws IOException, InterruptedException {
+		CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
+		oppPage.clickCreateOpportunity();
 
-	    String oppName = data.get("Opportunity Name");
-	    String businessType = data.get("Business Type");
-	    String nextStep = data.get("Next Step");
-	    String salesStage = data.get("Sales Stage");
-	    String lead = data.get("Lead");
-	    
-	    // Fill all fields except "Amount"
-	    oppPage.enterOpportunityName(oppName);
-	    oppPage.enterBusinessType(businessType);
-	    oppPage.enterNextStep(nextStep);
-	    oppPage.enterSalesStage(salesStage);
-	    String value = FileUtils.readOpportunitiesPropertiesFile("search.dropdown.value2");
-	    oppPage.selectLead(value, lead);
-	    
-	    // Leave "Amount" blank and click Save
-	    oppPage.clickCreateOpportunityInForm();
-	    
-	    // Wait for validation error
-	    String validationMsg = oppPage.getAmountErrorMessage();
-	    logger.info("message is :" + validationMsg);
-	    Assert.assertNotNull(validationMsg, "Validation message is null");
+		String oppName = data.get("Opportunity Name");
+		String businessType = data.get("Business Type");
+		String nextStep = data.get("Next Step");
+		String salesStage = data.get("Sales Stage");
+		String lead = data.get("Lead");
 
-	    // Now check that other fields still hold values
-	    Assert.assertEquals(oppPage.getOpportunityNameFieldValue(), oppName, "Opportunity Name not retained");
-	    Assert.assertEquals(oppPage.getBusinessTypeFieldValue(), businessType, "Business Type not retained");
-	    Assert.assertEquals(oppPage.getNextStepFieldValue(), nextStep, "Next Step not retained");
-	    Assert.assertEquals(oppPage.getSalesStageFieldValue(), salesStage, "Sales Stage not retained");
-	    Assert.assertEquals(oppPage.getSelectedLead(), lead, "Lead not retained");
+		// Fill all fields except "Amount"
+		oppPage.enterOpportunityName(oppName);
+		oppPage.enterBusinessType(businessType);
+		oppPage.enterNextStep(nextStep);
+		oppPage.enterSalesStage(salesStage);
+		String value = FileUtils.readOpportunitiesPropertiesFile("search.dropdown.value2");
+		oppPage.selectLead(value, lead);
 
-	    // Enter valid amount now and submit again
-	    oppPage.enterAmount(data.get("Amount"));
-	    oppPage.clickCreateOpportunityInForm();
+		// Leave "Amount" blank and click Save
+		oppPage.clickCreateOpportunityInForm();
 
-	    // Final validation
-	    Assert.assertTrue(oppPage.isOpportunityCreatedWithName(oppName), "Opportunity not created after fixing error");
+		// Wait for validation error
+		String validationMsg = oppPage.getAmountErrorMessage();
+		logger.info("message is :" + validationMsg);
+		Assert.assertNotNull(validationMsg, "Validation message is null");
+
+		// Now check that other fields still hold values
+		Assert.assertEquals(oppPage.getOpportunityNameFieldValue(), oppName, "Opportunity Name not retained");
+		Assert.assertEquals(oppPage.getBusinessTypeFieldValue(), businessType, "Business Type not retained");
+		Assert.assertEquals(oppPage.getNextStepFieldValue(), nextStep, "Next Step not retained");
+		Assert.assertEquals(oppPage.getSalesStageFieldValue(), salesStage, "Sales Stage not retained");
+		Assert.assertEquals(oppPage.getSelectedLead(), lead, "Lead not retained");
+
+		// Enter valid amount now and submit again
+		oppPage.enterAmount(data.get("Amount"));
+		oppPage.clickCreateOpportunityInForm();
+
+		// Final validation
+		Assert.assertTrue(oppPage.isOpportunityCreatedWithName(oppName), "Opportunity not created after fixing error");
 	}
-
 
 }

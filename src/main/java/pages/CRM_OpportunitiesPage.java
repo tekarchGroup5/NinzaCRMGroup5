@@ -99,6 +99,7 @@ public class CRM_OpportunitiesPage extends BasePage {
 
 	public void clickCreateOpportunity() {
 		WaitUtils.explicitlyWaitForClickableElement(driver, createOpportunityButton);
+
 		createOpportunityButton.click();
 	}
 
