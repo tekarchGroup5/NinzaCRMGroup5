@@ -118,7 +118,7 @@ public class BaseTest {
 		WebDriver driver = getBrowser();
 		driver.manage().window().maximize();//added this code later to maximize the browser window, this will be a git conflict
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-		driver.manage().window().maximize();
+		
 
 		// Navigate to CRM URL
 		String crmUrl = FileUtils.readLoginPropertiesFile("prod.url");
@@ -140,7 +140,7 @@ public class BaseTest {
 		this.hp = homePage;
 	}
 
-	@AfterMethod(alwaysRun = false)
+	@AfterMethod(alwaysRun = true)
 	public void tearDownTest() {
 		WebDriver driver = getBrowser();
 		if (driver != null) {
