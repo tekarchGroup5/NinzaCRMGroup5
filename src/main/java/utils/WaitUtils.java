@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import constants.WaitConstant;
 
 public class WaitUtils {
 
@@ -46,7 +47,7 @@ public class WaitUtils {
 			System.out.println("Toast did not disappear in time, continuing anyway.");
 		}
 	}
-
+	
 	// Wait for element located by 'by' to be clickable, then return it
 	public static WebElement explicitlyWaitForClickableElement(WebDriver driver, By by) {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
@@ -114,4 +115,44 @@ public class WaitUtils {
 		Thread.sleep(8000);
 	}
 
+     /*   return fWait.until(new Function<WebDriver, WebElement>() {
+            @Override
+            public WebElement apply(WebDriver driver) {
+                WebElement element = driver.findElement(by);
+                if (element.isDisplayed() && element.isEnabled()) {
+                    return element;
+                }
+                return null;
+            }
+        });
+    }*/
+
+    
+	public static boolean waitForElement(WebDriver driver, WebElement element) {
+		boolean isElementClickable = false;
+		WebDriverWait wait =new WebDriverWait(driver, WaitConstant.WAIT_FOR_ELEMENT);
+		try {
+		wait.until((ExpectedConditions.elementToBeClickable(element)));
+		isElementClickable=true;
+		} catch (Exception e){
+			e.printStackTrace();
+			
+		}
+		return isElementClickable;
+		}
+	
+	public static boolean waitForElementToDisappear(WebDriver driver, WebElement element) {
+		boolean isElementInvisible = false;
+		WebDriverWait wait =new WebDriverWait(driver, WaitConstant.WAIT_FOR_ELEMENT_TO_DISAPPEAR);
+		try {
+		wait.until((ExpectedConditions.invisibilityOf(element)));
+		isElementInvisible=true;
+		} catch (Exception e){
+			e.printStackTrace();
+			
+		}
+		return isElementInvisible;
+		}
+
+   
 }

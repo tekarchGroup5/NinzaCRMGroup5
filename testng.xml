@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Suite">
+<<<<<<< HEAD
+=======
+	<parameter name="bName" value="chrome"></parameter>
+	<!--			<parameter name="userType" value="admin" ></parameter>-->
+>>>>>>> refs/heads/main
 
+<<<<<<< HEAD
     <!-- Browser parameter -->
     <parameter name="bName" value="chrome" />
     <!-- <parameter name="userType" value="admin" /> -->
@@ -23,3 +29,21 @@
     </test>
 
 </suite>
+=======
+	<!--	<test name="Test">-->
+	<!--		<classes>-->
+	<!--			<class name="tests.Crm_CreateLeadTest"></class>-->
+	<!--		</classes>-->
+	<!--	</test>-->
+	<test name="Test">
+		<classes>
+
+			<class name="tests.Crm_CampaignTest"></class>
+		</classes>
+
+	</test>
+	<!--	<class name = "tests.Crm_CreateOpportunityTest"></class> -->
+
+
+</suite> 
+>>>>>>> refs/heads/main
