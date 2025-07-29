@@ -145,11 +145,6 @@ public class BasePage {
 		return validationMsg;
 	}
 	
-	public static String convertDateFormat(String inputDate, String fromFormat, String toFormat) {
-	    DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern(fromFormat);
-	    DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern(toFormat);
-	    LocalDate date = LocalDate.parse(inputDate, inputFormatter);
-	    return date.format(outputFormatter);
-	}
+	
 
 }
