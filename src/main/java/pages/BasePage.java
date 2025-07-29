@@ -2,16 +2,12 @@ package pages;
 
 import java.time.Duration;
 
-
 import java.util.List;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-
-
 import java.util.List;
-
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -34,7 +30,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class BasePage {
 	public WebDriver driver;
 	Select select;
-	JavascriptExecutor js ;
+	JavascriptExecutor js;
 
 	public static Logger logger = LogManager.getLogger("Basepage");
 
@@ -152,53 +148,40 @@ public class BasePage {
 		js.executeScript("window.scrollBy(0, 500)");
 	}
 
-	
-	public String getErrorMessage(WebElement element) {
-		js = (JavascriptExecutor) driver;
-		String validationMsg = (String) js.executeScript("return arguments[0].validationMessage;",element);
-		return validationMsg;
-	}
-	
 	public static String convertDateFormat(String inputDate, String fromFormat, String toFormat) {
-	    DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern(fromFormat);
-	    DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern(toFormat);
-	    LocalDate date = LocalDate.parse(inputDate, inputFormatter);
-	    return date.format(outputFormatter);
-	}
-	public static String errorValidationMsg(WebElement ele)//priyanka
-	{
-	
-		String validationMessage=ele.getAttribute("validationMessage");
-		return validationMessage;
-		
-	}
-	public static String getValueFrmField(WebElement ele)//priyanka
-	{
-	
-		String value=ele.getAttribute("value");
-		return value;
-		
-	}
-	
-	public static int checkDropDownOptions(WebElement ele) {//priyanka
-		Select dropDwn = new Select(ele);
-		// Get all options
-       List<WebElement> options = dropDwn.getOptions();
-       return options.size();
+		DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern(fromFormat);
+		DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern(toFormat);
+		LocalDate date = LocalDate.parse(inputDate, inputFormatter);
+		return date.format(outputFormatter);
 	}
 
-	
+	public static String errorValidationMsg(WebElement ele)// priyanka
+	{
+
+		String validationMessage = ele.getAttribute("validationMessage");
+		return validationMessage;
+
+	}
+
+	public static String getValueFrmField(WebElement ele)// priyanka
+	{
+
+		String value = ele.getAttribute("value");
+		return value;
+
+	}
+
+	public static int checkDropDownOptions(WebElement ele) {// priyanka
+		Select dropDwn = new Select(ele);
+		// Get all options
+		List<WebElement> options = dropDwn.getOptions();
+		return options.size();
+	}
+
 	public String getErrorMessage(WebElement element) {
 		js = (JavascriptExecutor) driver;
-		String validationMsg = (String) js.executeScript("return arguments[0].validationMessage;",element);
+		String validationMsg = (String) js.executeScript("return arguments[0].validationMessage;", element);
 		return validationMsg;
-	}
-	
-	public static String convertDateFormat(String inputDate, String fromFormat, String toFormat) {
-	    DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern(fromFormat);
-	    DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern(toFormat);
-	    LocalDate date = LocalDate.parse(inputDate, inputFormatter);
-	    return date.format(outputFormatter);
 	}
 
 }
