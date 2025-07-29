@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.function.Function;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -35,13 +36,13 @@ public class WaitUtils {
     }
 
     // Wait for invisibility of the given element, returns true if invisible
-    public static boolean explicitlyWaitForInVisibility(WebDriver driver, WebElement elementToWait) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+    public static void explicitlyWaitForInVisibility(WebDriver driver, WebElement elementToWait) {
         try {
-            return wait.until(ExpectedConditions.invisibilityOf(elementToWait));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+    	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        
+            wait.until(ExpectedConditions.invisibilityOf(elementToWait));
+        } catch (TimeoutException e) {
+            System.out.println("Toast did not disappear in time, continuing anyway.") ;
         }
     }
 
@@ -74,6 +75,7 @@ public class WaitUtils {
             }
         });
     }
+
     
 	public static boolean waitForElement(WebDriver driver, WebElement element) {
 		boolean isElementClickable = false;
@@ -100,4 +102,28 @@ public class WaitUtils {
 		}
 		return isElementInvisible;
 		}
+
+    public static WebElement explicitlyWaitForVisibility(WebDriver driver, WebElement element) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        try {
+            return wait.until(ExpectedConditions.visibilityOf(element));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;  
+        }
+    } 
+    public static WebElement explicitlyWaitForClickableElement(WebDriver driver, WebElement element) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        try {
+            return wait.until(ExpectedConditions.elementToBeClickable(element));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public static void waitForPageToLoad() throws InterruptedException {
+		
+    	Thread.sleep(8000);
+    }
+
 }

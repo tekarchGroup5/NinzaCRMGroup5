@@ -1,8 +1,0 @@
-2025-07-28-00:40:58 INFO  Navigated to CRM URL: http://49.249.28.218:8098/
-2025-07-28-00:40:58 DEBUG Navigated to the login page: http://49.249.28.218:8098/
-2025-07-28-00:40:58 DEBUG Username is entered
-2025-07-28-00:40:58 DEBUG Password is entered
-2025-07-28-00:40:58 DEBUG Sign In button clicked
-2025-07-28-00:40:59 DEBUG Login successful, landed on Home Page.
-2025-07-28-00:40:59 DEBUG Checking if user is on CRM Home Page
-2025-07-28-00:40:59 INFO  Login to Ninza CRM validated successfully.
