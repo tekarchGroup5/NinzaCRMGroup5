@@ -1,6 +1,7 @@
 package utils;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.function.Function;
 
 import org.openqa.selenium.By;
@@ -74,8 +75,14 @@ public class WaitUtils {
             }
         });
     }
+
+
+    public static WebElement explicitlyWaitForVisibility(WebDriver driver, WebElement element) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
+
     public static WebElement explicitlyWaitForVisibility(WebDriver driver, WebElement element) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
         try {
             return wait.until(ExpectedConditions.visibilityOf(element));
         } catch (Exception e) {
@@ -87,13 +94,38 @@ public class WaitUtils {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         try {
             return wait.until(ExpectedConditions.elementToBeClickable(element));
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
+
+
+
+		
+	}
+	
+	public static WebElement explicitlyWaitPresenceOfTheElement(WebDriver driver, List<WebElement> pages) {
+		 WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+	        try {
+	            return wait.until(ExpectedConditions.elementToBeClickable((By) pages));
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return null;
+	        }
+		
+	}
+
+
+    
+
     }
+
     public static void waitForPageToLoad() throws InterruptedException {
 		
     	Thread.sleep(8000);
     }
+
 }
