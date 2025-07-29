@@ -1,187 +1,883 @@
 package tests;
 
 import java.io.IOException;
-import java.util.List;
+import java.time.Duration;
+
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
-import constants.FileConstants;
 import listeners.ListenersCRM;
-
 import pages.CRM_LeadsPage;
-import utils.ExcelUtils;
+
+import utils.Lead_DataProviderUtil;
 
 @Listeners(ListenersCRM.class)
+public class Crm_CreateLeadTest extends BaseTest {
+	public static Logger logger = LogManager.getLogger("Crm_CreateLeadTest");
 
-public class Crm_CreateLeadTest  extends BaseTest {
-/*
-	@DataProvider(name = "leadData")
-    public Object[][] getLeadData() throws IOException {
-        ExcelUtils excel = new ExcelUtils(FileConstants.LEADTESTDATA_FILE_UPLOAD_PATH);
-        int rows = excel.getRowCount("Sheet1");
-        int cols = excel.getColumnCount("Sheet1");
-
-        Object[][] data = new Object[rows - 1][cols]; // excluding header row
-
-        for (int i = 1; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                data[i - 1][j] = excel.getCellData("Sheet1", i, j);
-            }
-        }
-
-        excel.close();
-        return data;
-    }
-	*/
-//	**************************************************
+	private String createdLeadName;
+	//*******************************************************
+	// 1.Create a lead with mandatory fields only
 	
-	@DataProvider(name = "leadData")
-	public Object[][] leadData() {
-	    return new Object[][]{
-	        // leadName,      company,      leadSource, industry,   phone,       leadStatus, campaignID
-	        {"Madhu Sahu",   "Test Automation",  "Web",      "IT",       "9876543210", "Open",     "CAM00003"}
-	     
-	    };
+
+	@Test(priority = 1,
+			description = "Create a new lead with mandatory fields only", 
+			enabled = true,
+			dataProvider = "LeadMandatoryFeild", 
+			dataProviderClass = Lead_DataProviderUtil.class)
+	public void createLeadWithMandatoryFields(Map<String, String> data) throws InterruptedException {
+		{
+			// getBrowser() method comes from Crm_BaseTest,
+
+//	WebDriver driver = getBrowser(); 
+
+			CRM_LeadsPage lp = hp.clickLeads();
+			logger.info("Leads page is opened");
+
+			lp.clickCreateLeadButtonAndGetTitle();
+			logger.info("Create Lead button is clicked");
+
+			// Extract data from the map
+			String leadName = data.get("leadName");
+			createdLeadName = data.get("leadName"); // Store leadName in shared variable
+			String company = data.get("company");
+			String leadSource = data.get("leadSource");
+			String industry = data.get("industry");
+			String phone = data.get("phone");
+			String leadStatus = data.get("leadStatus");
+			String campaignID = data.get("campaignID");
+
+			// Log the extracted values
+			logger.info("Lead Name: " + leadName);
+			logger.info("Company: " + company);
+			logger.info("Lead Source: " + leadSource);
+			logger.info("Industry: " + industry);
+			logger.info("Phone: " + phone);
+			logger.info("Lead Status: " + leadStatus);
+			logger.info("Campaign ID: " + campaignID);
+
+			// Fill in mandatory fields
+			lp.enterLeadName(leadName);
+			lp.enterCompany(company);
+			lp.enterLeadSource(leadSource);
+			lp.enterIndustry(industry);
+			lp.enterPhone(phone);
+			lp.enterLeadStatus(leadStatus);
+			lp.lookupCampaign(campaignID);
+			lp.SaveLeadButton();
+			logger.info("Lead save button clicked");
+
+			System.out.println("Lead created with mandatory fields: " + leadName + ", " + company + ", " + leadSource);
+
+			// Search for the created lead to verify creation
+			logger.info("Searching for created lead: " + leadName);
+
+			String LeadCreated = lp.searchLead(leadName);
+			Assert.assertTrue(LeadCreated.contains(leadName), "Lead creation failed for: " + leadName);
+			logger.info("Lead found successfully: " + leadName);
+
+		}
 	}
-	
-@Test(priority=1, description = "Create a new lead with mandatory fields only",enabled=true,dataProvider = "leadData")
-    public void createLeadWithMandatoryFeilds(String leadName, String company, String leadSource, String industry, String phone, String leadStatus, String campaignID) throws InterruptedException {
-      
-	//getBrowser() method comes from Crm_BaseTest, 
-    //returning the current thread’s WebDriver instance — so you don’t need to initialize it here.
-	
-	WebDriver driver = getBrowser(); 
-	
-	//navigates from hme page and clicks on the click leads method and driver is set to the lead page  
-    
-	CRM_LeadsPage lp = hp.clickLeads();//navigates from hme page and clicks on the click leads method and driver is set to the lead page
-      
-   // Click on Create Lead
-   
-	lp.clickCreateLeadButtonAndGetTitle(); // Clicks on the Create Lead button and waits for the title to change
-     
-   // Fill in mandatory fields only
-    lp.enterLeadName(leadName);
-    lp.enterCompany(company);
-    lp.enterLeadSource(leadSource);
-    lp.enterIndustry(industry);
-    lp.enterPhone(phone);
-    lp.enterLeadStatus(leadStatus);
-    lp.lookupCampaign(campaignID);
-    
-    //Create lead button is clicked to save the lead
-    lp.SaveLeadButton();
- 
-    }
+//*************************************************************
+//2. Create a lead with all optional and mandatory fields filled
+//*************************************************************
 
-//*************************************************	
+	@Test(priority = 2,
+			description = "Ensure lead creation with all optional and mandatory fields filled",
+			enabled = true, 
+			dataProvider = "createLeadwithOptionalFeilds", 
+			dataProviderClass = Lead_DataProviderUtil.class)
+	public void CreateLeadWithAoptionAlFeilds(Map<String, String> data) throws InterruptedException {
+		{
 
-@Test(priority=2, description = "Ensure lead creation with all optional and mandatory fields filled", enabled=false,dataProvider = "leadData")
-	public void createLeadwithOptionalFeilds() {
-		
+			CRM_LeadsPage lp = hp.clickLeads();
+			logger.info("Leads page is opened");
+
+			lp.clickCreateLeadButtonAndGetTitle();
+			logger.info("Create Lead button is clicked");
+
+			// Extract data from the map
+			String leadName = data.get("leadName");
+        //Extract leadName and store in shared variable
+
+			String createdLeadName = data.get("leadName");
+			String company = data.get("company");
+			String leadSource = data.get("leadSource");
+			String industry = data.get("industry");
+			String phone = data.get("phone");
+			String leadStatus = data.get("leadStatus");
+			String campaignID = data.get("campaignID");
+			String annualRevenue = data.get("annualRevenue");
+			String noOfEmployees = data.get("noOfEmployees");
+			String Phone = data.get("Phone");
+			String email = data.get("Email");
+			String secondaryEmail = data.get("Secondary Email");
+			String assignedTo = data.get("Assigned To");
+			String Address = data.get("Address");
+			String city = data.get("City");
+			String country = data.get("Country");
+			String postalCode = data.get("PostalCode");
+			String website = data.get("Website");
+			String description = data.get("Description");
+
+			// Log the extracted values
+			logger.info("Lead Name: " + leadName);
+			logger.info("Company: " + company);
+			logger.info("Lead Source: " + leadSource);
+			logger.info("Industry: " + industry);
+
+			logger.info("Lead Status: " + leadStatus);
+			logger.info("Campaign ID: " + campaignID);
+			logger.info("Annual Revenue: " + annualRevenue);
+			logger.info("No Of Employees: " + noOfEmployees);
+			logger.info("Phone: " + Phone);
+			logger.info("Email: " + email);
+			logger.info("Secondary Email: " + secondaryEmail);
+			logger.info("Assigned To: " + assignedTo);
+			logger.info("Address: " + Address);
+
+			logger.info("City: " + city);
+			logger.info("Country: " + country);
+			logger.info("Postal Code: " + postalCode);
+			logger.info("Website: " + website);
+			logger.info("Description: " + description);
+
+			// Fill in mandatory and Optional fields
+			lp.enterLeadName(leadName);
+			lp.enterCompany(company);
+			lp.enterLeadSource(leadSource);
+			lp.enterIndustry(industry);
+
+			lp.enterLeadStatus(leadStatus);
+			lp.lookupCampaign(campaignID);
+			lp.enterAnnualRevenue(annualRevenue);
+			lp.enterNoOfEmployees(noOfEmployees);
+			lp.enterPhone(Phone);
+			lp.enterEmail(email);
+
+			lp.enterSecondaryEmail(secondaryEmail);
+			lp.enterAssignedTo(assignedTo);
+			lp.enterAddress(Address);
+
+			lp.enterCity(city);
+			lp.enterCountry(country);
+			lp.enterPostalCode(postalCode);
+			lp.enterWebsite(website);
+			lp.enterDescription(description);
+
+			lp.SaveLeadButton();
+			logger.info("Lead save button clicked");
+
+			System.out.println("Lead created with mandatory fields: " + leadName + ", " + company + ", " + leadSource);
+
+			// Search for the created lead to verify creation
+			logger.info("Searching for created lead: " + leadName);
+
+			String LeadCreated = lp.searchLead(leadName);
+			Assert.assertTrue(LeadCreated.contains(leadName), "Lead creation failed for: " + leadName);
+			logger.info("Lead found successfully: " + leadName);
+
+		}
 	}
-//*************************************************
-//Sceanrio works
-	@Test(priority=3, description = "Ensure Lead ID is auto-generated and unique for each lead", enabled=false)//dependsOnMethods = "createLeadWithMandatoryFeilds")
-	public void leadIDAutogenerated(String leadName) throws InterruptedException, IOException {
-		WebDriver driver = getBrowser(); 
-	    CRM_LeadsPage lp = hp.clickLeads();
-	   // String leadName = "TestLead" ;
-	    System.out.println("Lead Name: " + leadName);
 
-	    String leadId = lp.getLeadId(leadName);
-	    
-	    System.out.println("Generated Lead ID: " + leadId);
-	     
-	    // Verify that the Lead ID is not null or empty
-	    if (leadId != null && !leadId.isEmpty()) {
-	        System.out.println("Lead ID is auto-generated and unique: " + leadId);
-	    } else {
-	        System.out.println("Lead ID is not generated correctly.");
-	        throw new AssertionError("Lead ID is not generated correctly.");
-	    }
-		
+//**********************************************************
+//3. Verify that Lead ID is auto-generated after lead creation
+//**********************************************************
+
+	@Test(priority = 3, 
+			enabled = true, 
+			description = "Verify that Lead ID is auto-generated after lead creation")
+
+	public void leadIDAutogenerated() throws InterruptedException {
+		WebDriver driver = getBrowser();
+		CRM_LeadsPage lp = hp.clickLeads();
+
+		logger.info("Looking for Lead ID of lead: " + createdLeadName);
+
+		String leadId = lp.getGeneratedLeadID(createdLeadName);
+		logger.info(" Retrieved Lead ID: " + leadId);
+
+		Assert.assertNotNull(leadId, "Lead ID should not be null");
+
+		logger.info(" Lead ID is auto-generated and unique for lead: " + createdLeadName + ", ID: " + leadId);
 	}
-	//**************************************************
-	@DataProvider(name = "phoneValidationInline")
+//**************************************************
+//4. Ensure Phone field accepts numeric input only
+//**************************************************
+
+	@DataProvider(name = "phoneValidation")
 	public Object[][] phoneValidationInline() {
-	    return new Object[][]{
-	            {"1234567890", true},       // Valid: numeric
-	            {"abc123", false},          // Invalid: alphanumeric
-	            {"!@#$$%", false},          // Invalid: special chars
-	      
-	    };
+		return new Object[][] { { "1234567890", true }, // Valid: numeric
+				{ "abc123a", true }, // Invalid: alphanumeric
+				{ "!@#$$%", false }, // Invalid: special chars
+
+		};
 	}
-	@Test(priority=5, description = "Verify Phone field accepts numeric input only", enabled=false,dataProvider = "phoneValidationInline")
-    	public void verifyPhoneField(String phoneInput, boolean shouldAccept) throws InterruptedException, IOException {
-		WebDriver driver = getBrowser(); 
-	    CRM_LeadsPage lp = hp.clickLeads();
-	    lp.clickCreateLeadButtonAndGetTitle();
-	     System.out.println("Phone: " + phoneInput);
-         String enteredPhone = lp.enterPhone(phoneInput);
-         System.out.println("Entered Phone: " + enteredPhone);
-         // Verify that the phone number is numeric and matches the entered value
-         if (shouldAccept) {
-			Assert.assertTrue(enteredPhone.matches("\\d+"), "Phone field should accept numeric input only. Entered: " + enteredPhone);
-         } else {
-        	 Assert.assertFalse(enteredPhone.matches("\\d+"), "Phone field should not accept non-numeric input. Entered: " + enteredPhone);
-         }
-	  }
-	//**************************************************
+
+	@Test(priority = 4, 
+			description = "Verify Phone field accepts numeric input only", 
+			enabled = true, 
+			dataProvider = "phoneValidation")
+
+	public void verifyPhoneField(String phoneInput, boolean shouldAccept) throws InterruptedException, IOException {
+		WebDriver driver = getBrowser();
+		CRM_LeadsPage lp = hp.clickLeads();
+		lp.clickCreateLeadButtonAndGetTitle();
+		System.out.println("Phone: " + phoneInput);
+		String enteredPhone = lp.enterPhone(phoneInput);
+		System.out.println("Entered Phone: " + enteredPhone);
+		// Verify that the phone number is numeric and matches the entered value
+		if (shouldAccept) {
+			Assert.assertTrue(enteredPhone.matches("\\d+"),
+					"Phone field should accept numeric input only. Entered: " + enteredPhone);
+		} else {
+			Assert.assertFalse(enteredPhone.matches("\\d+"),
+					"Phone field should not accept non-numeric input. Entered: " + enteredPhone);
+		}
+	}
+//**************************************************
+// 5.Ensure Annual Revenue accepts numeric values
+//**************************************************
+
 	@DataProvider(name = "AnnualRevenueValidation")
 	public Object[][] annualRevenueValidation() {
-	    return new Object[][]{
-	            {"1000000", true},       // Valid: numeric
-	            {"abc123", false},      // Invalid: alphanumeric
-	            {"!@#$$%", false},      // Invalid: special chars
-	    };
+		return new Object[][] { 
+			{ "1000000", true }, // Valid: numeric
+			{ "!@#$$%", false }, // Invalid: special chars
+		};
 	}
-	@Test(priority=6, description = "Ensure Annual Revenue accepts numeric values", enabled=false)
-	public void verifyAnnualRevenueField(String RevenueInput,boolean shouldAccept	 ) throws InterruptedException, IOException {
-		WebDriver driver = getBrowser(); 
-	    CRM_LeadsPage lp = hp.clickLeads();
-	    lp.clickCreateLeadButtonAndGetTitle();
-	    
-	    // Test with a valid numeric value
-	    String annualRevenue = lp.enterAnnualRevenue(RevenueInput);
-	    System.out.println("Entered Annual Revenue: " + annualRevenue);
-	    // Verify that the annual revenue is numeric and matches the entered value
-	    if (shouldAccept) {
-	        Assert.assertTrue(annualRevenue.matches("\\d+"), "Annual Revenue field should accept numeric input only. Entered: " + annualRevenue);
-	    } else {
-	        Assert.assertFalse(annualRevenue.matches("\\d+"), "Annual Revenue field should not accept non-numeric input. Entered: " + annualRevenue);
-	    }
+
+	@Test(priority = 5, 
+			description = "Ensure Annual Revenue accepts numeric values", 
+			enabled = true, 
+			dataProvider = "AnnualRevenueValidation")
+
+	public void verifyAnnualRevenueField(String RevenueInput, boolean shouldAccept)
+			throws InterruptedException, IOException {
+		WebDriver driver = getBrowser();
+		CRM_LeadsPage lp = hp.clickLeads();
+		lp.clickCreateLeadButtonAndGetTitle();
+
+		String annualRevenue = lp.enterAnnualRevenue(RevenueInput);
+		System.out.println("Entered Annual Revenue: " + annualRevenue);
+		// Verify that the annual revenue is numeric and matches the entered value
+		if (shouldAccept) {
+			Assert.assertTrue(annualRevenue.matches("\\d+"),
+					"Annual Revenue field should accept numeric input only. Entered: " + annualRevenue);
+		} else {
+			Assert.assertFalse(annualRevenue.matches("\\d+"),
+					"Annual Revenue field should not accept non-numeric input. Entered: " + annualRevenue);
+		}
 	}
-	//**************************************************
-	@DataProvider(name = "LeadisMandatory")
+
+//**************************************************
+//6. Ensure Lead Name is mandatory
+//**************************************************
+
+	@DataProvider(name = "LeadNameisMandatory")
 	public Object[][] leadCreationData() {
-	    return new Object[][]{
-	        // leadName,       company,      leadSource, industry,  phone,       leadStatus, campaignID
-	         {"",              "Oil and Gas",  "Phone",    "Retail",  "5551234567", "Open",     "CAMP00003"}, // Missing leadName (should fail)
-	    };
+		return new Object[][] {
+				// leadName, company, leadSource, industry, phone, leadStatus, campaignID
+				{ "", "Oil and Gas", "Phone", "Retail", "5551234567", "Open", "CAM00003" }, // Missing leadName (should
+																							// fail)
+		};
 	}
-	@Test(priority=7, description = "Ensure Lead name is mandatory", enabled=false, dataProvider = "LeadisMandatory")
-	public void createLeadWithVariousData(String leadName, String company, String leadSource, String industry, String phone, String leadStatus, String campaignID) throws InterruptedException {
-	    WebDriver driver = getBrowser();
-	    CRM_LeadsPage lp = hp.clickLeads();
-	    lp.clickCreateLeadButtonAndGetTitle();
 
-	    System.out.println("Creating lead with: " + leadName + ", " + company + ", " + leadSource);
+	@Test(priority = 6, 
+			description = "Ensure Lead name is mandatory", 
+			enabled = true, 
+			dataProvider = "LeadNameisMandatory")
+	public void EnsureLeadNameisMandatory(String leadName, String company, String leadSource, String industry,
+			String phone, String leadStatus, String campaignID) throws InterruptedException {
+		WebDriver driver = getBrowser();
+		logger.info("Starting test for mandatory lead name validation");
+		CRM_LeadsPage lp = hp.clickLeads();
+		logger.info("Leads page is opened");
+		lp.clickCreateLeadButtonAndGetTitle();
+		logger.info("Create Lead button is clicked");
 
-	    lp.enterLeadName(leadName);
-	    lp.enterCompany(company);
-	    lp.enterLeadSource(leadSource);
-	    lp.enterIndustry(industry);
-	    lp.enterPhone(phone);
-	    lp.enterLeadStatus(leadStatus);
-	    lp.lookupCampaign(campaignID);
-	    lp.SaveLeadButton();
+		lp.enterLeadName(leadName);
+		logger.info("Entered Lead Name: " + leadName);
+		lp.enterCompany(company);
+		logger.info("Entered Company: " + company);
+		lp.enterLeadSource(leadSource);
+		logger.info("Entered Lead Source: " + leadSource);
+		lp.enterIndustry(industry);
+		logger.info("Entered Industry: " + industry);
+		lp.enterPhone(phone);
+		logger.info("Entered Phone: " + phone);
+		lp.enterLeadStatus(leadStatus);
+		logger.info("Entered Lead Status: " + leadStatus);
+		lp.lookupCampaign(campaignID);
+		logger.info("Looked up Campaign ID: " + campaignID);
+		lp.SaveLeadButton();
+		logger.info("Lead save button clicked");
 
+		String required = lp.getAttributeLeadName("required");
+		logger.info("Lead Name 'required' attribute: " + required);
+		Assert.assertNotNull(required, "Field is not marked as required");
+		Assert.assertTrue(required.equals("true"),
+				"Lead Name field should be mandatory but is not marked as required.");
 
-}
+	}
+
+//*****************************************************
+//7. Ensure Company is mandatory
+//*****************************************************
+	@DataProvider(name = "CompanyIsMandatoryData")
+	public Object[][] companyIsMandatoryData() {
+		return new Object[][] {
+				// leadName, company, leadSource, industry, phone, leadStatus, campaignID
+				{ "Madhu Sahu", "", "Phone", "Retail", "5551234567", "Open", "CAM00003" } // Missing company (should
+																							// fail)
+		};
+	}
+
+	@Test(priority = 7,
+			description = "Ensure Company is mandatory", 
+			enabled = true, 
+			dataProvider = "CompanyIsMandatoryData")
+	public void EnsureCompanyIsMandatory(String leadName, String company, String leadSource, String industry,
+			String phone, String leadStatus, String campaignID) throws InterruptedException {
+		WebDriver driver = getBrowser();
+		logger.info("Starting test for mandatory company validation");
+		CRM_LeadsPage lp = hp.clickLeads();
+		logger.info("Leads page is opened");
+		lp.clickCreateLeadButtonAndGetTitle();
+		logger.info("Create Lead button is clicked");
+
+		lp.enterLeadName(leadName);
+		logger.info("Entered Lead Name: " + leadName);
+		lp.enterCompany(company);
+		logger.info("Entered Company: " + company);
+		lp.enterLeadSource(leadSource);
+		logger.info("Entered Lead Source: " + leadSource);
+		lp.enterIndustry(industry);
+		logger.info("Entered Industry: " + industry);
+		lp.enterPhone(phone);
+		logger.info("Entered Phone: " + phone);
+		lp.enterLeadStatus(leadStatus);
+		logger.info("Entered Lead Status: " + leadStatus);
+		lp.lookupCampaign(campaignID);
+		logger.info("Looked up Campaign ID: " + campaignID);
+		lp.SaveLeadButton();
+		logger.info("Lead save button clicked");
+
+		// Here check the 'required' attribute or error message for company field
+		// instead of leadName
+		String required = lp.getAttributeCompany("required");
+		logger.info("Company 'required' attribute: " + required);
+		Assert.assertNotNull(required, "Company field is not marked as required");
+		Assert.assertTrue(required.equals("true"), "Company field should be mandatory but is not marked as required.");
+	}
+
+//**************************************************
+// 8.Ensure Lead Source is mandatory
+//**************************************************
+	@DataProvider(name = "LeadSourceMandatoryData")
+	public Object[][] leadSourceMandatoryData() {
+		return new Object[][] {
+				// leadName, company, leadSource, industry, phone, leadStatus, campaignID
+				{ "Madhu Sahu", "Oil and Gas", "", "Retail", "5551234567", "Open", "CAM00003" } // Blank Lead Source
+																								// (should fail)
+		};
+	}
+
+	@Test(priority = 8,
+			description = "Ensure Lead Source is mandatory",
+			enabled = true, 
+			dataProvider = "LeadSourceMandatoryData")
+	public void EnsureLeadSourceIsMandatory(String leadName, String company, String leadSource, String industry,
+			String phone, String leadStatus, String campaignID) throws InterruptedException {
+		WebDriver driver = getBrowser();
+		logger.info("Starting test for mandatory Lead Source validation");
+		CRM_LeadsPage lp = hp.clickLeads();
+		logger.info("Leads page is opened");
+		lp.clickCreateLeadButtonAndGetTitle();
+		logger.info("Create Lead button is clicked");
+
+		lp.enterLeadName(leadName);
+		logger.info("Entered Lead Name: " + leadName);
+		lp.enterCompany(company);
+		logger.info("Entered Company: " + company);
+		lp.enterLeadSource(leadSource);
+		logger.info("Entered Lead Source: '" + leadSource + "'");
+		lp.enterIndustry(industry);
+		logger.info("Entered Industry: " + industry);
+		lp.enterPhone(phone);
+		logger.info("Entered Phone: " + phone);
+		lp.enterLeadStatus(leadStatus);
+		logger.info("Entered Lead Status: " + leadStatus);
+		lp.lookupCampaign(campaignID);
+		logger.info("Looked up Campaign ID: " + campaignID);
+
+		lp.SaveLeadButton();
+		logger.info("Lead save button clicked");
+
+		// You can check for the 'required' attribute or capture the validation error
+		// message for Lead Source.
+		String required = lp.getAttributeLeadSource("required");
+		logger.info("Lead Source 'required' attribute: " + required);
+		Assert.assertNotNull(required, "Lead Source field is not marked as required");
+		Assert.assertTrue(required.equals("true"),
+				"Lead Source field should be mandatory but is not marked as required.");
+	}
+//**************************************************
+// 9.Ensure Industry is mandatory
+//**************************************************
+
+	@DataProvider(name = "IndustryMandatoryData")
+	public Object[][] industryMandatoryData() {
+		return new Object[][] {
+				// leadName, company, leadSource, industry, phone, leadStatus, campaignID
+				{ "Madhu Sahu", "Oil and Gas", "Phone", "", "5551234567", "Open", "CAM00003" } // Blank Industry (should
+																								// fail)
+		};
+	}
+
+	@Test(priority = 9, 
+			description = "Ensure Industry is mandatory", 
+			enabled = true, 
+			dataProvider = "IndustryMandatoryData")
+	public void EnsureIndustryIsMandatory(String leadName, String company, String leadSource, String industry,
+			String phone, String leadStatus, String campaignID) throws InterruptedException {
+		WebDriver driver = getBrowser();
+		logger.info("Starting test for mandatory Industry validation");
+		CRM_LeadsPage lp = hp.clickLeads();
+		logger.info("Leads page is opened");
+		lp.clickCreateLeadButtonAndGetTitle();
+		logger.info("Create Lead button is clicked");
+
+		lp.enterLeadName(leadName);
+		logger.info("Entered Lead Name: " + leadName);
+		lp.enterCompany(company);
+		logger.info("Entered Company: " + company);
+		lp.enterLeadSource(leadSource);
+		logger.info("Entered Lead Source: " + leadSource);
+		lp.enterIndustry(industry);
+		logger.info("Entered Industry: '" + industry + "'");
+		lp.enterPhone(phone);
+		logger.info("Entered Phone: " + phone);
+		lp.enterLeadStatus(leadStatus);
+		logger.info("Entered Lead Status: " + leadStatus);
+		lp.lookupCampaign(campaignID);
+		logger.info("Looked up Campaign ID: " + campaignID);
+
+		lp.SaveLeadButton();
+		logger.info("Lead save button clicked");
+
+		// Check if Industry field has 'required' attribute or validation error
+		String required = lp.getAttributeIndustry("required");
+		logger.info("Industry 'required' attribute: " + required);
+		Assert.assertNotNull(required, "Industry field is not marked as required");
+		Assert.assertTrue(required.equals("true"), "Industry field should be mandatory but is not marked as required.");
+	}
+
+//**************************************************
+//10. Ensure Phone is mandatory
+//*************************************************     
+	@DataProvider(name = "PhoneMandatoryData")
+	public Object[][] phoneMandatoryData() {
+		return new Object[][] {
+				// leadName, company, leadSource, industry, phone, leadStatus, campaignID
+				{ "Madhu Sahu", "Oil and Gas", "Phone", "Retail", "", "Open", "CAM00003" } // Blank Phone (should fail)
+		};
+	}
+
+	@Test(priority = 10, 
+			description = "Ensure Phone is mandatory",
+			enabled = true, 
+			dataProvider = "PhoneMandatoryData")
+	public void EnsurePhoneIsMandatory(String leadName, String company, String leadSource, String industry,
+			String phone, String leadStatus, String campaignID) throws InterruptedException {
+		WebDriver driver = getBrowser();
+		logger.info("Starting test for mandatory Phone validation");
+		CRM_LeadsPage lp = hp.clickLeads();
+		logger.info("Leads page is opened");
+		lp.clickCreateLeadButtonAndGetTitle();
+		logger.info("Create Lead button is clicked");
+
+		lp.enterLeadName(leadName);
+		logger.info("Entered Lead Name: " + leadName);
+		lp.enterCompany(company);
+		logger.info("Entered Company: " + company);
+		lp.enterLeadSource(leadSource);
+		logger.info("Entered Lead Source: " + leadSource);
+		lp.enterIndustry(industry);
+		logger.info("Entered Industry: " + industry);
+		lp.enterPhone(phone);
+		logger.info("Entered Phone: '" + phone + "'");
+		lp.enterLeadStatus(leadStatus);
+		logger.info("Entered Lead Status: " + leadStatus);
+		lp.lookupCampaign(campaignID);
+		logger.info("Looked up Campaign ID: " + campaignID);
+
+		lp.SaveLeadButton();
+		logger.info("Lead save button clicked");
+
+		// Check if Phone field has 'required' attribute or validation error
+		String required = lp.getAttributePhone("required");
+		logger.info("Phone 'required' attribute: " + required);
+		Assert.assertNotNull(required, "Phone field is not marked as required");
+		Assert.assertTrue(required.equals("true"), "Phone field should be mandatory but is not marked as required.");
+
+	}
+
+//**************************************************
+//11. Ensure Lead Status is mandatory
+//**************************************************
+	@DataProvider(name = "LeadStatusMandatoryData")
+	public Object[][] leadStatusMandatoryData() {
+		return new Object[][] {
+				// leadName, company, leadSource, industry, phone, leadStatus, campaignID
+				{ "Madhu Sahu", "Oil and Gas", "Phone", "Retail", "5551234567", "", "CAM00003" } // Blank Lead Status
+																									// (should fail)
+		};
+	}
+
+	@Test(priority = 11,
+			description = "Ensure Lead Status is mandatory", 
+			enabled = true, 
+			dataProvider = "LeadStatusMandatoryData")
+	public void EnsureLeadStatusIsMandatory(String leadName, String company, String leadSource, String industry,
+			String phone, String leadStatus, String campaignID) throws InterruptedException {
+		WebDriver driver = getBrowser();
+		logger.info("Starting test for mandatory Lead Status validation");
+		CRM_LeadsPage lp = hp.clickLeads();
+		logger.info("Leads page is opened");
+		lp.clickCreateLeadButtonAndGetTitle();
+		logger.info("Create Lead button is clicked");
+
+		lp.enterLeadName(leadName);
+		logger.info("Entered Lead Name: " + leadName);
+		lp.enterCompany(company);
+		logger.info("Entered Company: " + company);
+		lp.enterLeadSource(leadSource);
+		logger.info("Entered Lead Source: " + leadSource);
+		lp.enterIndustry(industry);
+		logger.info("Entered Industry: " + industry);
+		lp.enterPhone(phone);
+		logger.info("Entered Phone: " + phone);
+		lp.enterLeadStatus(leadStatus);
+		logger.info("Entered Lead Status: '" + leadStatus + "'");
+		lp.lookupCampaign(campaignID);
+		logger.info("Looked up Campaign ID: " + campaignID);
+
+		lp.SaveLeadButton();
+		logger.info("Lead save button clicked");
+
+		// Check if Lead Status field has 'required' attribute or validation error
+		String required = lp.getAttributeLeadStatus("required");
+		logger.info("Lead Status 'required' attribute: " + required);
+		Assert.assertNotNull(required, "Lead Status field is not marked as required");
+		Assert.assertTrue(required.equals("true"),
+				"Lead Status field should be mandatory but is not marked as required.");
+
+	}
+//**************************************************
+// 12.Ensure Campaign is mandatory
+//**************************************************
+
+	@DataProvider(name = "CampaignMandatoryData")
+	public Object[][] campaignMandatoryData() {
+		return new Object[][] {
+				// leadName, company, leadSource, industry, phone, leadStatus, campaignID
+				{ "Madhu Sahu", "Oil and Gas", "Phone", "Retail", "5551234567", "Open", "" } // Blank Campaign ID
+																								// (should fail)
+		};
+	}
+
+	@Test(priority = 12, 
+			description = "Ensure Campaign is mandatory", 
+			enabled = true,
+			dataProvider = "CampaignMandatoryData")
+	public void EnsureCampaignIsMandatory(String leadName, String company, String leadSource, String industry,
+			String phone, String leadStatus, String campaignID) throws InterruptedException {
+		WebDriver driver = getBrowser();
+		logger.info("Starting test for mandatory Campaign validation");
+		CRM_LeadsPage lp = hp.clickLeads();
+		logger.info("Leads page is opened");
+		lp.clickCreateLeadButtonAndGetTitle();
+		logger.info("Create Lead button is clicked");
+
+		lp.enterLeadName(leadName);
+		logger.info("Entered Lead Name: " + leadName);
+		lp.enterCompany(company);
+		logger.info("Entered Company: " + company);
+		lp.enterLeadSource(leadSource);
+		logger.info("Entered Lead Source: " + leadSource);
+		lp.enterIndustry(industry);
+		logger.info("Entered Industry: " + industry);
+		lp.enterPhone(phone);
+		logger.info("Entered Phone: " + phone);
+		lp.enterLeadStatus(leadStatus);
+		logger.info("Entered Lead Status: " + leadStatus);
+
+		lp.SaveLeadButton();
+		logger.info("Lead save button clicked");
+
+		// Wait for toast message to appear
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		WebElement toast = wait.until(ExpectedConditions.visibilityOfElementLocated(
+				By.xpath("//div[@role='alert' and contains(text(),'please select a campaign')]")));
+
+		// Validate message content
+		String actualMessage = toast.getText().trim();
+		Assert.assertEquals(actualMessage, "please select a campaign before submitting",
+				"Expected Campaign validation message not shown");
+		logger.info("Campaign validation message displayed: " + actualMessage);
+		// Wait for the toast to disappear
+		wait.until(ExpectedConditions.invisibilityOf(toast));
+	}
+
+// **************************************************
+//13. Ensure Email field accepts valid email formats
+	// **************************************************
+
+	@DataProvider(name = "EmailValidation")
+	public Object[][] emailValidation() {
+		return new Object[][] { 
+			     { "test@example.com", true }, 
+			     { "user.name@domain.co", true },
+				 { "user123@gmail", false },
+				 { "@gmail.com", false }, 
+				 { "user@.com", false },
+				 { "user#mail.com", false },
+				 { "", false }, { "123@gmail.com", true }, };
+	}
+
+	@Test(priority = 13, 
+			description = "Ensure Email field accepts only valid email formats", 
+			enabled = true, 
+			dataProvider = "EmailValidation")
+	public void verifyEmailFieldValidation(String emailInput, boolean shouldAccept)
+			throws InterruptedException, IOException {
+		WebDriver driver = getBrowser();
+		CRM_LeadsPage lp = hp.clickLeads();
+		lp.clickCreateLeadButtonAndGetTitle();
+
+		String enteredEmail = lp.enterEmail(emailInput);
+		System.out.println("Entered Email: " + enteredEmail);
+
+		boolean isValidEmailFormat = enteredEmail.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
+		logger.info("Email format validation for '" + emailInput + "': " + isValidEmailFormat);
+
+		if (shouldAccept) {
+			Assert.assertTrue(isValidEmailFormat,
+					"Expected valid email format to be accepted, but it was rejected. Input: " + emailInput);
+		} else {
+			Assert.assertFalse(isValidEmailFormat,
+					"Expected invalid email format to be rejected, but it was accepted. Input: " + emailInput);
+			String errorMsg = lp.getEmailErrorMessage();
+			logger.info("Email validation error message: " + errorMsg);
+			Assert.assertTrue(errorMsg.toLowerCase().contains("valid email"),
+					"Expected email validation error message not found. Actual: " + errorMsg);
+		}
+	}
+
+// ********************************************************
+//14. Ensure Secondary Email field accepts valid email formats
+// ********************************************************
+
+	@DataProvider(name = "SecondaryEmailValidation")
+	public Object[][] SecondaryemailValidation() {
+		return new Object[][] { 
+			     { "test@example.com", true }, 
+			     { "user.name@domain.co", true },
+				 { "user123@gmail", false },
+				 { "@gmail.com", false },
+				 { "user@.com", false },
+				 { "user#mail.com", false },
+				 { "", false }, 
+				  { "123@gmail.com", true },
+				  };
+	}
+
+	@Test(priority = 14,
+			description = "Ensure Email field accepts only valid email formats",
+			enabled = true, 
+			dataProvider = "EmailValidation")
+	
+	public void verifySecondaryEmailFieldValidation(String emailInput, boolean shouldAccept)throws InterruptedException, IOException {
+		WebDriver driver = getBrowser();
+		CRM_LeadsPage lp = hp.clickLeads();
+		lp.clickCreateLeadButtonAndGetTitle();
+
+		String enteredEmail = lp.enterSecondayEmail(emailInput);
+		System.out.println("Entered Email: " + enteredEmail);
+
+		boolean isValidEmailFormat = enteredEmail.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
+		logger.info("Email format validation for '" + emailInput + "': " + isValidEmailFormat);
+
+		if (shouldAccept) {
+			Assert.assertTrue(isValidEmailFormat,
+					"Expected valid email format to be accepted, but it was rejected. Input: " + emailInput);
+		} else {
+			Assert.assertFalse(isValidEmailFormat,
+					"Expected invalid email format to be rejected, but it was accepted. Input: " + emailInput);
+			String errorMsg = lp.getEmailErrorMessage();
+			logger.info("Email validation error message: " + errorMsg);
+			Assert.assertTrue(errorMsg.toLowerCase().contains("valid email"),
+					"Expected email validation error message not found. Actual: " + errorMsg);
+		}
+	}
+
+// *****************************************************
+//15. Verify that Annual Revenue field defaults to 0
+// *****************************************************
+
+	@Test(priority = 15,
+			enabled = true, 
+			description = "Check if Annual Revenue field defaults to 0")
+	public void verifyAnnualRevenueDefaultValue() throws InterruptedException, IOException {
+		WebDriver driver = getBrowser();
+		CRM_LeadsPage lp = hp.clickLeads();
+		lp.clickCreateLeadButtonAndGetTitle();
+
+		String revenueValue = lp.getAnnualRevenue();
+		System.out.println("Default Annual Revenue: " + revenueValue);
+		Assert.assertEquals(revenueValue, "0", "Annual Revenue field should default to 0, but found: " + revenueValue);
+	}
+
+// *****************************************************
+// 16.Verify that Number of Employees field defaults to 1
+// *****************************************************
+
+	@Test(priority = 16, 
+			enabled = true, 
+			description = "Check if Number of Employees field defaults to 1")
+	public void verifyNumberOfEmployeesDefaultValue() throws InterruptedException, IOException {
+		WebDriver driver = getBrowser();
+		CRM_LeadsPage lp = hp.clickLeads();
+		lp.clickCreateLeadButtonAndGetTitle();
+
+		String numEmployees = lp.getNumberOfEmployeesValue();
+		System.out.println("Default Number of Employees: " + numEmployees);
+		Assert.assertEquals(numEmployees, "1",
+				"Number of Employees field should default to 1, but found: " + numEmployees);
+	}
+
+// *****************************************************
+// 17.Verify that Rating field defaults to 0
+// *****************************************************
+
+	@Test(priority = 17, 
+			enabled = true,
+			description = "Check if Rating field defaults to 0")
+	public void verifyRatingFieldDefaultValue() throws InterruptedException, IOException {
+		WebDriver driver = getBrowser();
+		CRM_LeadsPage lp = hp.clickLeads();
+		lp.clickCreateLeadButtonAndGetTitle();
+
+		String rating = lp.getRatingDefaultValue();
+		System.out.println("Default Rating: " + rating);
+		Assert.assertEquals(rating, "0", "Rating field should default to 0, but found: " + rating);
+	}
+
+// ***************************************************************
+//18. Verify that Number of Employees field accepts only numeric input
+// ****************************************************************
+
+	@DataProvider(name = "NumberOfEmployeesValidation")
+	public Object[][] numberOfEmployeesValidation() {
+		return new Object[][] { 
+			{ "10", true }, 
+			{ "0", true },
+			{ "-5", true }, 
+			{ "abc", false }, 
+			{ "12abc", false },
+			{ "!@#", false },
+			{ "1234567890", true }, 
+			{ "1.5", false } };
+	}
+
+	@Test(priority = 18, 
+			description = "Ensure Number of Employees accepts only numeric input",
+			enabled = true, 
+			dataProvider = "NumberOfEmployeesValidation")
+	public void verifyNumberOfEmployeesFieldValidation(String input, boolean shouldAccept)throws InterruptedException, IOException {
+		WebDriver driver = getBrowser();
+		CRM_LeadsPage lp = hp.clickLeads();
+		lp.clickCreateLeadButtonAndGetTitle();
+
+		String enteredValue = lp.enterNoOfEmployees(input);
+		boolean isNumeric = enteredValue.matches("-?\\d+");
+		logger.info("Entered Number of Employees: " + enteredValue + " | isNumeric: " + isNumeric);
+
+		if (shouldAccept) {
+			Assert.assertTrue(isNumeric, "Expected numeric input to be accepted, but it was rejected. Input: " + input);
+		} else {
+			Assert.assertFalse(isNumeric,
+					"Expected non-numeric input to be rejected, but it was accepted. Input: " + input);
+		}
+	}
+// *****************************************************
+// 19.Verify that Rating field accepts only numeric input
+// *****************************************************
+
+	@DataProvider(name = "RatingFieldValidation")
+	public Object[][] ratingFieldValidation() {
+		return new Object[][] { 
+			    { "5", true }, // Valid integer
+				{ "0", true }, // Valid zero
+				{ "-3", false }, // Invalid: negative number
+				{ "4.5", false }, // Invalid: decimal (if only integers allowed)
+				{ "abc", false }, // Invalid: alphabets
+				{ "123abc", false }, // Invalid: alphanumeric
+				{ "!@#", false }, // Invalid: special characters
+				{ "999999999", true }, // Valid large number (if allowed)
+				{ "", false } // Invalid: empty input
+		};
+	}
+
+	@Test(priority = 19, 
+			dataProvider = "RatingFieldValidation",
+			enabled = true, 
+			description = "Validate Rating field allows only numeric input")
+
+	public void testRatingFieldInput(String input, boolean shouldBeAccepted) throws InterruptedException {
+		WebDriver driver = getBrowser();
+		CRM_LeadsPage lp = hp.clickLeads();
+		lp.clickCreateLeadButtonAndGetTitle();
+
+		String actualValue = lp.RatingFieldInput(input);
+		boolean isValid = actualValue.matches("^\\d+$"); // accepts only positive integers
+
+		if (shouldBeAccepted) {
+			Assert.assertTrue(isValid, "Expected valid numeric input, but got: " + actualValue);
+		} else {
+			Assert.assertFalse(isValid, "Expected rejection of invalid input: " + input);
+		}
+	}
+	// *****************************************************
+	// 20.Verify that Lead ID field is read-only
+	// *****************************************************
+
+	@Test(priority = 20, 
+			enabled = true, 
+			description = "Ensure Lead ID field is read-only")
+	public void verifyLeadIDIsReadOnly() throws InterruptedException {
+		WebDriver driver = getBrowser();
+		CRM_LeadsPage lp = hp.clickLeads();
+		lp.clickCreateLeadButtonAndGetTitle();
+
+		// Check for 'readonly' attribute
+		String isReadOnly = lp.getLeadIdAttribute(createdLeadName);
+		logger.info("Lead ID 'readonly' attribute: " + isReadOnly);
+		// Assert that the Lead ID field is read-only
+		Assert.assertNotNull(isReadOnly, "Lead ID field is not marked as read-only");
+
+	}
+
 }
