@@ -7,6 +7,10 @@ import java.util.List;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+
+
+import java.util.List;
+
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
@@ -156,13 +160,10 @@ public class BasePage {
 	    LocalDate date = LocalDate.parse(inputDate, inputFormatter);
 	    return date.format(outputFormatter);
 	}
-
-	
 	public static String errorValidationMsg(WebElement ele)//priyanka
 	{
 	
 		String validationMessage=ele.getAttribute("validationMessage");
-	//	String validationMessage=(String)js.executeScript("return arguments[0].validationMessage;", ele);
 		return validationMessage;
 		
 	}
@@ -170,17 +171,17 @@ public class BasePage {
 	{
 	
 		String value=ele.getAttribute("value");
-	//	String validationMessage=(String)js.executeScript("return arguments[0].validationMessage;", ele);
 		return value;
 		
 	}
 	
-	public static int checkDropDownOptions(WebElement ele) {
+	public static int checkDropDownOptions(WebElement ele) {//priyanka
 		Select dropDwn = new Select(ele);
 		// Get all options
        List<WebElement> options = dropDwn.getOptions();
        return options.size();
 	}
+
 	
 }
 

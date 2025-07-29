@@ -39,6 +39,14 @@ public class CRM_AddProductPage extends BasePage {
 	@FindBy(xpath = "//ul[@class='pagination']//a")
 	private List<WebElement> pages;
 
+	@FindBy(xpath = "//select[@class='form-control']")
+	private WebElement SearchDrpdwn;
+	@FindBy(xpath = "//input[@placeholder='Search by product Name']")
+	private WebElement SearchTextBxEle;
+	@FindBy(xpath = "//a[@class='edit']")
+	private WebElement editButtonEle;
+
+
 	public CRM_AddProductPage(WebDriver driver) {
 		super(driver);
 	}
@@ -165,6 +173,32 @@ public class CRM_AddProductPage extends BasePage {
 		WaitUtils.explicitlyWaitForVisibility(driver, selectVendorIdEle);
 		return checkDropDownOptions(selectVendorIdEle);
 	}
+
+	public void selectSearchProductByName(String value) {
+
+		selectValue(SearchDrpdwn, value);
+
+	}
+
+	public void searchProductName(String name) {
+
+		WaitUtils.explicitlyWaitForVisibility(driver, SearchTextBxEle);
+		enterText(SearchTextBxEle, name);
+
+	}
+
+	public void clickOnEdit() {
+		WaitUtils.explicitlyWaitForVisibility(driver, editButtonEle);
+		editButtonEle.click();
+
+	}
+
+	public  boolean checkProductIDInputBoxReadOnly() {
+		boolean isDisabled;
+		return  isDisabled = AddProductPageHeaderEle.isEnabled();
+
+	}
+
 
 	public boolean isProductPresentInTable(String productName) {
 		for (WebElement page : pages) {
