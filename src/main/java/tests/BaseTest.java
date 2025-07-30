@@ -114,7 +114,7 @@ public class BaseTest {
 		test.set(extent.createTest(method.getName()));
 
 		// Initialize and configure driver
-		setDriver(browserName, false); // Set headless to false for normal runs
+		setDriver(browserName, false);
 		WebDriver driver = getBrowser();
 		driver.manage().window().maximize();//added this code later to maximize the browser window, this will be a git conflict
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));

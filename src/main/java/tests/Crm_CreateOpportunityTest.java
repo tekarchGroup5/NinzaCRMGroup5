@@ -564,7 +564,7 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 		logger.info("Lead field validation tested successfully");
 	}
 
-	@Test(dataProvider = "tc9Data", dataProviderClass = CommonUtils.class, enabled = false)
+	@Test(dataProvider = "tc9Data", dataProviderClass = CommonUtils.class, enabled = true)
 	public void verifyCreateDuplicateOpportunity(Map<String, String> data)
 			throws InterruptedException, FileNotFoundException, IOException {
 		CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
@@ -956,7 +956,7 @@ public class Crm_CreateOpportunityTest extends BaseTest {
 
 	}
 
-	@Test(dataProvider = "tc1Data", dataProviderClass = CommonUtils.class)
+	@Test(dataProvider = "tc1Data", dataProviderClass = CommonUtils.class, enabled = false)
 	public void verifyFieldsRetainDataAfterValidationError(Map<String, String> data)
 			throws IOException, InterruptedException {
 		CRM_OpportunitiesPage oppPage = hp.clickOpportunities();
