@@ -16,6 +16,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.annotations.Factory;
+
 import constants.FileConstants;
 import utils.CommonUtils;
 import utils.FileUtils;
@@ -83,10 +85,13 @@ public class CRM_CampaignsPage extends BasePage {
 	public List<WebElement> DeleteCampaign_Cancel;
 
 	@FindBy(xpath = "//input[@class='btn btn-danger']")
-	public List<WebElement> Delete_Campaign;
+	public WebElement Delete_Campaign;
 
 	@FindBy(xpath = "//*[text()='Delete Campaign']")
-	public List<WebElement> Delete_Campaign_Label;
+	public WebElement Delete_Campaign_Label;
+
+	@FindBy(xpath = "//*[@id='content']/div[2]/div[1]/div/table/tbody/tr[1]/td[7]/a[2]/i")
+	public WebElement delete_icon;
 
 	@FindBy(xpath = "//div[@class='Toastify__toast-body' and @role='alert']")
 	public WebElement alertTip;
@@ -96,12 +101,30 @@ public class CRM_CampaignsPage extends BasePage {
 
 	@FindBy(xpath = "//table[@class='table table-striped table-hover']/thead/tr/th")
 	public List<WebElement> table_Cols;
-	
+
+	@FindBy(xpath = "//table[@class='table table-striped table-hover']/tbody/tr")
+	public List<WebElement> table_Rows;
+
+	@FindBy(xpath = "//*[@id='content']/div[2]/div[1]/div/table/tbody/tr[1]/td[2]")
+	public WebElement recordName1;
+
 	@FindBy(xpath = "//*[@id='content']/div[2]/div[1]/div/table/tbody/tr[1]/td[7]/a[1]/i")
 	public WebElement editBtn;
-	
-	@FindBy(xpath="//button[@type='submit']")
+
+	@FindBy(xpath = "//button[@type='submit']")
 	public WebElement update_Campaign;
+
+	@FindBy(xpath = "//select[@class='form-control']")
+	public WebElement selectDD;
+
+	@FindBy(xpath = "//input[@type='text' and @class='form-control']")
+	public WebElement searchBy;
+
+	@FindBy(xpath = "//*[@id='content']/div[2]/div[1]/div/table/tbody/tr[1]/td[7]/a[1]/i")
+	public WebElement update_icon;
+
+	@FindBy(xpath = "//input[@name='expectedCloseDate']")
+	public WebElement Calender;
 
 	public void user_on_campaignPage() {
 
@@ -129,16 +152,17 @@ public class CRM_CampaignsPage extends BasePage {
 	 * }
 	 */
 
-	public void filling_the_Form(WebDriver driver, String name, String status, String size, String audience,
-			String descr) {
+	public void filling_the_Form(WebDriver driver, String name, String status, String size, String date,
+			String audience, String descr) {
 
 		user_on_campaignPage();
-		WaitUtils.waitForElement(driver, Campaign_Form_button);
-		Campaign_Form_button.click();
+		// WaitUtils.waitForElement(driver, Campaign_Form_button);
+		// Campaign_Form_button.click();
 		WaitUtils.waitForElement(driver, Campaign_Name);
 		Campaign_Name.sendKeys(name);
 		Campaign_Status.sendKeys(status);
 		campaignSize.sendKeys(size);
+		Valid_Close_date(date);
 		targetAudience.sendKeys(audience);
 		Description.sendKeys(descr);
 		Submit_button.submit();
@@ -198,6 +222,15 @@ public class CRM_CampaignsPage extends BasePage {
 		}
 	}
 
+	public void check_appearance_of_element() {
+		WaitUtils.waitForElement(driver, table_ID);
+		if (table_Rows.size() > 1) {
+			System.out.println(" Multiple records of same campaign name found!");
+			System.out.println(" Test Failed!!!");
+		} else
+			System.out.println(" There are no multiple records found.");
+	}
+
 	public boolean check_CampainName(String Asize) {
 		boolean c_Name = false;
 		user_on_campaignPage();
@@ -215,9 +248,18 @@ public class CRM_CampaignsPage extends BasePage {
 		return c_Name;
 	}
 
-
-	public void Verify_Expected_closedate_format() {
-
+	public void Enter_CampainName(String name, String Asize) {
+		// user_on_campaignPage();
+		if (WaitUtils.waitForElement(driver, Campaign_Name)) {
+			Campaign_Name.sendKeys(name);
+			System.out.println(" Name Entered");
+			campaignSize.sendKeys(Asize);
+			System.out.println(" Size entered");
+			Submit_button.click();
+			System.out.println(" You clicked submit button");
+			// String emptyField = getErrorMessage(Campaign_Name);
+			Alert_Message();
+		}
 	}
 
 	public boolean Check_Status_optional(String name, String Asize) {
@@ -236,10 +278,10 @@ public class CRM_CampaignsPage extends BasePage {
 			if (emptyField.isEmpty()) {
 				System.out.println(" Campaign Status is optional!");
 			}
-				Submit_button.click();
-				System.out.println(" You clicked submit button");
-				Alert_Message();
-				Stat = false;			
+			Submit_button.click();
+			System.out.println(" You clicked submit button");
+			Alert_Message();
+			Stat = false;
 		}
 		return Stat;
 	}
@@ -259,10 +301,10 @@ public class CRM_CampaignsPage extends BasePage {
 			if (empty.isEmpty()) {
 				System.out.println(" Campaign target Audience is optional!");
 			}
-				Submit_button.click();
-				System.out.println(" You clicked submit button");
-				Alert_Message();
-				target = true;			
+			Submit_button.click();
+			System.out.println(" You clicked submit button");
+			Alert_Message();
+			target = true;
 		}
 		return target;
 	}
@@ -282,14 +324,14 @@ public class CRM_CampaignsPage extends BasePage {
 			if (empty.isEmpty()) {
 				System.out.println(" Campaign Description is optional!");
 			}
-				Submit_button.click();
-				System.out.println(" You clicked submit button");
-				Alert_Message();
-				desc = true;			
+			Submit_button.click();
+			System.out.println(" You clicked submit button");
+			Alert_Message();
+			desc = true;
 		}
 		return desc;
 	}
-	
+
 	public boolean check_TargetSize_isPositive(String name, String Nsize) {
 		boolean negatSign = false;
 		user_on_campaignPage();
@@ -297,44 +339,75 @@ public class CRM_CampaignsPage extends BasePage {
 			Campaign_Name.sendKeys(name);
 			System.out.println(" Name is entered");
 			campaignSize.sendKeys(Nsize);
-			System.out.println(" Negative Size is entered");			
+			System.out.println(" Negative Size is entered");
 			String empty = getErrorMessage(campaignSize);
-			System.out.println(" Tooltip for negative Size: " + empty);	
-	
+			System.out.println(" Tooltip for negative Size: " + empty);
+
 			if (empty.isEmpty()) {
 				System.out.println(" Error!!! Negative Campaign Size is Taken!");
 				Submit_button.click();
 				System.out.println(" You clicked submit button");
 				Alert_Message();
-				negatSign = true;	
-			}	 else System.out.println(" TargetSize takes only positive numbers!");
-		} 
+				negatSign = true;
+			} else
+				System.out.println(" TargetSize takes only positive numbers!");
+		}
 		return negatSign;
 	}
-		
-	
+
 	public void Edit_Campaign_Name(WebDriver driver, String Uname) {
-		if (WaitUtils.waitForElement(driver,Campaign_label)) {
+		if (WaitUtils.waitForElement(driver, Campaign_label)) {
 			System.out.println("you are on Campaign Page");
 			driver.manage().window().maximize();
-		    }
-			WaitUtils.waitForElement(driver, editBtn);
-			editBtn.click();	
-			System.out.println(" Edit button clicked");
-			WaitUtils.waitForElement(driver, Campaign_Name);
-			Campaign_Name.click();
-			Campaign_Name.clear();
-			System.out.println(" Cleared old Campaign name");
-			Campaign_Name.sendKeys(Uname);
-			System.out.println(" Entered Updated Campaign name");	
-			update_Campaign.click();
-			System.out.println(" Update Campaign clicked");
-			WaitUtils.waitForElement(driver, Campaign_Button);
-			System.out.println("you are on Campaign Page");
-			Alert_Message();			
 		}
-
-	public void Update_Campaign_Status() {
-		
+		WaitUtils.waitForElement(driver, editBtn);
+		editBtn.click();
+		System.out.println(" Edit button clicked");
+		WaitUtils.waitForElement(driver, Campaign_Name);
+		Campaign_Name.click();
+		Campaign_Name.clear();
+		System.out.println(" Cleared old Campaign name");
+		Campaign_Name.sendKeys(Uname);
+		System.out.println(" Entered Updated Campaign name");
+		update_Campaign.click();
+		System.out.println(" Update Campaign clicked");
+		WaitUtils.waitForElement(driver, Campaign_Button);
+		System.out.println("you are on Campaign Page");
+		Alert_Message();
 	}
+
+	public void select_search_dropdown(WebDriver driver, String value, String Sname) {
+		if (WaitUtils.waitForElement(driver, Campaign_label)) {
+			System.out.println("you are on Campaign Page");
+			driver.manage().window().maximize();
+		}
+		selectDD.click();
+		selectValue(selectDD, value);
+		System.out.println(" User searches using: " + value);
+		searchBy.clear();
+		searchBy.sendKeys(Sname);
+		System.out.println(" Searching By name:  " + Sname);
+		WaitUtils.waitForElement(driver, recordName1);
+		String abc = recordName1.getText();
+		System.out.println(" Record name is : " + abc);
+		if (Sname.equals(abc)) {
+			System.out.println(" Records matched!");
+		} else
+			System.out.println(" Wrong Name!");
+	}
+
+	public void Valid_Close_date(String date) {
+		Calender.clear();
+		Calender.sendKeys(date);
+		System.out.println(" Valid date is entered");
+	}
+
+	public void invalid_Close_date(String date) {
+		Calender.clear();
+		Calender.sendKeys(date);
+		String emptyField = getErrorMessage(Calender);
+		System.out.println(" Error Message appeared for Invalid Date: " + emptyField);
+		System.out.println(" Invalid date is entered");
+	}
+
 }
