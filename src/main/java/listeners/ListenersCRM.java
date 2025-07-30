@@ -15,7 +15,7 @@ public class ListenersCRM implements ITestListener {
 
 	public void onTestStart(ITestResult result) {
 		
-//		System.out.println(result.getName()+" Started");
+	System.out.println(result.getName()+" Started");
 	}
 
 	public void onTestFailure(ITestResult result) {
@@ -24,10 +24,10 @@ public class ListenersCRM implements ITestListener {
 	}
 
 
-//	public void onFinish(ITestContext context) {
-//		System.out.println(context.getName()+" Finished");
-//	}
-//
+public void onFinish(ITestContext context) {
+		System.out.println(context.getName()+" Finished");
+	}
+
 	public void onTestSuccess(ITestResult result) {
 		BaseTest.test.get().log(Status.PASS, result.getName()+" PASSED");
 		
