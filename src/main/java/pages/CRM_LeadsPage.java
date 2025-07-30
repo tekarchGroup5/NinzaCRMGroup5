@@ -110,8 +110,11 @@ public class CRM_LeadsPage extends BasePage {
 	@FindBy(xpath = "//input[@placeholder=\"Search by Lead Name\"]")
 	private WebElement searchLeadNameInput;
 
-	@FindBy(xpath = "//*[@id=\"content\"]/div[2]/div[1]/div/div[1]/div/div[3]/select")
+	@FindBy(xpath = "//*[@id=\"content\"]/div[2]/div[1]/div/div[1]/div/div[3]/select/option[2]")
 	private WebElement SearchbyLeadNameDropdown;
+	
+	@FindBy(xpath = "//*[@id=\"content\"]/div[2]/div[1]/div/div[1]/div/div[3]/select")
+	private WebElement selectBoxID;
 
 // Example method to return error message text
 	public String getEmailErrorMessage() {
@@ -218,18 +221,7 @@ public class CRM_LeadsPage extends BasePage {
 
 	}
 
-	/*
-	 * public String getLeadId(String leadName) { leads.click(); // navigate to
-	 * leads page
-	 * 
-	 * WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30)); By
-	 * rowsLocator =
-	 * By.xpath("//*[@id='content']/div[2]/div[1]/div/table/tbody/tr");
-	 * 
-	 * 
-	 * throw new RuntimeException("Lead with name '" + leadName +
-	 * "' not found in the table."); }
-	 */
+	
 	public boolean checkIfLeadCreated(String leadName) {
 
 		return driver.getPageSource().contains(leadName);
@@ -249,7 +241,7 @@ public class CRM_LeadsPage extends BasePage {
 
 		inputEmail.clear();
 		inputEmail.sendKeys(email);
-		return inputEmail.getAttribute("value"); // returns current text in input field
+		return inputEmail.getAttribute("value"); 
 
 	}
 
@@ -257,7 +249,7 @@ public class CRM_LeadsPage extends BasePage {
 
 		inputEmail.clear();
 		inputSecondaryEmail.sendKeys(email);
-		return inputEmail.getAttribute("value"); // returns current text in input field
+		return inputEmail.getAttribute("value"); 
 
 	}
 
@@ -312,27 +304,26 @@ public class CRM_LeadsPage extends BasePage {
 	public String getAttributeCompany(String string) {
 
 		inputCompany.sendKeys(string);
-		return inputleadName.getAttribute("required"); // returns current text in input field
-	}
+		return inputleadName.getAttribute("required"); }
 
 	public String getAttributeLeadSource(String string) {
 		inputLeadSource.sendKeys(string);
-		return inputleadName.getAttribute("required"); // returns current text in input field
+		return inputleadName.getAttribute("required"); 
 	}
 
 	public String getAttributeIndustry(String string) {
 		inputIndustry.sendKeys(string);
-		return inputleadName.getAttribute("required"); // returns current text in input field
+		return inputleadName.getAttribute("required"); 
 	}
 
 	public String getAttributePhone(String string) {
 		inputPhone.sendKeys(string);
-		return inputleadName.getAttribute("required"); // returns current text in input field
+		return inputleadName.getAttribute("required"); 
 	}
 
 	public String getAttributeLeadStatus(String string) {
 		inputLeadStatus.sendKeys(string);
-		return inputleadName.getAttribute("required"); // returns current text in input field
+		return inputleadName.getAttribute("required"); 
 	}
 
 	public String getAttributeCampaign(String string) {
@@ -378,7 +369,7 @@ public class CRM_LeadsPage extends BasePage {
 	public String searchLead(String leadName) {
 		// Use the Select class
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		WebElement dropdownElement = wait.until(ExpectedConditions.visibilityOf(SearchbyLeadNameDropdown));
+		WebElement dropdownElement = wait.until(ExpectedConditions.visibilityOf(selectBoxID));
 
 		Select dropdown = new Select(dropdownElement);
 
@@ -405,4 +396,6 @@ public String getLeadIdAttribute(String leadName) {
 	return LeadIdfeild.getAttribute("value");
 
 
-}}
+}
+
+}
