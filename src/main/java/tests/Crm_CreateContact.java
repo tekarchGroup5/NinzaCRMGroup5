@@ -20,7 +20,23 @@ public class Crm_CreateContact  extends BaseTest {
 		// initialize it here.
 	 CRM_ContactsPage lp = hp.clickContacts();// navigates from home page and clicks on the click leads method and driver is
 											// set to the lead page
-		lp.clickCreatecontact_buttonAndGetTitle(); // Clicks on the Create Lead button and waits for the title to change
+		lp.clickCreateContactButton();
+		// Clicks on the Create Lead button and waits for the title to change
+		lp.enterContactID("C12345");
+	lp.enterOrganization("Education Inc.");
+	lp.enterTitle("Manager");
+	lp.enterDepartment("Sales");
+	lp.enterEmail("testuser@example.com");
+	lp.enterOfficePhone("1234567890");
+	lp.enterMobile("9876543210");
+	lp.enterCampaign("Campaign July");
+	lp.entercontactName("sridevi");
+        
+	lp.clickCreateContactButtonCRM();
+		
+		
+		
+		
 
 	}
 }

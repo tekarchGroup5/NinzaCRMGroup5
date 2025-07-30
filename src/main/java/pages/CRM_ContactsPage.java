@@ -14,9 +14,11 @@ public class CRM_ContactsPage  extends BasePage {
 		super(driver);
 		
 	}
-// Define locators for the Contacts pag//span[normalize-space()='Create Contact']
-
-	@FindBy(xpath = "//h3[normalize-space()='Create Contact']")
+/* Define locators for the Contacts pag//span[normalize-space()='Create Contact']
+	@FindBy(xpath = "//a[normalize-space()='Contacts']")
+    public WebElement contacts;
+	
+	@FindBy(xpath = "//span[normalize-space()='Create Contact']")
 	private WebElement Createcontact_button;
 
 @FindBy(xpath = "//label[normalize-space()='Contact ID:']")
@@ -106,5 +108,105 @@ public void	Enter_Department(String department )
 		Createcontactfor_CRM.click();
 	}
 
+}*/
+
+
+
+    @FindBy(xpath = "//a[normalize-space()='Contacts']")
+    public WebElement contacts;
+
+    @FindBy(xpath = "//span[normalize-space()='Create Contact']")
+    private WebElement createContactButton;
+
+    @FindBy(xpath = "//label[normalize-space()='Contact ID:']")
+    private WebElement contactID;
+
+    @FindBy(xpath = "//input[@name='organizationName']")
+    private WebElement mfOrganization;
+    
+    @FindBy(xpath = "//input[@name='contactName']")
+    private WebElement mContactName;
+    
+    @FindBy(xpath = "//input[@name='title']")
+    private WebElement mfTitle;
+
+    @FindBy(xpath = "//input[@name='department']")
+    private WebElement department;
+
+    @FindBy(xpath = "//input[@name='officePhone']")
+    private WebElement officePhone;
+
+    @FindBy(xpath = "//input[@name='contactName']")
+    private WebElement mfContactName;
+
+    @FindBy(xpath = "//input[@name='mobile']")
+    private WebElement mfMobile;
+
+    @FindBy(xpath = "//input[@name='email']")
+    private WebElement email;
+
+    @FindBy(xpath = "//div[@class='form-group']//div//input[@type='text']")
+    private WebElement mfCampaign;
+
+    @FindBy(xpath = "//button[normalize-space()='Create Contact']")
+    private WebElement createContactForCRM;
+
+	/*
+	 * /WebDriver driver;
+	 * 
+	 * public ContactPage(WebDriver driver) { this.driver = driver;
+	 * PageFactory.initElements(driver, this);
+	 */
+
+    public void clickCreateContactButton() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOf(createContactButton));
+        wait.until(ExpectedConditions.elementToBeClickable(createContactButton));
+        createContactButton.click();
+    }
+
+    public void enterContactID(String id) {
+        contactID.click(); // Should send keys if editable
+    }
+
+    public void enterOrganization(String organization) {
+        mfOrganization.sendKeys(organization);
+         }
+    
+    
+    public void entercontactName(String contactName ) {
+        mContactName.sendKeys(contactName);
+         }   
+    
+    
+
+    public void enterTitle(String title) {
+        mfTitle.sendKeys(title);
+    }
+
+    public void enterDepartment(String dept) {
+        department.sendKeys(dept);
+    }
+
+    public void enterEmail(String emailValue) {
+        email.sendKeys(emailValue);
+    }
+
+    public void enterOfficePhone(String phone) {
+        officePhone.sendKeys(phone);
+    }
+
+    public void enterMobile(String mobileValue) {
+        mfMobile.sendKeys(mobileValue);
+    }
+
+    public void enterCampaign(String campaign) {
+        mfCampaign.sendKeys(campaign);
+    }
+
+    public void clickCreateContactButtonCRM() {
+        createContactForCRM.click();
+    }
 }
+
 

@@ -33,7 +33,7 @@ public class BasePage {
 	        int retries = 2; // Retry up to 10 times
 	        for (int i = 0; i < retries; i++) {
 	            try {
-	                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+	                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 	                wait.until(ExpectedConditions.alertIsPresent());
 
 	                Alert alert = driver.switchTo().alert();

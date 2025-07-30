@@ -99,8 +99,9 @@ public class CRM_HomePage extends BasePage {
         return new CRM_CreateUsersPage(driver);
     }
 
-    public CRM_ContactsPage clickContacts() {
+    public CRM_ContactsPage clickContacts() throws InterruptedException {
         contacts.click();
+        Thread.sleep(2000); 
         logger.debug("Contacts link clicked");
         return new CRM_ContactsPage(driver);
     }
