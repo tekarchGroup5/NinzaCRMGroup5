@@ -140,13 +140,13 @@ public class BaseTest {
 		this.hp = homePage;
 	}
 
-	/*@AfterMethod(alwaysRun = false)
+	@AfterMethod(alwaysRun = false)
 	public void tearDownTest() {
 		WebDriver driver = getBrowser();
 		if (driver != null) {
 			driver.quit();
 			threadLocalDriver.remove();
 		}
-	}*/
+	}
 
 }
