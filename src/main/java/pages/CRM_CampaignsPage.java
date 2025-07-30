@@ -108,7 +108,7 @@ public class CRM_CampaignsPage extends BasePage {
 	@FindBy(xpath = "//*[@id='content']/div[2]/div[1]/div/table/tbody/tr[1]/td[2]")
 	public WebElement recordName1;
 
-	@FindBy(xpath = "//*[@id='content']/div[2]/div[1]/div/table/tbody/tr[1]/td[7]/a[1]/i")
+	@FindBy(xpath = "//*[@id='content']/div[2]/div[1]/div/table/tbody/tr[1]/td[7]/a[1]/i")  //i[@class='material-icons' and contains(@title,'Edit')]/a[1]  
 	public WebElement editBtn;
 
 	@FindBy(xpath = "//button[@type='submit']")
@@ -127,7 +127,6 @@ public class CRM_CampaignsPage extends BasePage {
 	public WebElement Calender;
 
 	public void user_on_campaignPage() {
-
 		if (Campaign_label.isDisplayed()) {
 			System.out.println("you are on 1 Campaign Page");
 			driver.manage().window().maximize();
@@ -143,19 +142,10 @@ public class CRM_CampaignsPage extends BasePage {
 		return element.getAttribute("value");
 	}
 
-	/*
-	 * public String Get_Alert(WebDriver driver) {
-	 * 
-	 * Alert alert = driver.switchTo().alert(); String alert_msg = alert.getText();
-	 * System.out.println(" Alert message: " + alert_msg); return null;
-	 * 
-	 * }
-	 */
-
 	public void filling_the_Form(WebDriver driver, String name, String status, String size, String date,
 			String audience, String descr) {
 
-		user_on_campaignPage();
+		//user_on_campaignPage();
 		// WaitUtils.waitForElement(driver, Campaign_Form_button);
 		// Campaign_Form_button.click();
 		WaitUtils.waitForElement(driver, Campaign_Name);
@@ -227,13 +217,15 @@ public class CRM_CampaignsPage extends BasePage {
 		if (table_Rows.size() > 1) {
 			System.out.println(" Multiple records of same campaign name found!");
 			System.out.println(" Test Failed!!!");
+			utils.CommonUtils.captureScreenshot(driver);
+			System.out.println("screenshot is taken");
 		} else
 			System.out.println(" There are no multiple records found.");
 	}
 
 	public boolean check_CampainName(String Asize) {
 		boolean c_Name = false;
-		user_on_campaignPage();
+		//user_on_campaignPage();
 		if (WaitUtils.waitForElement(driver, Campaign_Name)) {
 			Campaign_Name.sendKeys("");
 			System.out.println(" Name Field is empty");
@@ -244,6 +236,10 @@ public class CRM_CampaignsPage extends BasePage {
 			String emptyField = getErrorMessage(Campaign_Name);
 			System.out.println(" Tooltip for empty field: " + emptyField);
 			c_Name = true;
+			if(!emptyField.isEmpty()) {
+				utils.CommonUtils.captureScreenshot(driver);
+				System.out.println(" Screen shot taken!");
+			}
 		}
 		return c_Name;
 	}
@@ -265,7 +261,7 @@ public class CRM_CampaignsPage extends BasePage {
 	public boolean Check_Status_optional(String name, String Asize) {
 
 		boolean Stat = true;
-		user_on_campaignPage();
+		//user_on_campaignPage();
 		if (WaitUtils.waitForElement(driver, Campaign_Name)) {
 			Campaign_Name.sendKeys(name);
 			System.out.println(" Name is entered");
@@ -276,7 +272,8 @@ public class CRM_CampaignsPage extends BasePage {
 			String emptyField = getErrorMessage(Campaign_Status);
 			System.out.println(" Tooltip for Campus Status: " + emptyField);
 			if (emptyField.isEmpty()) {
-				System.out.println(" Campaign Status is optional!");
+				System.out.println(" No tooltop found. Campaign Status is optional!");
+				System.out.println(" Tool tip should be added");
 			}
 			Submit_button.click();
 			System.out.println(" You clicked submit button");
@@ -288,7 +285,7 @@ public class CRM_CampaignsPage extends BasePage {
 
 	public boolean Check_TargerAudience_optional(String name, String Asize) {
 		boolean target = false;
-		user_on_campaignPage();
+		//user_on_campaignPage();
 		if (WaitUtils.waitForElement(driver, Campaign_Name)) {
 			Campaign_Name.sendKeys(name);
 			System.out.println(" Name is entered");
@@ -298,12 +295,12 @@ public class CRM_CampaignsPage extends BasePage {
 			System.out.println(" No value entered in targetAudience");
 			String empty = getErrorMessage(targetAudience);
 			System.out.println(" Tooltip for Campaign Status: " + empty);
-			if (empty.isEmpty()) {
-				System.out.println(" Campaign target Audience is optional!");
-			}
 			Submit_button.click();
 			System.out.println(" You clicked submit button");
 			Alert_Message();
+			if (empty.isEmpty()) {
+				System.out.println(" No tooltip is found. Campaign target Audience is optional!");
+			}
 			target = true;
 		}
 		return target;
@@ -311,7 +308,7 @@ public class CRM_CampaignsPage extends BasePage {
 
 	public boolean check_Description_is_Oprional(String name, String Asize) {
 		boolean desc = false;
-		user_on_campaignPage();
+		//user_on_campaignPage();
 		if (WaitUtils.waitForElement(driver, Campaign_Name)) {
 			Campaign_Name.sendKeys(name);
 			System.out.println(" Name is entered");
@@ -334,7 +331,7 @@ public class CRM_CampaignsPage extends BasePage {
 
 	public boolean check_TargetSize_isPositive(String name, String Nsize) {
 		boolean negatSign = false;
-		user_on_campaignPage();
+		
 		if (WaitUtils.waitForElement(driver, Campaign_Name)) {
 			Campaign_Name.sendKeys(name);
 			System.out.println(" Name is entered");
@@ -349,6 +346,8 @@ public class CRM_CampaignsPage extends BasePage {
 				System.out.println(" You clicked submit button");
 				Alert_Message();
 				negatSign = true;
+				utils.CommonUtils.captureScreenshot(driver);
+					System.out.println(" Screen shot taken!");
 			} else
 				System.out.println(" TargetSize takes only positive numbers!");
 		}
@@ -392,6 +391,9 @@ public class CRM_CampaignsPage extends BasePage {
 		System.out.println(" Record name is : " + abc);
 		if (Sname.equals(abc)) {
 			System.out.println(" Records matched!");
+			utils.CommonUtils.captureScreenshot(driver);
+			System.out.println("screenshot is taken");
+			System.out.println(" SearchBy dropdown working....");
 		} else
 			System.out.println(" Wrong Name!");
 	}
@@ -409,5 +411,4 @@ public class CRM_CampaignsPage extends BasePage {
 		System.out.println(" Error Message appeared for Invalid Date: " + emptyField);
 		System.out.println(" Invalid date is entered");
 	}
-
-}
+	}

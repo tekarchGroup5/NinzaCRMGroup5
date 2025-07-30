@@ -34,7 +34,7 @@ import utils.ReportManager;
 public class BaseTest {
 
 	public static ExtentReports extent;
-	//public static ExtentTest test;
+//	public static ExtentTest test;
 	CRM_HomePage hp = null;
 	public static ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<WebDriver>();
 	public static ThreadLocal<ExtentTest> test = new ThreadLocal<ExtentTest>();
