@@ -6,7 +6,7 @@
 
   <test name="ChromeTest">
     <classes>
-      <class name="tests.CRM_CreateLeadTest"/>
+      <class name="tests.Crm_CampaignTest"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- ParallelSuite -->
