@@ -22,7 +22,7 @@
 				<configuration>
 					<suiteXmlFiles>
 						<suiteXmlFile>
-							testng_addproduct.xml
+							<suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
 						</suiteXmlFile>
 					</suiteXmlFiles>
 				</configuration>
@@ -32,6 +32,11 @@
 	<properties>
 		<log4jversion>2.18.0</log4jversion>
 <!--		<cucumberversion>7.19.0</cucumberversion>-->
+		<suiteXmlFile>testng_addproduct.xml</suiteXmlFile>
+		<suiteXmlFile>testng_opportunity.xml</suiteXmlFile>
+		<suiteXmlFile>testng_campaign.xml</suiteXmlFile>
+		<suiteXmlFile>testng_createuser.xml</suiteXmlFile>
+		<suiteXmlFile>testng_lead.xml</suiteXmlFile>
 	</properties>
 
 	<dependencies>
