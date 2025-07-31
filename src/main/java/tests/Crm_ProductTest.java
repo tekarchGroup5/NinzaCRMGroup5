@@ -64,8 +64,6 @@ public class Crm_ProductTest extends BaseTest {
 
 	}
 
-
-	
 	// Verify that Category must be selected
 
 	@Test
@@ -246,8 +244,6 @@ public class Crm_ProductTest extends BaseTest {
 
 	// Verify Vendor dropdown is populated
 
-
-
 	@Test
 	public void verifyVendorDropDwnIsPopulatedTC14() {
 		int drpdwnSize = adp.verifyVendorDrpDwn();
@@ -260,7 +256,6 @@ public class Crm_ProductTest extends BaseTest {
 		}
 
 	}
-
 
 	// Verify Save/Add button adds product
 
@@ -282,14 +277,11 @@ public class Crm_ProductTest extends BaseTest {
 		Thread.sleep(2000);
 		Assert.assertEquals(SuccessMsg, "Product " + productName + " Successfully Added");
 
-		 if(adp.isProductPresentInTable(productName)) {
-			 System.out.println(productName +"Product Name is added in Products:PASS");
-		 }
-		 else{
-			 System.out.println(productName +"Product Name is not added in Products:FAILED");
-		 }
-		
-		
+		if (adp.isProductPresentInTable(productName)) {
+			System.out.println(productName + "Product Name is added in Products:PASS");
+		} else {
+			System.out.println(productName + "Product Name is not added in Products:FAILED");
+		}
 
 		System.out.println("Add button is working properly");
 //		 if(adp.isProductPresentInTable(productName)) {
@@ -320,7 +312,7 @@ public class Crm_ProductTest extends BaseTest {
 		String value = "productName";
 		adp.selectSearchProductByName(value);
 		adp.searchProductName(productName);
-		
+
 		adp.clickOnEdit();
 		Thread.sleep(3000);
 		boolean result = adp.checkProductIDInputBoxReadOnly();
@@ -332,11 +324,9 @@ public class Crm_ProductTest extends BaseTest {
 			System.out.println("Input is editable");
 		}
 
-
 	}
-	
-	
-	//TC18:Verify validation messages appear for blank Product Name
+
+	// TC18:Verify validation messages appear for blank Product Name
 	@Test
 	public void verifyValidationMessagesAppearForBlankProductNameTC18() {
 		String productName = "";
@@ -344,22 +334,23 @@ public class Crm_ProductTest extends BaseTest {
 		adp.clickOnAdd();
 		String errorMsg = adp.errorProductNameValidationMsg();
 		Assert.assertEquals(errorMsg, "Please fill out this field.");
-		
+
 	}
-	
-	//TC19:Verify validation messages appear for missing Category
+
+	// TC19:Verify validation messages appear for missing Category
 	@Test
 	public void verifyValidationMessagesAppearForMissingCategoryTC19() {
-		
+
 		String productName = "SonyTV";
 		adp.enterProductName(productName);
 		// adp.selectCategory();
 		adp.clickOnAdd();
 		String errorMsg = adp.errorSelectCategoryValidationMsg();
 		Assert.assertEquals(errorMsg, "Please select an item in the list.");
-		
+
 	}
-	//TC20:Verify validation messages appear for missing Vendor
+
+	// TC20:Verify validation messages appear for missing Vendor
 	@Test
 	public void verifyValidationMessagesAppearforMissingVendorTC20() {
 		String productName = "SonyTV";
@@ -372,12 +363,13 @@ public class Crm_ProductTest extends BaseTest {
 		String errorMsg = adp.errorVendorValidationMsg();
 		Assert.assertEquals(errorMsg, "Please select an item in the list.");
 	}
-	//TC21:Verify error shown for Quantity = special characters not allowed(special charecter)deprecated
-	
-	//TC22:Verify error shown for Price = special characters**
+	// TC21:Verify error shown for Quantity = special characters not allowed(special
+	// charecter)deprecated
+
+	// TC22:Verify error shown for Price = special characters**
 	@Test
 	public void verifyErrorShownforPriceEnteredSpecialCharactersTC22() {
-		
+
 		String productName = "SonyTV";
 		adp.enterProductName(productName);
 		adp.selectCategory(3);
@@ -386,13 +378,13 @@ public class Crm_ProductTest extends BaseTest {
 		adp.selectVendorByValue("VID_009");
 		adp.clickOnAdd();
 		String errorMsg = adp.errorPriceValidationMsg();
-		Assert.assertEquals(errorMsg, "");//Please enter a number.
+		Assert.assertEquals(errorMsg, "");// Please enter a number.
 
-		
 	}
-	//TC23:Verify whitespace-only Product Name is not allowed (deprecated) or white space is not allowed
-	
-	//TC24:Verify numeric precision for Price Per Unit
+	// TC23:Verify whitespace-only Product Name is not allowed (deprecated) or white
+	// space is not allowed
+
+	// TC24:Verify numeric precision for Price Per Unit
 	@Test
 	public void verifyNumericPrecisionForPricePerUnitTC24() {
 		String productName = "Tesla";
@@ -403,21 +395,54 @@ public class Crm_ProductTest extends BaseTest {
 		adp.selectVendorByValue("VID_009");
 		adp.clickOnAdd();
 		String errorMsg = adp.errorPriceValidationMsg();
-		Assert.assertEquals(errorMsg, "Please enter a valid value. The two nearest valid values are 99.99 and 100.");//Please enter a number.
-		
+		Assert.assertEquals(errorMsg, "Please enter a valid value. The two nearest valid values are 99.99 and 100.");// Please
+																														// enter
+																														// a
+																														// number.
+
 	}
-	
-	//TC25:Verify minimum and maximum length for Product Name
+
+	// TC25:Verify minimum and maximum length for Product Name
 	@Test
 	public void verifyMinimumAndMaximumLengthForProductNameTC25() {
-		String productName = "A";//eg.1
+		String productName = "A";// eg.1
 		adp.enterProductName(productName);
 		adp.clickOnAdd();
 		String errorMsg = adp.errorProductNameValidationMsg();
-		Assert.assertEquals(errorMsg, "Please lengthen this text to 2 characters or more (you are currently using 1 character).");
-		
+		Assert.assertEquals(errorMsg,
+				"Please lengthen this text to 2 characters or more (you are currently using 1 character).");
+
 	}
-	
-	
+
+	// TC-26 Verify update or edit existing product
+	@Test(dataProvider = "productData")
+	public void verifyUpdateOrEditExistingProductTC26(String prodName, int category, String qunty, String price,
+			String vendor) throws InterruptedException {
+
+		String productName = prodName + System.currentTimeMillis();
+		adp.enterProductName(productName);
+		adp.selectCategory(category);
+		adp.enterQuantiy(qunty);
+		adp.enterPrice(price);
+		adp.selectVendorByValue(vendor);
+		adp.clickOnAdd();
+		String SuccessMsg = adp.successMsg();
+		System.out.println(SuccessMsg);
+		String value = "productName";
+		Thread.sleep(3000);
+		adp.selectSearchProductByName(value);
+		Thread.sleep(3000);
+		adp.searchProductName(productName);
+		adp.clickOnEdit();
+		Thread.sleep(3000);
+
+		adp.enterQuantiy("4");
+		adp.enterPrice("100000");
+		adp.clickOnUpdate();
+		String updateSuccessMsg = adp.successMsg();
+		System.out.println(updateSuccessMsg);
+		Assert.assertEquals(updateSuccessMsg, "Product " + productName + " Successfully Added");
+
+	}
 
 }

@@ -45,8 +45,18 @@ public class CRM_AddProductPage extends BasePage {
 	private WebElement SearchTextBxEle;
 	@FindBy(xpath = "//a[@class='edit']")
 	private WebElement editButtonEle;
-
-
+	@FindBy(xpath = "//button[@type='submit']")
+	private WebElement updateButtonEle;
+	@FindBy(xpath = "//a[@class='delete']")
+	private WebElement deleteButtonEle;
+	@FindBy(xpath = "//button[@type='submit']")
+	private WebElement deleteConfirmButtonEle;
+	@FindBy(xpath = "//button[@type='submit']")
+	private WebElement cancelConfirmButtonEle;
+	@FindBy(tagName = "form")
+	private WebElement formEle;
+	
+	
 	public CRM_AddProductPage(WebDriver driver) {
 		super(driver);
 	}
@@ -192,7 +202,21 @@ public class CRM_AddProductPage extends BasePage {
 		editButtonEle.click();
 
 	}
+	public void clickOnUpdate() {
+		WaitUtils.explicitlyWaitForVisibility(driver, updateButtonEle);
+		updateButtonEle.click();
 
+	}
+	public void clickOnDelete() {
+		WaitUtils.explicitlyWaitForVisibility(driver, deleteButtonEle);
+		deleteButtonEle.click();
+
+	}
+	public void clickOnDeleteConfirm() {
+		WaitUtils.explicitlyWaitForVisibility(driver, deleteConfirmButtonEle);
+		deleteConfirmButtonEle.click();
+
+	}
 	public  boolean checkProductIDInputBoxReadOnly() {
 		boolean isDisabled;
 		return  isDisabled = AddProductPageHeaderEle.isEnabled();

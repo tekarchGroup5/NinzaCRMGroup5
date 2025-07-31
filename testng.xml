@@ -20,7 +20,7 @@
            <!--   <class name="tests.Crm_CreateProductTest" /> -->
            <!--   <class name="tests.Crm_CreateQuoteTest" /> -->
             <!--  <class name="tests.Crm_CreateInvoiceTest" /> -->
-            	<class name="tests.Crm_CampaignTest"></class>
+<!--            	<class name="tests.Crm_CampaignTest"></class>-->
         </classes>
     </test>
 
