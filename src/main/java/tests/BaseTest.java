@@ -22,7 +22,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
-
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 
@@ -34,7 +33,8 @@ import utils.ReportManager;
 
 public class BaseTest {
 
-	ExtentReports extent;
+	public static ExtentReports extent;
+	//public static ExtentTest test;
 	CRM_HomePage hp = null;
 	public static ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<WebDriver>();
 	public static ThreadLocal<ExtentTest> test = new ThreadLocal<ExtentTest>();
@@ -56,9 +56,9 @@ public class BaseTest {
 		case "chrome":
 			WebDriverManager.chromedriver().setup();
 			ChromeOptions options = new ChromeOptions();
-			if (headless) {
-				options.addArguments("--headless=new");
-			}
+		//	if (headless) {
+			//	options.addArguments("--headless=new");
+			//}
 			options.addArguments("--incognito");
 			options.addArguments("--disable-notifications");
 			options.addArguments("--disable-popup-blocking");
@@ -76,7 +76,7 @@ public class BaseTest {
 			options.setExperimentalOption("prefs", prefs);
 
 			driver = new ChromeDriver(options);
-			driver.manage().window().maximize(); //priyanka
+			driver.manage().window().maximize(); 
 			break;
 		case "safari":
 			driver = new SafariDriver();
