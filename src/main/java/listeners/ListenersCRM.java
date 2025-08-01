@@ -21,6 +21,7 @@ public class ListenersCRM implements ITestListener {
 	public void onTestFailure(ITestResult result) {
 		BaseTest.test.get().addScreenCaptureFromPath(CommonUtils.captureScreenshot(BaseTest.getBrowser()));
 		BaseTest.test.get().log(Status.FAIL, result.getName()+" FAILED");
+		System.out.println("ExtentTest in listener:" + BaseTest.test.get());
 	}
 
 

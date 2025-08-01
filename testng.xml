@@ -4,6 +4,9 @@
 <suite name="Suite" parallel="classes" thread-count="5">
     <!-- Browser parameter -->
     <parameter name="bName" value="chrome" />
+    <listeners>
+		<listener class-name="listeners.ListenersCRM"></listener>
+	</listeners>
    
     <!-- <parameter name="userType" value="admin" /> -->
 

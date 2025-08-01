@@ -96,7 +96,6 @@ public class WaitUtils {
 			e.printStackTrace();
 			return null;
 		}
-
 	}
 
 	public static WebElement explicitlyWaitPresenceOfTheElement(WebDriver driver, List<WebElement> pages) {
