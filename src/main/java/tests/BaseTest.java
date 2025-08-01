@@ -32,7 +32,6 @@ import pages.CRM_HomePage;
 import pages.CRM_LoginPage;
 import utils.FileUtils;
 import utils.ReportManager;
-
 @Listeners(ListenersCRM.class)
 public class BaseTest {
 
@@ -59,9 +58,9 @@ public class BaseTest {
 		case "chrome":
 			WebDriverManager.chromedriver().setup();
 			ChromeOptions options = new ChromeOptions();
-			// if (headless) {
-			// options.addArguments("--headless=new");
-			// }
+		//	if (headless) {
+			//	options.addArguments("--headless=new");
+			//}
 			options.addArguments("--incognito");
 			options.addArguments("--disable-notifications");
 			options.addArguments("--disable-popup-blocking");
@@ -80,8 +79,7 @@ public class BaseTest {
 
 			driver = new ChromeDriver(options);
 
-			driver.manage().window().maximize(); // priyanka
-
+			driver.manage().window().maximize(); 
 			break;
 		case "safari":
 			driver = new SafariDriver();

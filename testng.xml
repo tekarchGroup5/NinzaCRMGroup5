@@ -14,7 +14,7 @@
     <test name="Create Lead and Opportunity Tests">
         <classes>
 <!--            <class name="tests.Crm_CreateLeadTest" />-->
-<!--            <class name="tests.Crm_CreateOpportunityTest"/> -->
+<!--            <class name="tests.Crm_CreateOpportunityTest" /> -->
          <!--     <class name="tests.Crm_CreateContactTest" /> -->
          <!--     <class name="tests.Crm_CreateAccountTest" /> -->
           <!--    <class name="tests.Crm_CreateTaskTest" /> -->
