@@ -32,6 +32,7 @@ import pages.CRM_HomePage;
 import pages.CRM_LoginPage;
 import utils.FileUtils;
 import utils.ReportManager;
+
 @Listeners(ListenersCRM.class)
 public class BaseTest {
 
@@ -78,8 +79,7 @@ public class BaseTest {
 			options.setExperimentalOption("prefs", prefs);
 
 			driver = new ChromeDriver(options);
-
-			driver.manage().window().maximize(); 
+			driver.manage().window().maximize(); // priyanka
 			break;
 		case "safari":
 			driver = new SafariDriver();
