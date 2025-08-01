@@ -67,6 +67,7 @@ public class BasePage {
 		} catch (Exception e) {
 			logger.error("Unexpected error while handling alert: " + e.getMessage());
 		}
+
 	}
 
 	public void switchToChildWindow() {
@@ -148,12 +149,6 @@ public class BasePage {
 		js.executeScript("window.scrollBy(0, 500)");
 	}
 
-	public static String convertDateFormat(String inputDate, String fromFormat, String toFormat) {
-		DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern(fromFormat);
-		DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern(toFormat);
-		LocalDate date = LocalDate.parse(inputDate, inputFormatter);
-		return date.format(outputFormatter);
-	}
 
 	public static String errorValidationMsg(WebElement ele)// priyanka
 	{
@@ -177,6 +172,7 @@ public class BasePage {
 		List<WebElement> options = dropDwn.getOptions();
 		return options.size();
 	}
+
 
 	public String getErrorMessage(WebElement element) {
 		js = (JavascriptExecutor) driver;

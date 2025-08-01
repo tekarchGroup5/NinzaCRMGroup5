@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.tekarch.demo</groupId>
 	<artifactId>seleniumautomationframeworkjul24</artifactId>
@@ -21,9 +21,7 @@
 				<version>2.22.2</version>
 				<configuration>
 					<suiteXmlFiles>
-						<suiteXmlFile>
 							<suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
-						</suiteXmlFile>
 					</suiteXmlFiles>
 				</configuration>
 			</plugin>
@@ -33,7 +31,12 @@
 		<log4jversion>2.18.0</log4jversion>
 		<!--		<cucumberversion>7.19.0</cucumberversion>-->
 		    <suiteXmlFile>testng.xml</suiteXmlFile>
-
+<!--		<cucumberversion>7.19.0</cucumberversion>-->
+		<suiteXmlFile>testng_addproduct.xml</suiteXmlFile>
+		<suiteXmlFile>testng_opportunity.xml</suiteXmlFile>
+		<suiteXmlFile>testng_campaign.xml</suiteXmlFile>
+		<suiteXmlFile>testng_createuser.xml</suiteXmlFile>
+		<suiteXmlFile>testng_lead.xml</suiteXmlFile>
 	</properties>
 
 	<dependencies>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Suite" parallel="classes" thread-count="5">
 
+<suite name="Suite" parallel="classes" thread-count="5">
     <!-- Browser parameter -->
     <parameter name="bName" value="chrome" />
     <listeners>
@@ -14,7 +14,7 @@
     <test name="Create Lead and Opportunity Tests">
         <classes>
 <!--            <class name="tests.Crm_CreateLeadTest" />-->
-            <class name="tests.Crm_CreateOpportunityTest"/> 
+<!--            <class name="tests.Crm_CreateOpportunityTest"/> -->
          <!--     <class name="tests.Crm_CreateContactTest" /> -->
          <!--     <class name="tests.Crm_CreateAccountTest" /> -->
           <!--    <class name="tests.Crm_CreateTaskTest" /> -->
@@ -23,7 +23,9 @@
            <!--   <class name="tests.Crm_CreateProductTest" /> -->
            <!--   <class name="tests.Crm_CreateQuoteTest" /> -->
             <!--  <class name="tests.Crm_CreateInvoiceTest" /> -->
+<!--            	<class name="tests.Crm_CampaignTest"></class>-->
         </classes>
     </test>
 
 </suite>
+	
