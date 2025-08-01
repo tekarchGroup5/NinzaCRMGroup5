@@ -20,6 +20,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
@@ -27,11 +28,13 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import listeners.ListenersCRM;
 import pages.CRM_HomePage;
 import pages.CRM_LoginPage;
 import utils.FileUtils;
 import utils.ReportManager;
 
+@Listeners(ListenersCRM.class)
 public class BaseTest {
 
 	ExtentReports extent;
@@ -67,8 +70,8 @@ public class BaseTest {
 			options.addArguments("--disable-save-password-bubble");
 			options.addArguments("--ignore-certificate-errors");
 			options.addArguments("--allow-insecure-localhost");
-			options.addArguments("--guest"); 
-	        options.addArguments("--profile-directory=/Users/user/Library/Application Support/Google/Chrome/Default");
+			options.addArguments("--guest");
+			options.addArguments("--profile-directory=/Users/user/Library/Application Support/Google/Chrome/Default");
 
 			Map<String, Object> prefs = new HashMap<>();
 			prefs.put("credentials_enable_service", false);
@@ -76,7 +79,7 @@ public class BaseTest {
 			options.setExperimentalOption("prefs", prefs);
 
 			driver = new ChromeDriver(options);
-			driver.manage().window().maximize(); //priyanka
+			driver.manage().window().maximize(); // priyanka
 			break;
 		case "safari":
 			driver = new SafariDriver();
@@ -111,14 +114,15 @@ public class BaseTest {
 	@BeforeMethod(alwaysRun = true)
 	public void setupTest(@Optional("chrome") String browserName, Method method)
 			throws FileNotFoundException, IOException, InterruptedException {
-		test.set(extent.createTest(method.getName()));
-
+		ExtentTest ext = extent.createTest(method.getName());
+		test.set(ext);
+		System.out.println("ExtentTest in BaseTest:" +ext );
 		// Initialize and configure driver
-		setDriver(browserName, false); // Set headless to false for normal runs
+		setDriver(browserName, false);
 		WebDriver driver = getBrowser();
-		driver.manage().window().maximize();//added this code later to maximize the browser window, this will be a git conflict
+		driver.manage().window().maximize();// added this code later to maximize the browser window, this will be a git
+											// conflict
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-		
 
 		// Navigate to CRM URL
 		String crmUrl = FileUtils.readLoginPropertiesFile("prod.url");
@@ -131,7 +135,7 @@ public class BaseTest {
 		String validPassword = FileUtils.readLoginPropertiesFile("valid.admin.password");
 		CRM_HomePage homePage = loginPage.loginToApp(driver, validUsername, validPassword);
 		// homePage.handleAlertIfPresent();
-	
+
 		// Validate login success
 		Assert.assertTrue(homePage.isHomePage(), "User should be on CRM Home Page after login.");
 		logger.info("Login to Ninza CRM validated successfully.");

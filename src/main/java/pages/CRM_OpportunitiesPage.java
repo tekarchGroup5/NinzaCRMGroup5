@@ -99,6 +99,7 @@ public class CRM_OpportunitiesPage extends BasePage {
 
 	public void clickCreateOpportunity() {
 		WaitUtils.explicitlyWaitForClickableElement(driver, createOpportunityButton);
+
 		createOpportunityButton.click();
 	}
 
@@ -304,5 +305,11 @@ public class CRM_OpportunitiesPage extends BasePage {
 	public String getSelectedLead() {
 		return leadField.getAttribute("value");
 	}
+
+	public String getAmountValue() {
+		return Amount.getAttribute("value");
+	}
+
+	
 
 }
