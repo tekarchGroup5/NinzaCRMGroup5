@@ -59,9 +59,9 @@ public class BaseTest {
 		case "chrome":
 			WebDriverManager.chromedriver().setup();
 			ChromeOptions options = new ChromeOptions();
-			// if (headless) {
-			// options.addArguments("--headless=new");
-			// }
+		//	if (headless) {
+			//	options.addArguments("--headless=new");
+			//}
 			options.addArguments("--incognito");
 			options.addArguments("--disable-notifications");
 			options.addArguments("--disable-popup-blocking");
@@ -79,9 +79,7 @@ public class BaseTest {
 			options.setExperimentalOption("prefs", prefs);
 
 			driver = new ChromeDriver(options);
-
 			driver.manage().window().maximize(); // priyanka
-
 			break;
 		case "safari":
 			driver = new SafariDriver();
